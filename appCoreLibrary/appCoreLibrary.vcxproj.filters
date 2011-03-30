@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="core">
+      <UniqueIdentifier>{f29a11c3-a43c-4c01-a69c-fd0777a16bed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\containers">
+      <UniqueIdentifier>{5d6a4add-77a9-4b5b-983e-ce1473f0d426}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\util">
+      <UniqueIdentifier>{f56d59b4-20fb-4114-8d73-b3abe1b947c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\strings">
+      <UniqueIdentifier>{ef21bdab-5487-4562-9786-a0358ef9e9ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\types">
+      <UniqueIdentifier>{8df535d9-b24d-4b11-aa39-1f68f37316de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform">
+      <UniqueIdentifier>{9f6e5863-34e4-462b-8c87-b6aefcae2250}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="plugin">
+      <UniqueIdentifier>{7ce0de90-07a7-49aa-9752-57d474d78239}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\lib\core\assert.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\assertImpl.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\dataChunker.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\frameAllocator.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\idGenerator.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\containers\tDictionary.cpp">
+      <Filter>core\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\containers\tVector.cpp">
+      <Filter>core\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\util\hashFunction.cpp">
+      <Filter>core\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\util\path.cpp">
+      <Filter>core\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\util\str.cpp">
+      <Filter>core\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\util\timeClass.cpp">
+      <Filter>core\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\util\tSignal.cpp">
+      <Filter>core\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\util\typeRebind.cpp">
+      <Filter>core\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\strings\findMatch.cpp">
+      <Filter>core\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\strings\stringFunctions.cpp">
+      <Filter>core\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\strings\stringUnit.cpp">
+      <Filter>core\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\core\strings\unicode.cpp">
+      <Filter>core\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\platform\directory.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\platform\dynamicLibrary.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\platform\mutex.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\lib\core\assert.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\assertImpl.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\dataChunker.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\frameAllocator.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\idGenerator.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\memoryFunctions.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\torque.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\containers\tDictionary.h">
+      <Filter>core\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\containers\tList.h">
+      <Filter>core\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\containers\tPair.h">
+      <Filter>core\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\containers\tVector.h">
+      <Filter>core\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\autoPtr.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\delegate.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\FastDelegate.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\hashFunction.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\path.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\profiler.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\refBase.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\scopedPtr.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\str.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\tAlgorithm.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\timeClass.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\tPolicy.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\tReflection.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\tSignal.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\util\typeRebind.h">
+      <Filter>core\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\strings\findMatch.h">
+      <Filter>core\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\strings\stringFunctions.h">
+      <Filter>core\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\strings\stringUnit.h">
+      <Filter>core\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\strings\unicode.h">
+      <Filter>core\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\types\types.gcc.h">
+      <Filter>core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\types\types.h">
+      <Filter>core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\types\types.lint.h">
+      <Filter>core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\types\types.mac.h">
+      <Filter>core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\types\types.posix.h">
+      <Filter>core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\types\types.visualc.h">
+      <Filter>core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\types\types.win32.h">
+      <Filter>core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\core\types\types.xenon.h">
+      <Filter>core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\platform\directory.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\platform\dynamicLibrary.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\platform\mutex.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\plugin\plugin.h">
+      <Filter>plugin</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

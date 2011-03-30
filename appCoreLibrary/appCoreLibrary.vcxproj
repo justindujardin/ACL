@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E0A7D759-2997-4BD6-AE79-73A8C9732DD8}</ProjectGuid>
+    <RootNamespace>appCoreLibrary</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\lib\core\assert.cpp" />
+    <ClCompile Include="..\lib\core\assertImpl.cpp" />
+    <ClCompile Include="..\lib\core\dataChunker.cpp" />
+    <ClCompile Include="..\lib\core\frameAllocator.cpp" />
+    <ClCompile Include="..\lib\core\idGenerator.cpp" />
+    <ClCompile Include="..\lib\core\containers\tDictionary.cpp" />
+    <ClCompile Include="..\lib\core\containers\tVector.cpp" />
+    <ClCompile Include="..\lib\core\util\hashFunction.cpp" />
+    <ClCompile Include="..\lib\core\util\path.cpp" />
+    <ClCompile Include="..\lib\core\util\str.cpp" />
+    <ClCompile Include="..\lib\core\util\timeClass.cpp" />
+    <ClCompile Include="..\lib\core\util\tSignal.cpp" />
+    <ClCompile Include="..\lib\core\util\typeRebind.cpp" />
+    <ClCompile Include="..\lib\core\strings\findMatch.cpp" />
+    <ClCompile Include="..\lib\core\strings\stringFunctions.cpp" />
+    <ClCompile Include="..\lib\core\strings\stringUnit.cpp" />
+    <ClCompile Include="..\lib\core\strings\unicode.cpp" />
+    <ClCompile Include="..\lib\platform\directory.cpp" />
+    <ClCompile Include="..\lib\platform\dynamicLibrary.cpp" />
+    <ClCompile Include="..\lib\platform\mutex.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\lib\core\assert.h" />
+    <ClInclude Include="..\lib\core\assertImpl.h" />
+    <ClInclude Include="..\lib\core\dataChunker.h" />
+    <ClInclude Include="..\lib\core\frameAllocator.h" />
+    <ClInclude Include="..\lib\core\idGenerator.h" />
+    <ClInclude Include="..\lib\core\memoryFunctions.h" />
+    <ClInclude Include="..\lib\core\torque.h" />
+    <ClInclude Include="..\lib\core\containers\tDictionary.h" />
+    <ClInclude Include="..\lib\core\containers\tList.h" />
+    <ClInclude Include="..\lib\core\containers\tPair.h" />
+    <ClInclude Include="..\lib\core\containers\tVector.h" />
+    <ClInclude Include="..\lib\core\util\autoPtr.h" />
+    <ClInclude Include="..\lib\core\util\delegate.h" />
+    <ClInclude Include="..\lib\core\util\FastDelegate.h" />
+    <ClInclude Include="..\lib\core\util\hashFunction.h" />
+    <ClInclude Include="..\lib\core\util\path.h" />
+    <ClInclude Include="..\lib\core\util\profiler.h" />
+    <ClInclude Include="..\lib\core\util\refBase.h" />
+    <ClInclude Include="..\lib\core\util\scopedPtr.h" />
+    <ClInclude Include="..\lib\core\util\str.h" />
+    <ClInclude Include="..\lib\core\util\tAlgorithm.h" />
+    <ClInclude Include="..\lib\core\util\timeClass.h" />
+    <ClInclude Include="..\lib\core\util\tPolicy.h" />
+    <ClInclude Include="..\lib\core\util\tReflection.h" />
+    <ClInclude Include="..\lib\core\util\tSignal.h" />
+    <ClInclude Include="..\lib\core\util\typeRebind.h" />
+    <ClInclude Include="..\lib\core\strings\findMatch.h" />
+    <ClInclude Include="..\lib\core\strings\stringFunctions.h" />
+    <ClInclude Include="..\lib\core\strings\stringUnit.h" />
+    <ClInclude Include="..\lib\core\strings\unicode.h" />
+    <ClInclude Include="..\lib\core\types\types.gcc.h" />
+    <ClInclude Include="..\lib\core\types\types.h" />
+    <ClInclude Include="..\lib\core\types\types.lint.h" />
+    <ClInclude Include="..\lib\core\types\types.mac.h" />
+    <ClInclude Include="..\lib\core\types\types.posix.h" />
+    <ClInclude Include="..\lib\core\types\types.visualc.h" />
+    <ClInclude Include="..\lib\core\types\types.win32.h" />
+    <ClInclude Include="..\lib\core\types\types.xenon.h" />
+    <ClInclude Include="..\lib\platform\directory.h" />
+    <ClInclude Include="..\lib\platform\dynamicLibrary.h" />
+    <ClInclude Include="..\lib\platform\mutex.h" />
+    <ClInclude Include="..\lib\plugin\plugin.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
