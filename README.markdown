@@ -1,11 +1,6 @@
 This code is private and confidential.
 
 
--- file header: 
-//-----------------------------------------------------------------------------
-// Application Core Library
-// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
-//-----------------------------------------------------------------------------
 
 -- target license: (The MIT License)
 
