@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{A4E344C0-4156-4EC7-9F2A-E94D793B2890}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E0A7D759-2997-4BD6-AE79-73A8C9732DD8} = {E0A7D759-2997-4BD6-AE79-73A8C9732DD8}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "acl", "acl\acl.vcxproj", "{E0A7D759-2997-4BD6-AE79-73A8C9732DD8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A4E344C0-4156-4EC7-9F2A-E94D793B2890}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A4E344C0-4156-4EC7-9F2A-E94D793B2890}.Debug|Win32.Build.0 = Debug|Win32
+		{A4E344C0-4156-4EC7-9F2A-E94D793B2890}.Release|Win32.ActiveCfg = Release|Win32
+		{A4E344C0-4156-4EC7-9F2A-E94D793B2890}.Release|Win32.Build.0 = Release|Win32
+		{E0A7D759-2997-4BD6-AE79-73A8C9732DD8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E0A7D759-2997-4BD6-AE79-73A8C9732DD8}.Debug|Win32.Build.0 = Debug|Win32
+		{E0A7D759-2997-4BD6-AE79-73A8C9732DD8}.Release|Win32.ActiveCfg = Release|Win32
+		{E0A7D759-2997-4BD6-AE79-73A8C9732DD8}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

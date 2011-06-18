@@ -1,12 +1,12 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#ifndef TORQUE_CORE_UTIL_POLICY_H_
-#define TORQUE_CORE_UTIL_POLICY_H_
+#ifndef ACL_CORE_UTIL_POLICY_H_
+#define ACL_CORE_UTIL_POLICY_H_
 
-namespace Torque
+namespace ACLib
 {
    /// Delete a single object policy.
    struct DeleteSingle
@@ -14,7 +14,7 @@ namespace Torque
       template<class T>
       static void destroy(T *ptr) { delete ptr; }
    };
-   
+
    /// Delete an array of objects policy.
    struct DeleteArray
    {

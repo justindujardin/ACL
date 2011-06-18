@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _BYTEBUFFER_H_
@@ -8,58 +8,58 @@
 
 #include "core/types/types.h"
 
-namespace Torque
+namespace ACLib
 {
 
-class PrivateBBData;
+   class PrivateBBData;
 
-class ByteBuffer
-{
-public:
-   ByteBuffer();
-
-   /// Create a ByteBuffer from a chunk of memory.
-   ByteBuffer(U8 *dataPtr, U32 bufferSize);
-
-   /// Create a ByteBuffer of the specified size.
-   ByteBuffer(U32 bufferSize);
-
-   /// Copy constructor
-   ByteBuffer(const ByteBuffer &theBuffer);
-   
-   ByteBuffer  &operator=(const ByteBuffer &theBuffer);
-
-   ~ByteBuffer();
-
-   /// Set the ByteBuffer to point to a new chunk of memory.
-   void setBuffer(U8 *dataPtr, U32 bufferSize, bool copyData);
-
-   /// Resize the buffer.
-   void resize(U32 newBufferSize);
-
-   /// Appends the specified buffer to the end of the byte buffer.
-   void appendBuffer(const U8 *dataBuffer, U32 bufferSize);
-
-   /// Appends the specified ByteBuffer to the end of this byte buffer.
-   void appendBuffer(const ByteBuffer &theBuffer)
+   class ByteBuffer
    {
-      appendBuffer(theBuffer.getBuffer(), theBuffer.getBufferSize());
-   }
+   public:
+      ByteBuffer();
 
-   U32 getBufferSize() const;
+      /// Create a ByteBuffer from a chunk of memory.
+      ByteBuffer(U8 *dataPtr, U32 bufferSize);
 
-   U8 *getBuffer();
-   const U8 *getBuffer() const;
+      /// Create a ByteBuffer of the specified size.
+      ByteBuffer(U32 bufferSize);
 
-   /// Copy the data in the buffer.
-   ByteBuffer  getCopy() const;
+      /// Copy constructor
+      ByteBuffer(const ByteBuffer &theBuffer);
 
-   /// Clear the buffer.
-   void clear();
+      ByteBuffer  &operator=(const ByteBuffer &theBuffer);
 
-private:
-   PrivateBBData  *_data;
-};
+      ~ByteBuffer();
+
+      /// Set the ByteBuffer to point to a new chunk of memory.
+      void setBuffer(U8 *dataPtr, U32 bufferSize, bool copyData);
+
+      /// Resize the buffer.
+      void resize(U32 newBufferSize);
+
+      /// Appends the specified buffer to the end of the byte buffer.
+      void appendBuffer(const U8 *dataBuffer, U32 bufferSize);
+
+      /// Appends the specified ByteBuffer to the end of this byte buffer.
+      void appendBuffer(const ByteBuffer &theBuffer)
+      {
+         appendBuffer(theBuffer.getBuffer(), theBuffer.getBufferSize());
+      }
+
+      U32 getBufferSize() const;
+
+      U8 *getBuffer();
+      const U8 *getBuffer() const;
+
+      /// Copy the data in the buffer.
+      ByteBuffer  getCopy() const;
+
+      /// Clear the buffer.
+      void clear();
+
+   private:
+      PrivateBBData  *_data;
+   };
 
 }
 

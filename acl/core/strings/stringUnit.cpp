@@ -1,11 +1,11 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "./stringFunctions.h"
-#include "./stringUnit.h"
-#include "../assert.h"
+#include "core/strings/stringFunctions.h"
+#include "core/strings/stringUnit.h"
+#include "core/assert.h"
 
 namespace StringUnit
 {
@@ -64,7 +64,7 @@ namespace StringUnit
       }
       if(!*string)
          string++;
-      
+
       // [neo, 5/11/2007 - #2998]
       // Another case of the U32 wrapping from 0 to boom! If totalSize < 0 it will
       // wrap to somewhere around U32 max and that is a lot for dStrncpy to overrun!
@@ -78,7 +78,7 @@ namespace StringUnit
          char *ret = &_returnBuffer[0];
          dStrncpy(ret, startString, totalSize - 1);
          ret[totalSize-1] = '\0';
-         
+
          return ret;
       }
 

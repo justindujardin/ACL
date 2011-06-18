@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _ACL_PLATFORM_PROMISE_H_
@@ -16,7 +16,7 @@ namespace Platform2
    public:
       virtual bool isReady() const = 0;
       virtual T* resolve() = 0;
-      
+
    protected:
       virtual T* get() = 0;
    };

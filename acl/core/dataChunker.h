@@ -1,17 +1,17 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _DATACHUNKER_H_
 #define _DATACHUNKER_H_
 
 #ifndef _ACL_TYPES_H_
-#include "./types/types.h"
+#include "core/types/types.h"
 #endif
 
 #ifndef _CORE_MEMORYFUNCTIONS_H_
-#include "./memoryFunctions.h"
+#include "core/memoryFunctions.h"
 #endif
 
 //----------------------------------------------------------------------------
@@ -74,7 +74,7 @@ public:
 protected:
    /// Block of allocated memory.
    ///
-   /// <b>This has nothing to do with datablocks as used in the rest of Torque.</b>
+   /// <b>This has nothing to do with datablocks as used in the rest of ACLib.</b>
    struct DataBlock
    {
       DataBlock *next;        ///< linked list pointer to the next DataBlock for this chunker
@@ -85,8 +85,8 @@ protected:
    };
 
    DataBlock   *mCurBlock;    ///< current page we're allocating data from.  If the
-                              ///< data size request is greater than the memory space currently
-                              ///< available in the current page, a new page will be allocated.
+   ///< data size request is greater than the memory space currently
+   ///< available in the current page, a new page will be allocated.
    S32         mChunkSize;    ///< The size allocated for each page in the DataChunker
 };
 
@@ -189,7 +189,7 @@ public:
             destructInPlace(item);
             index += mElementSize;
          }
-         
+
          // Free the actual block
          DataBlock *temp = mCurBlock->next;
          delete mCurBlock;
@@ -210,8 +210,8 @@ class FreeListChunker
 public:
    FreeListChunker(DataChunker *inChunker)
       :  mChunker( inChunker ),
-         mOwnChunker( false ),
-         mFreeListHead( NULL )
+      mOwnChunker( false ),
+      mFreeListHead( NULL )
    {
       mElementSize = getMax(U32(sizeof(T)), U32(sizeof(T *)));
    }
@@ -270,15 +270,15 @@ class FreeListChunkerUntyped
 public:
    FreeListChunkerUntyped(U32 inElementSize, DataChunker *inChunker)
       :  mChunker( inChunker ),
-         mOwnChunker( false ),
-         mElementSize( inElementSize ),
-         mFreeListHead( NULL )
+      mOwnChunker( false ),
+      mElementSize( inElementSize ),
+      mFreeListHead( NULL )
    {
    }
 
    FreeListChunkerUntyped(U32 inElementSize, S32 size = DataChunker::ChunkSize)
       :  mElementSize( inElementSize ),
-         mFreeListHead( NULL )
+      mFreeListHead( NULL )
    {
       mChunker = new DataChunker( size );
       mOwnChunker = true;

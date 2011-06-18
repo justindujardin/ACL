@@ -1,10 +1,9 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include "platform/platformSystemInfo.h"
-//#include "console/console.h"
 #include "core/assert.h"
 
 namespace Platform2
@@ -13,12 +12,12 @@ namespace Platform2
       minorVersion(-1), bugfixVersion(-1), fullOsName("Uninitialized")
    {
    }
-   
+
    SystemInfo::ProcessorInfo::ProcessorInfo() : speedInMhz(-1), sseLevel(-1), 
       numLogicalProcessors(-1), vendor("Uninitialized"), family("Uninitialized")
    {
    }
-   
+
    void SystemInfo::dumpToConsole() const
    {
       AssertFatal(false,"Platform system information: Not Implemented");

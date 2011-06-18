@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _CORE_STDHEADERS_H_
@@ -11,17 +11,17 @@
 #include <string.h>
 #include <new>
 
-// TorqueCore headers
+// ACLib Core headers
 #ifndef _ACL_TYPES_H_
-#include "./types/types.h"
+#include "core/types/types.h"
 #endif
 
 #ifndef _CORE_MEMORYFUNCTIONS_H_
-#include "./memoryFunctions.h"
+#include "core/memoryFunctions.h"
 #endif
 
-#ifndef TORQUE_CORE_ASSERT_H_
-#include "./assert.h"
+#ifndef ACL_CORE_ASSERT_H_
+#include "core/assert.h"
 #endif
 
 //------------------------------------------------------------------------------

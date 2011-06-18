@@ -1,11 +1,12 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
-#ifndef TORQUE_CORE_UTIL_ALGORITHM_H_
-#define TORQUE_CORE_UTIL_ALGORITHM_H_
 
-namespace Torque
+#ifndef ACL_CORE_UTIL_ALGORITHM_H_
+#define ACL_CORE_UTIL_ALGORITHM_H_
+
+namespace ACLib
 {
    template<typename Type>
    void Swap(Type& a, Type& b)
@@ -48,4 +49,4 @@ namespace Torque
    }
 }
 
-#endif //TORQUE_CORE_UTIL_ALGORITHM_H_
+#endif //ACL_CORE_UTIL_ALGORITHM_H_

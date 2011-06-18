@@ -1,17 +1,14 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include <stdio.h>
 
-#include "../frameAllocator.h"
-#include "./unicode.h"
-#include "./stringFunctions.h"
-
-#include "../util/profiler.h"
-//#include "console/console.h"
-
+#include "core/frameAllocator.h"
+#include "core/strings/unicode.h"
+#include "core/strings/stringFunctions.h"
+#include "core/util/profiler.h"
 
 //-----------------------------------------------------------------------------
 /// replacement character. Standard correct value is 0xFFFD.
@@ -67,7 +64,7 @@ U32 convertUTF8toUTF16(const UTF8 *unistring, UTF16 *outbuffer, U32 len)
    PROFILE_START(convertUTF8toUTF16);
    U32 walked, nCodepoints;
    UTF32 middleman;
-   
+
    nCodepoints=0;
    while(*unistring != '\0' && nCodepoints < len)
    {
@@ -80,7 +77,7 @@ U32 convertUTF8toUTF16(const UTF8 *unistring, UTF16 *outbuffer, U32 len)
 
    nCodepoints = getMin(nCodepoints,len - 1);
    outbuffer[nCodepoints] = '\0';
-   
+
    PROFILE_END();
    return nCodepoints; 
 }
@@ -92,7 +89,7 @@ U32 convertUTF16toUTF8( const UTF16 *unistring, UTF8  *outbuffer, U32 len)
    PROFILE_START(convertUTF16toUTF8);
    U32 walked, nCodeunits, codeunitLen;
    UTF32 middleman;
-   
+
    nCodeunits=0;
    while( *unistring != '\0' && nCodeunits + 3 < len )
    {
@@ -105,7 +102,7 @@ U32 convertUTF16toUTF8( const UTF16 *unistring, UTF8  *outbuffer, U32 len)
 
    nCodeunits = getMin(nCodeunits,len - 1);
    outbuffer[nCodeunits] = '\0';
-   
+
    PROFILE_END();
    return nCodeunits;
 }
@@ -148,13 +145,13 @@ UTF16* convertUTF8toUTF16( const UTF8* unistring)
    U32 nCodepoints, len = dStrlen(unistring) + 1;
    FrameAllocatorMarker marker;
    UTF16* buf = len < sBufferLen ? sBuffer : (UTF16*)marker.alloc(len * sizeof(UTF16));
-   
+
    // perform conversion
    nCodepoints = convertUTF8toUTF16( unistring, buf, len);
-   
+
    // add 1 for the NULL terminator the converter promises it included.
    nCodepoints++;
-   
+
    // allocate the return buffer, copy over, and return it.
    UTF16 *ret = new UTF16[nCodepoints];
    dMemcpy(ret, buf, nCodepoints * sizeof(UTF16));
@@ -184,16 +181,16 @@ UTF8*  convertUTF16toUTF8( const UTF16* unistring)
    else
    {
       FrameTemp<UTF8> buf(len);
-      
+
       // perform conversion
       nCodeunits = convertUTF16toUTF8( unistring, buf, len);
 
       bufPtr = buf;
    }
-   
+
    // add 1 for the NULL terminator the converter promises it included.
    nCodeunits++;
-   
+
    // allocate the return buffer, copy over, and return it.
    UTF8 *ret = new UTF8[nCodeunits];
    dMemcpy(ret, bufPtr, nCodeunits * sizeof(UTF8));
@@ -211,7 +208,7 @@ UTF32 oneUTF8toUTF32( const UTF8* codepoint, U32 *unitsWalked)
    PROFILE_START(oneUTF8toUTF32);
    // codepoints 6 codeunits long are read, but do not convert correctly,
    // and are filtered out anyway.
-   
+
    // early out for ascii
    if(!(*codepoint & 0x0080))
    {
@@ -219,11 +216,11 @@ UTF32 oneUTF8toUTF32( const UTF8* codepoint, U32 *unitsWalked)
       PROFILE_END();
       return (UTF32)*codepoint;
    }
-   
+
    U32 expectedByteCount;
    UTF32  ret = 0;
    U8 codeunit;
-   
+
    // check the first byte ( a.k.a. codeunit ) .
    unsigned char c = codepoint[0];
    c = c >> 1;
@@ -232,7 +229,7 @@ UTF32 oneUTF8toUTF32( const UTF8* codepoint, U32 *unitsWalked)
    {
       // process 1st codeunit
       ret |= sgByteMask8LUT[expectedByteCount] & codepoint[0]; // bug?
-      
+
       // process trailing codeunits
       for(U32 i=1;i<expectedByteCount; i++)
       {
@@ -261,14 +258,14 @@ UTF32 oneUTF8toUTF32( const UTF8* codepoint, U32 *unitsWalked)
       ret = kReplacementChar;
       expectedByteCount = 1;
    }
-   
+
    if(unitsWalked != NULL)
       *unitsWalked = expectedByteCount;
-   
+
    // codepoints in the surrogate range are illegal, and should be replaced.
    if(isSurrogateRange(ret))
       ret = kReplacementChar;
-   
+
    // codepoints outside the Basic Multilingual Plane add complexity to our UTF16 string classes,
    // we've read them correctly so they won't foul the byte stream,
    // but we kill them here to make sure they wont foul anything else
@@ -287,37 +284,37 @@ UTF32  oneUTF16toUTF32(const UTF16* codepoint, U32 *unitsWalked)
    U32   unitCount;
    UTF32 ret = 0;
    UTF16 codeunit1,codeunit2;
-   
+
    codeunit1 = codepoint[0];
    expectedType = sgSurrogateLUT[codeunit1 >> 10];
    switch(expectedType)
    {
-      case 0: // simple
-         ret = codeunit1;
-         unitCount = 1;
+   case 0: // simple
+      ret = codeunit1;
+      unitCount = 1;
+      break;
+   case 1: // 2 surrogates
+      codeunit2 = codepoint[1];
+      if( sgSurrogateLUT[codeunit2 >> 10] == 2)
+      {
+         ret = ((codeunit1 & sgByteMaskLow10 ) << 10) | (codeunit2 & sgByteMaskLow10);
+         unitCount = 2;
          break;
-      case 1: // 2 surrogates
-         codeunit2 = codepoint[1];
-         if( sgSurrogateLUT[codeunit2 >> 10] == 2)
-         {
-            ret = ((codeunit1 & sgByteMaskLow10 ) << 10) | (codeunit2 & sgByteMaskLow10);
-            unitCount = 2;
-            break;
-         }
-         // else, did not find a trailing surrogate where we expected one,
-         // so fall through to the error
-      case 2: // error
-         // found a trailing surrogate where we expected a codepoint or leading surrogate.
-         // Dump the replacement.
-         ret = kReplacementChar;
-         unitCount = 1;
-         break;
-      default:
-         // unexpected return
-         AssertFatal(false, "oneUTF16toUTF323: unexpected type");
-         ret = kReplacementChar;
-         unitCount = 1;
-         break;
+      }
+      // else, did not find a trailing surrogate where we expected one,
+      // so fall through to the error
+   case 2: // error
+      // found a trailing surrogate where we expected a codepoint or leading surrogate.
+      // Dump the replacement.
+      ret = kReplacementChar;
+      unitCount = 1;
+      break;
+   default:
+      // unexpected return
+      AssertFatal(false, "oneUTF16toUTF323: unexpected type");
+      ret = kReplacementChar;
+      unitCount = 1;
+      break;
    }
 
    if(unitsWalked != NULL)
@@ -345,7 +342,7 @@ UTF16 oneUTF32toUTF16(const UTF32 codepoint)
    // or, found an illegal codepoint!
    if(codepoint >= 0x10FFFF || isSurrogateRange(codepoint))
       return kReplacementChar;
-   
+
    // these are legal, we just don't want to deal with them.
    if(isAboveBMP(codepoint))
       return kReplacementChar;
@@ -365,7 +362,7 @@ U32 oneUTF32toUTF8(const UTF32 codepoint, UTF8 *threeByteCodeunitBuf)
    //-----------------
    if(isSurrogateRange(working))  // found an illegal codepoint!
       working = kReplacementChar;
-   
+
    if(isAboveBMP(working))        // these are legal, we just dont want to deal with them.
       working = kReplacementChar;
 
@@ -382,7 +379,7 @@ U32 oneUTF32toUTF8(const UTF32 codepoint, UTF8 *threeByteCodeunitBuf)
    //-----------------
    U8  mask = sgByteMask8LUT[0];            // 0011 1111
    U8  marker = ( ~mask << 1);            // 1000 0000
-   
+
    // Process the low order bytes, shifting the codepoint down 6 each pass.
    for( int i = bytecount-1; i > 0; i--)
    {
@@ -394,7 +391,7 @@ U32 oneUTF32toUTF8(const UTF32 codepoint, UTF8 *threeByteCodeunitBuf)
    mask = sgByteMask8LUT[bytecount];
    marker = ( ~mask << 1 );
    threeByteCodeunitBuf[0] = marker | working & mask;
-   
+
    PROFILE_END();
    return bytecount;
 }
@@ -408,8 +405,8 @@ U32 dStrlen(const UTF16 *unistring)
    U32 i = 0;
    while(unistring[i] != '\0')
       i++;
-      
-//   AssertFatal( wcslen(unistring) == i, "Incorrect length" );
+
+   //   AssertFatal( wcslen(unistring) == i, "Incorrect length" );
 
    return i;
 }
@@ -420,7 +417,7 @@ U32 dStrlen(const UTF32 *unistring)
    U32 i = 0;
    while(unistring[i] != '\0')
       i++;
-      
+
    return i;
 }
 
@@ -465,7 +462,7 @@ const UTF16* dStrchr(const UTF16* unistring, U32 c)
 {
    if(!unistring) return NULL;
    const UTF16* tmp = unistring;
-   
+
    while ( *tmp  && *tmp != c)
       tmp++;
 
@@ -489,24 +486,24 @@ const UTF8* getNthCodepoint(const UTF8 *unistring, const U32 n)
       if((*ret & 0xC0) != 0x80)
          charsseen++;
    }
-   
+
    return ret;
 }
 
 /* alternate utf-8 decode impl for speed, no error checking, 
-   left here for your amusement:
-   
-   U32 codeunit = codepoint + expectedByteCount - 1;
-   U32 i = 0;
-   switch(expectedByteCount)
-   {
-      case 6: ret |= ( *(codeunit--) & 0x3f ); i++;            
-      case 5: ret |= ( *(codeunit--) & 0x3f ) << (6 * i++);    
-      case 4: ret |= ( *(codeunit--) & 0x3f ) << (6 * i++);    
-      case 3: ret |= ( *(codeunit--) & 0x3f ) << (6 * i++);    
-      case 2: ret |= ( *(codeunit--) & 0x3f ) << (6 * i++);    
-      case 1: ret |= *(codeunit) & byteMask8LUT[expectedByteCount] << (6 * i);
-   }
+left here for your amusement:
+
+U32 codeunit = codepoint + expectedByteCount - 1;
+U32 i = 0;
+switch(expectedByteCount)
+{
+case 6: ret |= ( *(codeunit--) & 0x3f ); i++;            
+case 5: ret |= ( *(codeunit--) & 0x3f ) << (6 * i++);    
+case 4: ret |= ( *(codeunit--) & 0x3f ) << (6 * i++);    
+case 3: ret |= ( *(codeunit--) & 0x3f ) << (6 * i++);    
+case 2: ret |= ( *(codeunit--) & 0x3f ) << (6 * i++);    
+case 1: ret |= *(codeunit) & byteMask8LUT[expectedByteCount] << (6 * i);
+}
 */
 
 //------------------------------------------------------------------------------
@@ -541,7 +538,7 @@ bool isValidUTF8BOM( U8 bom[4] )
       // Could be UTF32BE
       if( bom[1] == 0 && bom[2] == 0xFE && bom[3] == 0xFF )
       {
-         //Con::warnf( "Encountered a UTF32 BE BOM in this file; Torque does NOT support this file encoding. Use UTF8!" );
+         //Con::warnf( "Encountered a UTF32 BE BOM in this file; ACLib does NOT support this file encoding. Use UTF8!" );
          return false;
       }
 
@@ -553,22 +550,22 @@ bool isValidUTF8BOM( U8 bom[4] )
       if( bom[1] == 0xFE )
       {
          //if( bom[2] == 0 && bom[3] == 0 )
-         //   Con::warnf( "Encountered a UTF32 LE BOM in this file; Torque does NOT support this file encoding. Use UTF8!" );
+         //   Con::warnf( "Encountered a UTF32 LE BOM in this file; ACLib does NOT support this file encoding. Use UTF8!" );
          //else
-         //   Con::warnf( "Encountered a UTF16 LE BOM in this file; Torque does NOT support this file encoding. Use UTF8!" );
+         //   Con::warnf( "Encountered a UTF16 LE BOM in this file; ACLib does NOT support this file encoding. Use UTF8!" );
       }
 
       return false;
    }
    else if( bom[0] == 0xFE && bom[1] == 0xFF )
    {
-      //Con::warnf( "Encountered a UTF16 BE BOM in this file; Torque does NOT support this file encoding. Use UTF8!" );
+      //Con::warnf( "Encountered a UTF16 BE BOM in this file; ACLib does NOT support this file encoding. Use UTF8!" );
       return false;
    }
    else if( bom[0] == 0xEF && bom[1] == 0xBB && bom[2] == 0xBF )
    {
       // Can enable this if you want -pw
-      //Con::printf("Encountered a UTF8 BOM. Torque supports this.");
+      //Con::printf("Encountered a UTF8 BOM. ACLib supports this.");
       return true;
    }
 

@@ -1,16 +1,14 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _FRAMEALLOCATOR_H_
 #define _FRAMEALLOCATOR_H_
 
-#include "./types/types.h"
-#include "./memoryFunctions.h"
-#include "./assert.h"
-
-
+#include "core/types/types.h"
+#include "core/memoryFunctions.h"
+#include "core/assert.h"
 
 /// Define me if you want to enable debug guards on the FrameAllocator.
 /// 
@@ -31,7 +29,7 @@
 /// memory which is allocated and expected to be contiguous.
 ///
 ///@ TODO: Make sure that everywhere this should be used, it is being used.
-#define TORQUE_BYTE_ALIGNMENT 4
+#define ACL_BYTE_ALIGNMENT 4
 
 /// This #define should be set if the engine should use a 32-bit format for
 /// 24-bit textures. The most notable case is converting RGB->RGBX for various
@@ -40,7 +38,7 @@
 /// This #define is used by the FrameAllocator to set the size of the frame.
 ///
 /// 1 MB Frame
-#define TORQUE_FRAME_SIZE     1 << 20
+#define ACL_FRAME_SIZE     1 << 20
 
 
 /// Temporary memory pool for per-frame allocations.
@@ -65,11 +63,11 @@ class FrameAllocator
    static U32   smHighWaterMark;
    static U32   smWaterMark;
 
-#ifdef TORQUE_DEBUG
+#ifdef ACL_DEBUG
    static U32 smMaxFrameAllocation;
 #endif
 
-  public:
+public:
    inline static void init(const U32 frameSize);
    inline static void destroy();
 
@@ -79,7 +77,7 @@ class FrameAllocator
    inline static U32  getWaterMark();
    inline static U32  getHighWaterMark();
 
-#ifdef TORQUE_DEBUG
+#ifdef ACL_DEBUG
    static U32 getMaxFrameAllocation() { return smMaxFrameAllocation; }
 #endif
 };
@@ -116,15 +114,15 @@ void* FrameAllocator::alloc(const U32 allocSize)
 
    // Keep all frame allocator allocations aligned to DWORD boundaries on the 360
    // Add 3, mask out the lower 3 bits.
-   smWaterMark = ( smWaterMark + ( TORQUE_BYTE_ALIGNMENT - 1 ) ) & (~( TORQUE_BYTE_ALIGNMENT - 1 ));
+   smWaterMark = ( smWaterMark + ( ACL_BYTE_ALIGNMENT - 1 ) ) & (~( ACL_BYTE_ALIGNMENT - 1 ));
 
    // Sanity check.
-   AssertFatal( !( smWaterMark & ( TORQUE_BYTE_ALIGNMENT - 1 ) ), "Frame allocation is not on a 4-byte boundry." );
+   AssertFatal( !( smWaterMark & ( ACL_BYTE_ALIGNMENT - 1 ) ), "Frame allocation is not on a 4-byte boundry." );
 
    U8* p = &smBuffer[smWaterMark];
    smWaterMark += _allocSize;
 
-#ifdef TORQUE_DEBUG
+#ifdef ACL_DEBUG
    if (smWaterMark > smMaxFrameAllocation)
       smMaxFrameAllocation = smWaterMark;
 #endif

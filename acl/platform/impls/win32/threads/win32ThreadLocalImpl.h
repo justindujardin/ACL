@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef ACL_PLATFORM_WIN32_THREADLOCALIMPL_H_
@@ -11,20 +11,20 @@
 
 namespace Platform2
 {
-namespace Internal_
-{
-   class Win32ThreadLocalImpl : public ThreadLocalImpl
+   namespace Internal_
    {
-   public:
-      Win32ThreadLocalImpl();
-      virtual ~Win32ThreadLocalImpl();
-      virtual void* get();
-      virtual void set(void* value);
+      class Win32ThreadLocalImpl : public ThreadLocalImpl
+      {
+      public:
+         Win32ThreadLocalImpl();
+         virtual ~Win32ThreadLocalImpl();
+         virtual void* get();
+         virtual void set(void* value);
 
-   private:
-      DWORD mTLSIndex;
-   };
-}
+      private:
+         DWORD mTLSIndex;
+      };
+   }
 }
 
 #endif

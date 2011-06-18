@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _ENDIAN_H_
@@ -88,17 +88,17 @@ inline F64 endianSwap(const F64 in_swap)
 //------------------------------------------------------------------------------
 // Endian conversions
 
-#ifdef TORQUE_LITTLE_ENDIAN
+#ifdef ACL_LITTLE_ENDIAN
 
-#define TORQUE_DECLARE_TEMPLATIZED_ENDIAN_CONV(type) \
+#define ACL_DECLARE_TEMPLATIZED_ENDIAN_CONV(type) \
    inline type convertHostToLEndian(type i) { return i; } \
    inline type convertLEndianToHost(type i) { return i; } \
    inline type convertHostToBEndian(type i) { return endianSwap(i); } \
    inline type convertBEndianToHost(type i) { return endianSwap(i); }
 
-#elif defined(TORQUE_BIG_ENDIAN)
+#elif defined(ACL_BIG_ENDIAN)
 
-#define TORQUE_DECLARE_TEMPLATIZED_ENDIAN_CONV(type) \
+#define ACL_DECLARE_TEMPLATIZED_ENDIAN_CONV(type) \
    inline type convertHostToLEndian(type i) { return endianSwap(i); } \
    inline type convertLEndianToHost(type i) { return endianSwap(i); } \
    inline type convertHostToBEndian(type i) { return i; } \
@@ -109,16 +109,16 @@ inline F64 endianSwap(const F64 in_swap)
 #endif
 
 
-TORQUE_DECLARE_TEMPLATIZED_ENDIAN_CONV(U8)
-TORQUE_DECLARE_TEMPLATIZED_ENDIAN_CONV(S8)
-TORQUE_DECLARE_TEMPLATIZED_ENDIAN_CONV(U16)
-TORQUE_DECLARE_TEMPLATIZED_ENDIAN_CONV(S16)
-TORQUE_DECLARE_TEMPLATIZED_ENDIAN_CONV(U32)
-TORQUE_DECLARE_TEMPLATIZED_ENDIAN_CONV(S32)
-TORQUE_DECLARE_TEMPLATIZED_ENDIAN_CONV(U64)
-TORQUE_DECLARE_TEMPLATIZED_ENDIAN_CONV(S64)
-TORQUE_DECLARE_TEMPLATIZED_ENDIAN_CONV(F32)
-TORQUE_DECLARE_TEMPLATIZED_ENDIAN_CONV(F64)
+ACL_DECLARE_TEMPLATIZED_ENDIAN_CONV(U8)
+   ACL_DECLARE_TEMPLATIZED_ENDIAN_CONV(S8)
+   ACL_DECLARE_TEMPLATIZED_ENDIAN_CONV(U16)
+   ACL_DECLARE_TEMPLATIZED_ENDIAN_CONV(S16)
+   ACL_DECLARE_TEMPLATIZED_ENDIAN_CONV(U32)
+   ACL_DECLARE_TEMPLATIZED_ENDIAN_CONV(S32)
+   ACL_DECLARE_TEMPLATIZED_ENDIAN_CONV(U64)
+   ACL_DECLARE_TEMPLATIZED_ENDIAN_CONV(S64)
+   ACL_DECLARE_TEMPLATIZED_ENDIAN_CONV(F32)
+   ACL_DECLARE_TEMPLATIZED_ENDIAN_CONV(F64)
 
 #endif
 

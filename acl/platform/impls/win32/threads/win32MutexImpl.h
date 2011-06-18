@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef ACL_PLATFORM_WIN32_MUTEXIMPL_H_
@@ -11,21 +11,21 @@
 
 namespace Platform2
 {
-namespace Internal_
-{
-   class Win32MutexImpl : public MutexImpl
+   namespace Internal_
    {
-   public:
-      Win32MutexImpl();
-      virtual ~Win32MutexImpl();
-      virtual bool init();
-      virtual Threading::Status lock(bool block);
-      virtual Threading::Status unlock();
+      class Win32MutexImpl : public MutexImpl
+      {
+      public:
+         Win32MutexImpl();
+         virtual ~Win32MutexImpl();
+         virtual bool init();
+         virtual Threading::Status lock(bool block);
+         virtual Threading::Status unlock();
 
-   private:
-      HANDLE mMutex;
-   };
-}
+      private:
+         HANDLE mMutex;
+      };
+   }
 }
 
 #endif

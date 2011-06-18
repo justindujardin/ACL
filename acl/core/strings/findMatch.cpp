@@ -1,10 +1,10 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "./findMatch.h"
-#include "./stringFunctions.h"
+#include "core/strings/findMatch.h"
+#include "core/strings/stringFunctions.h"
 
 
 //--------------------------------------------------------------------------------
@@ -85,28 +85,28 @@ bool FindMatch::isMatch( const char *exp, const char *str, bool caseSensitive )
    {
       switch( *e )
       {
-         case '*':
-               e++;
-               match = false;
-               while( !match && (*s != '\0') && ((s=dStrchr(s,*e)) != NULL) )
-               {
-                  match = isMatch( e, s, caseSensitive );
-                  s++;
-               }
-               return( match );
-
-         case '?':
-            e++;
+      case '*':
+         e++;
+         match = false;
+         while( !match && (*s != '\0') && ((s=dStrchr(s,*e)) != NULL) )
+         {
+            match = isMatch( e, s, caseSensitive );
             s++;
-            break;
+         }
+         return( match );
 
-         default:
-            if (caseSensitive)
-               match = ( *e++ == *s++ );
-            else
-               match = ( dToupper(*e++) == dToupper(*s++) );
+      case '?':
+         e++;
+         s++;
+         break;
 
-            break;
+      default:
+         if (caseSensitive)
+            match = ( *e++ == *s++ );
+         else
+            match = ( dToupper(*e++) == dToupper(*s++) );
+
+         break;
       }
    }
 

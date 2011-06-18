@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _FILESTREAM_H_
@@ -29,7 +29,7 @@ public:
    // This function will allocate a new FileStream and open it.
    //  If it fails to allocate or fails to open, it will return NULL.
    //  The caller is responsible for deleting the instance.
-   static FileStream *createAndOpen(const String &inFileName, Torque::FS::File::AccessMode inMode);
+   static FileStream *createAndOpen(const String &inFileName, ACLib::FS::File::AccessMode inMode);
 
    // mandatory methods from Stream base class...
    virtual bool hasCapability(const Capability i_cap) const;
@@ -39,7 +39,7 @@ public:
    virtual U32  getStreamSize();
 
    // additional methods needed for a file stream...
-   virtual bool open(const String &inFileName, Torque::FS::File::AccessMode inMode);
+   virtual bool open(const String &inFileName, ACLib::FS::File::AccessMode inMode);
    virtual void close();
 
    bool flush();
@@ -59,7 +59,7 @@ protected:
    U32  mStreamCaps;                   // dependent on access mode
 
 private:
-   Torque::FS::FileRef mFile;          // file being streamed
+   ACLib::FS::FileRef mFile;          // file being streamed
 
    U8   mBuffer[BUFFER_SIZE];
    U32  mBuffHead;                     // first valid position of buffer (from start-of-file)

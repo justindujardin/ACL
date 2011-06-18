@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include "platform/impls/base/platformCreator.h"
@@ -8,17 +8,17 @@
 
 namespace Platform2
 {
-namespace Internal_
-{
-   void InitializePlatform()
+   namespace Internal_
    {
-      ThreadImpl::RegisterCurrentThreadAsMain();
+      void InitializePlatform()
+      {
+         ThreadImpl::RegisterCurrentThreadAsMain();
+      }
+
+      ACLib::TypeRebind& GetPlatformFactory()
+      {
+         static ACLib::TypeRebind factory;
+         return factory;
+      }
    }
-   
-   Torque::TypeRebind& GetPlatformFactory()
-   {
-      static Torque::TypeRebind factory;
-      return factory;
-   }
-}
 }

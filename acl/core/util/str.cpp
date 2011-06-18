@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include <stdarg.h>
@@ -27,9 +27,6 @@ namespace KeyCmp
 #include "core/strings/stringFunctions.h"
 #include "core/strings/unicode.h"
 #include "core/util/autoPtr.h"
-
-
-//#include "math/mMathFn.h"
 
 #define STR_USE_PROFILER
 
@@ -219,169 +216,169 @@ static const char* StrFind(const char* hay, const char* needle, S32 pos, U32 mod
 ///
 class String::StringData
 {
-   protected:
+protected:
 
-#ifdef TORQUE_DEBUG
-      StringChar*       mString;       ///< so we can inspect data in a debugger
+#ifdef ACL_DEBUG
+   StringChar*       mString;       ///< so we can inspect data in a debugger
 #endif
 
-      U32               mRefCount;     ///< String reference count; string is not refcounted if this is U32_MAX (necessary for thread-safety of interned strings and the empty string).
-      U32               mLength;       ///< String length in bytes excluding null.
-      mutable U32       mNumChars;     ///< Character count; varies from byte count for strings with multi-bytes characters.
-      mutable U32       mHashCase;     ///< case-sensitive hash
-      mutable U32       mHashNoCase;   ///< case-insensitive hash
-      mutable UTF16*    mUTF16;
-      bool              mIsInterned;   ///< If true, this string is interned in the string table.
-      StringChar        mData[1];      ///< Start of string data
+   U32               mRefCount;     ///< String reference count; string is not refcounted if this is U32_MAX (necessary for thread-safety of interned strings and the empty string).
+   U32               mLength;       ///< String length in bytes excluding null.
+   mutable U32       mNumChars;     ///< Character count; varies from byte count for strings with multi-bytes characters.
+   mutable U32       mHashCase;     ///< case-sensitive hash
+   mutable U32       mHashNoCase;   ///< case-insensitive hash
+   mutable UTF16*    mUTF16;
+   bool              mIsInterned;   ///< If true, this string is interned in the string table.
+   StringChar        mData[1];      ///< Start of string data
 
-      /// This constructor is only used for constructing the empty string.
-      StringData() : mRefCount(U32_MAX), mLength(0), mNumChars(0), 
-         mHashCase(U32_MAX), mHashNoCase(U32_MAX), mUTF16(new UTF16[1]),
-         mData(), mIsInterned( false )
-      {
-         // operator new() will never call this constructor which is why we
-         // initialized mLength in the initializer list.
-         mData[0] = '\0';
-         mUTF16[ 0 ] = '\0';
-         
-#ifdef TORQUE_DEBUG
-         mString = &mData[0];
+   /// This constructor is only used for constructing the empty string.
+   StringData() : mRefCount(U32_MAX), mLength(0), mNumChars(0), 
+      mHashCase(U32_MAX), mHashNoCase(U32_MAX), mUTF16(new UTF16[1]),
+      mData(), mIsInterned( false )
+   {
+      // operator new() will never call this constructor which is why we
+      // initialized mLength in the initializer list.
+      mData[0] = '\0';
+      mUTF16[ 0 ] = '\0';
+
+#ifdef ACL_DEBUG
+      mString = &mData[0];
 #endif
+   }
+
+public:
+
+   enum { MAX_HASH_LENGTH = 64 };
+
+   ///
+   StringData( const StringChar* data, bool interned = false ) : mRefCount(1), mNumChars(U32_MAX),
+      mHashCase(U32_MAX), mHashNoCase(U32_MAX), mUTF16(NULL), mIsInterned( interned )
+   {
+      // mLength is initialized by operator new()
+
+      if( data )
+      {
+         dMemcpy( mData, data, sizeof( StringChar ) * mLength );
+         mData[ mLength ] = '\0';
       }
 
-   public:
-
-      enum { MAX_HASH_LENGTH = 64 };
-
-      ///
-      StringData( const StringChar* data, bool interned = false ) : mRefCount(1), mNumChars(U32_MAX),
-         mHashCase(U32_MAX), mHashNoCase(U32_MAX), mUTF16(NULL), mIsInterned( interned )
-      {
-         // mLength is initialized by operator new()
-
-         if( data )
-         {
-            dMemcpy( mData, data, sizeof( StringChar ) * mLength );
-            mData[ mLength ] = '\0';
-         }
-         
-#ifdef TORQUE_DEBUG
-         mString = &mData[0];
+#ifdef ACL_DEBUG
+      mString = &mData[0];
 #endif
-         if( mIsInterned )
-            mRefCount = U32_MAX;
+      if( mIsInterned )
+         mRefCount = U32_MAX;
+   }
+
+   ~StringData()
+   {
+      if( mUTF16 )
+         delete [] mUTF16;
+   }
+
+   void* operator new(size_t size, U32 len);
+   void* operator new( size_t size, U32 len, DataChunker& chunker );
+   void operator delete(void *);
+
+   bool isShared() const
+   {
+      return ( mRefCount > 1 );
+   }
+   void addRef()
+   {
+      if( mRefCount != U32_MAX )
+         mRefCount ++;
+   }
+   void release()
+   {
+      if( mRefCount != U32_MAX )
+      {
+         -- mRefCount;
+         if( !mRefCount )
+            delete this;
+      }
+   }
+   U32 getLength() const
+   {
+      return mLength;
+   }
+   U32 getDataSize() const
+   {
+      return ( mLength + 1 );
+   }
+   U32 getDataSizeUTF16() const
+   {
+      return ( mLength * sizeof( UTF16 ) );
+   }
+   UTF8 operator []( U32 index ) const
+   {
+      AssertFatal( index < mLength, "String::StringData::operator []() - index out of range" );
+      return mData[ index ];
+   }
+   UTF8* utf8()
+   {
+      return mData;
+   }
+   const UTF8* utf8() const
+   {
+      return mData;
+   }
+   UTF16* utf16() const
+   {
+      // IMPORTANT: if interned strings are added, setting mUTF16 must
+      //   be done atomatically and the converted string freed if the CAS fails.
+
+      if( !mUTF16 )
+         mUTF16 = convertUTF8toUTF16( mData );
+      return mUTF16;
+   }
+   U32 getHashCase() const
+   {
+      return mHashCase;
+   }
+   U32 getOrCreateHashCase() const
+   {
+      if( mHashCase == U32_MAX )
+         mHashCase = ACLib::hash((const U8 *)(mData), getMin( mLength, ( U32 ) MAX_HASH_LENGTH ), 0);
+      return mHashCase;
+   }
+   U32 getHashNoCase() const
+   {
+      return mHashNoCase;
+   }
+   U32 getOrCreateHashNoCase() const
+   {
+      if( mHashNoCase == U32_MAX)
+      {
+         PROFILE_SCOPE(String_getHashCaseInsensitive);
+
+         StringChar sLowerBuffer[ MAX_HASH_LENGTH ];
+         U32 len = getMin( mLength, ( U32 ) MAX_HASH_LENGTH - 1 );
+
+         dMemcpy(sLowerBuffer, utf8(), len );
+         sLowerBuffer[ len ] = '\0';
+         dStrlwr(sLowerBuffer);
+
+         mHashNoCase = ACLib::hash((const U8 *)(sLowerBuffer), len, 0);
       }
 
-      ~StringData()
-      {
-         if( mUTF16 )
-            delete [] mUTF16;
-      }
+      return mHashNoCase;
+   }
+   U32 getNumChars() const
+   {
+      //TODO
+      AssertFatal( false, "TODO" );
 
-      void* operator new(size_t size, U32 len);
-      void* operator new( size_t size, U32 len, DataChunker& chunker );
-      void operator delete(void *);
-
-      bool isShared() const
-      {
-         return ( mRefCount > 1 );
-      }
-      void addRef()
-      {
-         if( mRefCount != U32_MAX )
-            mRefCount ++;
-      }
-      void release()
-      {
-         if( mRefCount != U32_MAX )
-         {
-            -- mRefCount;
-            if( !mRefCount )
-               delete this;
-         }
-      }
-      U32 getLength() const
-      {
-         return mLength;
-      }
-      U32 getDataSize() const
-      {
-         return ( mLength + 1 );
-      }
-      U32 getDataSizeUTF16() const
-      {
-         return ( mLength * sizeof( UTF16 ) );
-      }
-      UTF8 operator []( U32 index ) const
-      {
-         AssertFatal( index < mLength, "String::StringData::operator []() - index out of range" );
-         return mData[ index ];
-      }
-      UTF8* utf8()
-      {
-         return mData;
-      }
-      const UTF8* utf8() const
-      {
-         return mData;
-      }
-      UTF16* utf16() const
-      {
-         // IMPORTANT: if interned strings are added, setting mUTF16 must
-         //   be done atomatically and the converted string freed if the CAS fails.
-
-         if( !mUTF16 )
-            mUTF16 = convertUTF8toUTF16( mData );
-         return mUTF16;
-      }
-      U32 getHashCase() const
-      {
-         return mHashCase;
-      }
-      U32 getOrCreateHashCase() const
-      {
-         if( mHashCase == U32_MAX )
-            mHashCase = Torque::hash((const U8 *)(mData), getMin( mLength, ( U32 ) MAX_HASH_LENGTH ), 0);
-         return mHashCase;
-      }
-      U32 getHashNoCase() const
-      {
-         return mHashNoCase;
-      }
-      U32 getOrCreateHashNoCase() const
-      {
-         if( mHashNoCase == U32_MAX)
-         {
-            PROFILE_SCOPE(String_getHashCaseInsensitive);
-
-            StringChar sLowerBuffer[ MAX_HASH_LENGTH ];
-            U32 len = getMin( mLength, ( U32 ) MAX_HASH_LENGTH - 1 );
-
-            dMemcpy(sLowerBuffer, utf8(), len );
-            sLowerBuffer[ len ] = '\0';
-            dStrlwr(sLowerBuffer);
-
-            mHashNoCase = Torque::hash((const U8 *)(sLowerBuffer), len, 0);
-         }
-
-         return mHashNoCase;
-      }
-      U32 getNumChars() const
-      {
-         //TODO
-         AssertFatal( false, "TODO" );
-
-         return mNumChars;
-      }
-      bool isInterned() const
-      {
-         return mIsInterned;
-      }
-      static StringData* Empty()
-      {
-         static StringData empty;
-         return &empty;
-      }
+      return mNumChars;
+   }
+   bool isInterned() const
+   {
+      return mIsInterned;
+   }
+   static StringData* Empty()
+   {
+      static StringData empty;
+      return &empty;
+   }
 };
 
 //-----------------------------------------------------------------------------
@@ -415,7 +412,7 @@ static StringTable sStringTable;
 
 //-----------------------------------------------------------------------------
 
-#ifdef TORQUE_DEBUG
+#ifdef ACL_DEBUG
 
 /// Tracks the number of bytes allocated for strings.
 /// @bug This currently does not include UTF16 allocations.
@@ -440,7 +437,7 @@ void* String::StringData::operator new( size_t size, U32 len )
 
    str->mLength      = len;
 
-#ifdef TORQUE_DEBUG
+#ifdef ACL_DEBUG
    dFetchAndAdd( sgStringMemBytes, size + len * sizeof(StringChar) );
    dFetchAndAdd( sgStringInstances, 1 );
 #endif
@@ -453,7 +450,7 @@ void String::StringData::operator delete(void *ptr)
    StringData* sub = static_cast<StringData *>(ptr);
    AssertFatal( sub->mRefCount == 0, "StringData::delete() - invalid refcount" );
 
-#ifdef TORQUE_DEBUG
+#ifdef ACL_DEBUG
    dFetchAndAdd( sgStringMemBytes, U32( -( S32( sizeof( StringData ) + sub->mLength * sizeof(StringChar) ) ) ) );
    dFetchAndAdd( sgStringInstances, U32( -1 ) );
 #endif
@@ -468,7 +465,7 @@ void* String::StringData::operator new( size_t size, U32 len, DataChunker& chunk
 
    str->mLength      = len;
 
-#ifdef TORQUE_DEBUG
+#ifdef ACL_DEBUG
    dFetchAndAdd( sgStringMemBytes, size + len * sizeof(StringChar) );
    dFetchAndAdd( sgStringInstances, 1 );
 #endif
@@ -541,22 +538,22 @@ String String::intern() const
 {
    if( isInterned() )
       return *this;
-      
+
    // Lock the string table.
-   
+
    Platform2::Mutex::ScopedLock scopeLock( sStringTableLock );
-   
+
    // Lookup.
-   
+
    StringTable::Iterator iter = sStringTable.find( _string );
    if( iter != sStringTable.end() )
       return ( *iter ).value;
-      
+
    // Create new.
-   
+
    StringData* data = new ( length(), sStringTableChunker ) StringData( c_str(), true );
    iter = sStringTable.insertUnique( data, data );
-   
+
    return ( *iter ).value;
 }
 
@@ -846,8 +843,8 @@ bool String::operator==(const String &str) const
    else if( str.length() != length() )
       return false;
    else if( str._string->getHashCase() != U32_MAX
-            && _string->getHashCase() != U32_MAX
-            && str._string->getHashCase() != _string->getHashCase() )
+      && _string->getHashCase() != U32_MAX
+      && str._string->getHashCase() != _string->getHashCase() )
       return false;
    else
       return ( dMemcmp( str._string->utf8(), _string->utf8(), _string->getLength() ) == 0 );
@@ -959,8 +956,8 @@ bool String::equal(const String &str, U32 mode) const
       else if( length() != str.length() )
          return false;
       else if( _string->getHashNoCase() != U32_MAX
-               && str._string->getHashNoCase() != U32_MAX
-               && _string->getHashNoCase() != str._string->getHashNoCase() )
+         && str._string->getHashNoCase() != U32_MAX
+         && _string->getHashNoCase() != str._string->getHashNoCase() )
          return false;
       else
          return ( compare( str.c_str(), length(), mode ) == 0 );
@@ -1002,7 +999,7 @@ String& String::insert(SizeType pos, const StringChar *str, SizeType len)
       return *this;
 
    AssertFatal( str, "String:: Invalid null ptr argument" );
-         
+
    SizeType lena = length();
    AssertFatal((pos <= lena),"Calling String::insert with position greater than length");
    U32 newlen = lena + len;
@@ -1100,7 +1097,7 @@ String &String::replace( StringChar c1, StringChar c2 )
 
       c++;
    }
- 
+
    _string->release();
    _string = sub;
 
@@ -1216,20 +1213,20 @@ String String::trim() const
 {
    if( isEmpty() )
       return *this;
-   
+
    const StringChar* start = _string->utf8();
    while( *start && dIsspace( *start ) )
       start ++;
-   
+
    const StringChar* end = _string->utf8() + length() - 1;
    while( end > start && dIsspace( *end ) )
       end --;
    end ++;
-   
+
    const U32 len = end - start;
    if( len == length() )
       return *this;
-   
+
    StringData* sub;
    if( !len )
       sub = StringData::Empty();
@@ -1262,7 +1259,7 @@ void String::copy(StringChar* dst, const StringChar *src, U32 len)
 
 //-----------------------------------------------------------------------------
 
-#if defined(TORQUE_OS_WIN32) || defined(TORQUE_OS_XBOX) || defined(TORQUE_OS_XENON)
+#if defined(ACL_OS_WIN32) || defined(ACL_OS_XBOX) || defined(ACL_OS_XENON)
 // This standard function is not defined when compiling with VC7...
 #define vsnprintf	_vsnprintf
 #endif
@@ -1390,7 +1387,7 @@ String   String::SpanToString(const char *start, const char *end)
 {
    if ( end == start )
       return String();
-   
+
    AssertFatal( end > start, "Invalid arguments to String::SpanToString - end is before start" );
 
    U32         len = U32(end - start);

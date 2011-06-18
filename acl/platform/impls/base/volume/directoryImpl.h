@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef ACL_PLATFORM_DIRECTORYIMPL_H_
@@ -11,20 +11,20 @@
 
 namespace Platform2
 {
-namespace Internal_
-{
-   class DirectoryImpl : private Noncopyable
+   namespace Internal_
    {
-   public:
-      virtual ~DirectoryImpl() {}
-      virtual void updateStatus() = 0;
-      virtual bool open(const Torque::Path& path) = 0;
-      virtual void close() = 0;
-      virtual bool read(const Torque::Path& path, Torque::FS::FileNode::Attributes& attributes) = 0;
-      
-      Torque::FS::FileNode::Status mStatus;
-   };
-}
+      class DirectoryImpl : private Noncopyable
+      {
+      public:
+         virtual ~DirectoryImpl() {}
+         virtual void updateStatus() = 0;
+         virtual bool open(const ACLib::Path& path) = 0;
+         virtual void close() = 0;
+         virtual bool read(const ACLib::Path& path, ACLib::FS::FileNode::Attributes& attributes) = 0;
+
+         ACLib::FS::FileNode::Status mStatus;
+      };
+   }
 }
 
 #endif

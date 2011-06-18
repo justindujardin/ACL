@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef ACL_PLATFORM_SEMAPHORE_H_
@@ -29,7 +29,7 @@ namespace Platform2
 
       /// @brief Destroys the semaphore.
       ~Semaphore();
-      
+
       /// @brief Decrements count by 1.  
       /// @param block If true, blocks the calling thread until the semaphore 
       /// can be acquired.  If false, does not block the calling thread and 
@@ -42,7 +42,7 @@ namespace Platform2
       /// @returns Threading::Status_PlatformError in implementation defined circumstances.
       /// This error is probably non-recoverable.
       Threading::Status acquire(bool block = true);
-      
+
       /// @brief Increments count by 1.  
       /// @returns Threading::Status_NoError if the semaphore's count was succesfully increased.
       /// @returns Threading::Status_Resources if releasing the semaphore would push its count
@@ -52,7 +52,7 @@ namespace Platform2
       /// @returns Threading::Status_PlatformError in implementation defined circumstances.
       /// This error is probably non-recoverable.
       Threading::Status release();
-      
+
       /// Acquires the given semaphore for the scope its in.
       /// @warning ScopedAcquire does not perform any error checking.
       class ScopedAcquire : private Noncopyable
@@ -62,7 +62,7 @@ namespace Platform2
          {
             mSempahore.acquire();
          }
-         
+
          ~ScopedAcquire()
          {
             mSempahore.release();
@@ -70,11 +70,11 @@ namespace Platform2
       private:
          Semaphore& mSempahore;
       };
-      
+
    private:
       /// @cond
       struct Internal;
-      Torque::ScopedPtr<Internal> mImpl;
+      ACLib::ScopedPtr<Internal> mImpl;
       /// @endcond
    };
 }

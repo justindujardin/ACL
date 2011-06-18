@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef ACL_PLATFORM_THREADLOCAL_H_
@@ -20,17 +20,17 @@ namespace Platform2
    public:
       ThreadLocal();
       ~ThreadLocal();
-      
+
       /// Returns the value of the thread local on the current thread.
       /// Undefined if called before set() has been called on the current thread.
       void* get();
-      
+
       /// Sets the value for the current thread.
       void set(void* value);
    private:
       /// @cond
       struct Internal;
-      Torque::ScopedPtr<Internal> mImpl;
+      ACLib::ScopedPtr<Internal> mImpl;
       /// @endcond
    };
 }

@@ -1,12 +1,18 @@
-#include "../acl/core/torque.h"
-#include "../acl/core/util/str.h"
-#include "../acl/core/containers/tVector.h"
-#include "../acl/core/strings/stringFunctions.h"
+//-----------------------------------------------------------------------------
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
+//-----------------------------------------------------------------------------
+
+#include "acl.h"
+#include "core/util/str.h"
+#include "core/containers/tVector.h"
+#include "core/strings/stringFunctions.h"
+
 #include <gtest/gtest.h>
 #include <conio.h>
 
 // Unicode Strings
-#ifdef TORQUE_OS_WIN32
+#ifdef ACL_OS_WIN32
 #include <windows.h>
 TEST(StringTest,UnicodeStrings) {
    HWND deskWnd = ::GetForegroundWindow();  

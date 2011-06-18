@@ -1,25 +1,25 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _TDICTIONARY_H_
 #define _TDICTIONARY_H_
 
 #ifndef _STRINGFUNCTIONS_H_
-#include "../strings/stringFunctions.h"
+#include "core/strings/stringFunctions.h"
 #endif
 
 #ifndef _HASHFUNCTION_H_
-#include "../util/hashFunction.h"
+#include "core/util/hashFunction.h"
 #endif
 
 #ifndef _ACL_STRING_H_
-#include "../util/str.h"
+#include "core/util/str.h"
 #endif
 
 #ifndef _DATACHUNKER_H_
-#include "../dataChunker.h"
+#include "core/dataChunker.h"
 #endif
 
 template<class A, class B>
@@ -71,7 +71,7 @@ namespace DictHash
 
    inline U32 hash(const char *data)
    {
-      return Torque::hash( (const U8 *)data, dStrlen( data ), 0 );
+      return ACLib::hash( (const U8 *)data, dStrlen( data ), 0 );
    }
 
    inline U32 hash(const void *data)
@@ -145,7 +145,7 @@ public:
       Pair() {}
       Pair(Key k,Value v)
          :  key(k),
-            value(v)
+         value(v)
       {}
    };
 
@@ -157,7 +157,7 @@ private:
       Node(): mNext(0) {}
       Node(Pair p,Node* n)
          :  mNext(n),
-            mPair(p)
+         mPair(p)
       {}
    };
 
@@ -201,7 +201,7 @@ public:
       {
          mLink = mLink->mNext? mLink->mNext :
             mHashTable->_next(mHashTable->_index(mLink->mPair.key) + 1);
-         return *this;
+      return *this;
       }
 
       _Iterator operator++(int)
@@ -345,8 +345,8 @@ void HashTable<Key,Value>::_resize(U32 size)
          node = tmp;
       }
 
-   delete[] mTable;
-   mTable = table;
+      delete[] mTable;
+      mTable = table;
 }
 
 template<typename Key, typename Value>
@@ -589,7 +589,7 @@ S32 HashTable<Key,Value>::count(const Key& key) const
             } while (itr && KeyCmp::equals<Key>( itr->mPair.key, key ) );
             break;
          }
-   return count;
+         return count;
 }
 
 

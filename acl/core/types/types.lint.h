@@ -1,10 +1,10 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#ifndef TORQUE_TYPES_LINT_H_
-#define TORQUE_TYPES_LINT_H_
+#ifndef ACL_TYPES_LINT_H_
+#define ACL_TYPES_LINT_H_
 
 typedef signed long long S64;
 typedef unsigned long long U64;
@@ -17,13 +17,13 @@ struct FileTime
    U32 v2;
 };
 
-#define TORQUE_OS_STRING "Lint"
-#define TORQUE_CPU_STRING "x86"
-#define TORQUE_LITTLE_ENDIAN
-#define TORQUE_SUPPORTS_NASM
-#define TORQUE_SUPPORTS_VC_INLINE_X86_ASM
-#define TORQUE_OS_WIN32
-#define TORQUE_COMPILER_VISUALC 1500
+#define ACL_OS_STRING "Lint"
+#define ACL_CPU_STRING "x86"
+#define ACL_LITTLE_ENDIAN
+#define ACL_SUPPORTS_NASM
+#define ACL_SUPPORTS_VC_INLINE_X86_ASM
+#define ACL_OS_WIN32
+#define ACL_COMPILER_VISUALC 1500
 
 #ifndef FN_CDECL
 #define FN_CDECL
@@ -41,9 +41,9 @@ struct FileTime
 void lint_debugbreak() {
 }
 
-#define TORQUE_PRETTY_FUNCTION ""
-#define TORQUE_DEBUG_BREAK lint_debugbreak();
-#define TORQUE_NO_INLINE __declspec(noinline)
+#define ACL_PRETTY_FUNCTION ""
+#define ACL_DEBUG_BREAK lint_debugbreak();
+#define ACL_NO_INLINE __declspec(noinline)
 
 #ifndef NULL
 #define NULL 0

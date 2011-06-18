@@ -1,33 +1,33 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#ifndef TORQUE_CORE_ASSERT_H_
-#define TORQUE_CORE_ASSERT_H_
+#ifndef ACL_CORE_ASSERT_H_
+#define ACL_CORE_ASSERT_H_
 
 #ifndef _ACL_TYPES_H_
-#include "./types/types.h"
+#include "core/types/types.h"
 #endif
 
 #ifdef _DEBUG
-#define TORQUE_ENABLE_ASSERTS
+#define ACL_ENABLE_ASSERTS
 #endif
 
-#ifdef TORQUE_ENABLE_ASSERTS
+#ifdef ACL_ENABLE_ASSERTS
 
 #define AssertWarn(x, y) \
 do {\
    if(((bool)(x)) == (bool)0) \
-      if(Torque::Assert::Get().processAssert(Torque::Assert::Warning, __FILE__, __LINE__, TORQUE_PRETTY_FUNCTION, y))\
-         TORQUE_DEBUG_BREAK\
+      if(ACLib::Assert::Get().processAssert(ACLib::Assert::Warning, __FILE__, __LINE__, ACL_PRETTY_FUNCTION, y))\
+         ACL_DEBUG_BREAK\
 } while(0)
 
 #define AssertFatal(x, y)\
 do {\
    if(((bool)(x)) == (bool)0) \
-      if(Torque::Assert::Get().processAssert(Torque::Assert::Fatal, __FILE__, __LINE__, TORQUE_PRETTY_FUNCTION, y))\
-         TORQUE_DEBUG_BREAK\
+      if(ACLib::Assert::Get().processAssert(ACLib::Assert::Fatal, __FILE__, __LINE__, ACL_PRETTY_FUNCTION, y))\
+         ACL_DEBUG_BREAK\
 } while(0)
 
 #else
@@ -38,11 +38,11 @@ do {\
 #define AssertISV(x, y)\
 do {\
    if(((bool)(x)) == (bool)0) \
-      if(Torque::Assert::Get().processAssert(Torque::Assert::Fatal_ISV, __FILE__, __LINE__, TORQUE_PRETTY_FUNCTION, y))\
-         TORQUE_DEBUG_BREAK\
+      if(ACLib::Assert::Get().processAssert(ACLib::Assert::Fatal_ISV, __FILE__, __LINE__, ACL_PRETTY_FUNCTION, y))\
+         ACL_DEBUG_BREAK\
 } while(0)
 
-namespace Torque
+namespace ACLib
 {
    class AssertImpl;
    class Assert
@@ -54,44 +54,44 @@ namespace Torque
          Fatal, ///< Only triggers in debug build configurations
          Warning ///< Only triggers in debug build configurations and by default only prints to the console
       };
-      
+
       /// @brief Trigger an assert.
       /// @details This method will block until the assert is somehow dealt with, and will likely result
-      /// in the game exiting.
+      /// in the app exiting.
       /// @param type The type of the assert.
       /// @param filename The file in which the assert occurred
       /// @param lineNumber The line on which the Assert* macro is
       /// @param message A message that will be displayed/printed with the assert.  Please make it informational!
       bool processAssert(Type type, const char* filename, U32 lineNumber, const char* function, const char* message);
       bool isProcessingAssert() const;
-      
+
       /// @brief Returns the global asserter
       static Assert& Get();
-      
+
       /// Pushes impl to the top of the stack.  The topmost impl will be used
       /// to handle all asserts.  Assert takes ownership of the given impl, 
       /// you should not keep a reference to it.
       void pushImpl(AssertImpl* impl);
-      
+
       /// Pops the topmost impl from the stack.
       /// @warning Don't call this if there's only one impl in the stack
       void popImpl();
-      
+
    private:
       struct Internal;
       Internal* mInternal;
-      
+
       Assert();
       ~Assert();
       Assert(const Assert&);
       Assert& operator=(const Assert&);
    };
-   
-namespace Private
-{
-   template<int> struct CompileTimeError;
-   template<> struct CompileTimeError<true> {};
-}
+
+   namespace Private
+   {
+      template<int> struct CompileTimeError;
+      template<> struct CompileTimeError<true> {};
+   }
 
 /// Compile time assert at function scope.
 /// If the expression is false this macro will generate a compile
@@ -103,13 +103,13 @@ namespace Private
 ///@endcode
 /// @hideinitializer
 #define AssertStatic(expr, msg) \
-   do { Torque::Private::CompileTimeError<((expr) != 0)> \
+   do { ACLib::Private::CompileTimeError<((expr) != 0)> \
    ASSERT_##msg; (void)ASSERT_##msg; } while(false)
    
 /// Compile time assert at class or namespace scope.
 /// See AssertStatic for more information.
 #define AssertStaticNamespace(expr, msg) \
-   template<int test> struct ASSERT_##msg { Torque::Private::CompileTimeError<test> FAILED; }; \
+   template<int test> struct ASSERT_##msg { ACLib::Private::CompileTimeError<test> FAILED; }; \
    enum { Bogus_##msg = sizeof(ASSERT_##msg<((expr) != 0)>) };
 
 }

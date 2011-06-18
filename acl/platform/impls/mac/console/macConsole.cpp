@@ -1,11 +1,11 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine 
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "platform2/impls/mac/console/macConsole.h"
+#include "platform/impls/mac/console/macConsole.h"
 #include "core/strings/stringFunctions.h"
-#include "platform2/platform.h"
+#include "platform/platform.h"
 
 #include <stdio.h>
 
@@ -14,13 +14,6 @@ using fastdelegate::MakeDelegate;
 // TODO: convert this to use ncurses.
 
 MacConsole *gConsole = NULL;
-
-ScriptFunction(enableWinConsole, void, 2, 2, "(bool enable)")
-{
-   TORQUE_UNUSED(argc);
-   
-   MacConsole::enableStatic(dAtob(argv[1]));
-}
 
 static void macConsoleConsumer(ConsoleLogEntry::Level, const String &line)
 {
@@ -52,7 +45,7 @@ void MacConsole::enableStatic(bool shouldEnable)
 void MacConsole::enable(bool enabled)
 {
    if (gConsole == NULL) return;
-   
+
    consoleEnabled = enabled;
 }
 
@@ -69,7 +62,7 @@ MacConsole::MacConsole()
 {
    consoleEnabled = false;
    clearInBuf();
-   
+
    Con::getConsumerSignal().notify(&macConsoleConsumer);
 }
 

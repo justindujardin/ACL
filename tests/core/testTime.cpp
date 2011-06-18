@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------------
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
+//-----------------------------------------------------------------------------
+
 #include "unit/test.h"
 #include "core/util/timeClass.h"
 
@@ -5,13 +10,13 @@ CreateUnitTest(TestCoreUtilTime, "Core/Util/Time")
 {
    void testTimeConversion()
    {
-      Torque::Time t,newT;
-      Torque::Time::DateTime dt2;
+      ACLib::Time t,newT;
+      ACLib::Time::DateTime dt2;
 
       // test conversion back and forth from DateTime.
       // test all values for each field (but not all permutations)
       // this is kind of testing overkill but whatever
-      Torque::Time::DateTime base;
+      ACLib::Time::DateTime base;
       base.year = 2000;
       base.month = 1;
       base.day = 1;     
@@ -20,12 +25,12 @@ CreateUnitTest(TestCoreUtilTime, "Core/Util/Time")
       base.minute = 0;
       base.microsecond = 0;
 
-      Torque::Time::DateTime curr;
+      ACLib::Time::DateTime curr;
       // test 100 years
       curr = base;
       for (int i = 0; i < 100; ++i)
       {
-         t = Torque::Time::Time(curr);
+         t = ACLib::Time::Time(curr);
          t.get(dt2);
          test(curr == dt2, "time conversion failure");
 
@@ -36,7 +41,7 @@ CreateUnitTest(TestCoreUtilTime, "Core/Util/Time")
       curr = base;
       for (int i = 0; i < 12; ++i)
       {
-         t = Torque::Time::Time(curr);
+         t = ACLib::Time::Time(curr);
          t.get(dt2);
          test(curr == dt2, "time conversion failure");
 
@@ -47,7 +52,7 @@ CreateUnitTest(TestCoreUtilTime, "Core/Util/Time")
       curr = base;
       for (int i = 0; i < 31; ++i)
       {
-         t = Torque::Time::Time(curr);
+         t = ACLib::Time::Time(curr);
          t.get(dt2);
          test(curr == dt2, "time conversion failure");
 
@@ -58,7 +63,7 @@ CreateUnitTest(TestCoreUtilTime, "Core/Util/Time")
       curr = base;
       for (int i = 0; i < 24; ++i)
       {
-         t = Torque::Time::Time(curr);
+         t = ACLib::Time::Time(curr);
          t.get(dt2);
          test(curr == dt2, "time conversion failure");
 
@@ -69,7 +74,7 @@ CreateUnitTest(TestCoreUtilTime, "Core/Util/Time")
       curr = base;
       for (int i = 0; i < 60; ++i)
       {
-         t = Torque::Time::Time(curr);
+         t = ACLib::Time::Time(curr);
          t.get(dt2);
          test(curr == dt2, "time conversion failure");
 
@@ -80,7 +85,7 @@ CreateUnitTest(TestCoreUtilTime, "Core/Util/Time")
       curr = base;
       for (int i = 0; i < 60; ++i)
       {
-         t = Torque::Time::Time(curr);
+         t = ACLib::Time::Time(curr);
          t.get(dt2);
          test(curr == dt2, "time conversion failure");
 
@@ -91,21 +96,21 @@ CreateUnitTest(TestCoreUtilTime, "Core/Util/Time")
       // 1/31/2000 (leap year)
       curr = base;
       curr.day = 31;
-      t = Torque::Time::Time(curr);
+      t = ACLib::Time::Time(curr);
       t.get(dt2);
       test(curr == dt2, "time conversion failure");
       // 1/31/2001 (non leap year)
       curr = base;
       curr.day = 31;
       curr.year = 2001;
-      t = Torque::Time::Time(curr);
+      t = ACLib::Time::Time(curr);
       t.get(dt2);
       test(curr == dt2, "time conversion failure");
       // 3/31/2000 (leap year)
       curr = base;
       curr.day = 31;
       curr.month = 3;
-      t = Torque::Time::Time(curr);
+      t = ACLib::Time::Time(curr);
       t.get(dt2);
       test(curr == dt2, "time conversion failure");
       // 3/31/2001 (non leap year)
@@ -113,7 +118,7 @@ CreateUnitTest(TestCoreUtilTime, "Core/Util/Time")
       curr.day = 31;
       curr.month = 3;
       curr.year = 2001;
-      t = Torque::Time::Time(curr);
+      t = ACLib::Time::Time(curr);
       t.get(dt2);
       test(curr == dt2, "time conversion failure");
    }

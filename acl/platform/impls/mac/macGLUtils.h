@@ -1,16 +1,16 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine 
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#ifndef TORQUE_PLATFORM2_MACGLUTILS_H_
-#define TORQUE_PLATFORM2_MACGLUTILS_H_
+#ifndef ACL_PLATFORM_MACGLUTILS_H_
+#define ACL_PLATFORM_MACGLUTILS_H_
 
 static Vector<NSOpenGLPixelFormatAttribute> _beginPixelFormatAttributesForDisplay(CGDirectDisplayID display)
 {
    Vector<NSOpenGLPixelFormatAttribute> attributes;
    attributes.reserve(16); // Most attribute lists won't exceed this
-   
+
    attributes.push_back(NSOpenGLPFAScreenMask);
    attributes.push_back((NSOpenGLPixelFormatAttribute)CGDisplayIDToOpenGLDisplayMask(display));
    attributes.push_back(NSOpenGLPFANoRecovery);
@@ -18,7 +18,7 @@ static Vector<NSOpenGLPixelFormatAttribute> _beginPixelFormatAttributesForDispla
    attributes.push_back(NSOpenGLPFAAccelerated);
    attributes.push_back(NSOpenGLPFAAuxBuffers);
    attributes.push_back((NSOpenGLPixelFormatAttribute)1);
-   
+
    return attributes;
 }
 
@@ -45,7 +45,7 @@ static Vector<NSOpenGLPixelFormatAttribute> _createStandardPixelFormatAttributes
    Vector<NSOpenGLPixelFormatAttribute> attributes = _beginPixelFormatAttributesForDisplay(display);
    _addColorAlphaDepthStencilAttributes(attributes, 24, 8, 24, 8);
    _endAttributeList(attributes);
-   
+
    return attributes;
 }
 
@@ -53,7 +53,7 @@ static Vector<NSOpenGLPixelFormatAttribute> _createStandardPixelFormatAttributes
 static NSOpenGLPixelFormat* _createStandardPixelFormat()
 {
    Vector<NSOpenGLPixelFormatAttribute> attributes = _createStandardPixelFormatAttributesForDisplay(kCGDirectMainDisplay);
- 
+
    NSOpenGLPixelFormat* fmt = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes.address()];
 
    return fmt;

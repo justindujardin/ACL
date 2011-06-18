@@ -1,10 +1,9 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include "core/crc.h"
-
 #include "core/stream/stream.h"
 #include "core/assert.h"
 

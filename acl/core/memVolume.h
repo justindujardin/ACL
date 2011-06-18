@@ -1,7 +1,8 @@
 //-----------------------------------------------------------------------------
-// GarageGames Library
-// Copyright (c) GarageGames, All Rights Reserved
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
+
 #ifndef _MEMVOLUME_H_
 #define _MEMVOLUME_H_
 
@@ -13,7 +14,7 @@
 #include "core/containers/tDictionary.h"
 #endif 
 
-namespace Torque
+namespace ACLib
 {
    namespace Mem
    {
@@ -23,7 +24,7 @@ namespace Torque
       class MemDirectory;
 
       //-----------------------------------------------------------------------------
-      class MemFileSystem: public Torque::FS::FileSystem
+      class MemFileSystem: public ACLib::FS::FileSystem
       {
       public:
          MemFileSystem(String volume);
@@ -31,24 +32,24 @@ namespace Torque
 
          String   getTypeStr() const { return "Mem"; }
 
-         Torque::FS::FileNodeRef resolve(const Torque::Path& path);
-         Torque::FS::FileNodeRef create(const Torque::Path& path,Torque::FS::FileNode::Mode);
-         bool remove(const Torque::Path& path);
-         bool rename(const Torque::Path& from,const Torque::Path& to);
-         Torque::Path mapTo(const Torque::Path& path);
-         Torque::Path mapFrom(const Torque::Path& path);
+         ACLib::FS::FileNodeRef resolve(const ACLib::Path& path);
+         ACLib::FS::FileNodeRef create(const ACLib::Path& path,ACLib::FS::FileNode::Mode);
+         bool remove(const ACLib::Path& path);
+         bool rename(const ACLib::Path& from,const ACLib::Path& to);
+         ACLib::Path mapTo(const ACLib::Path& path);
+         ACLib::Path mapFrom(const ACLib::Path& path);
 
       private:
          String mVolume;
          MemDirectoryData* mRootDir;
 
-         MemDirectory* getParentDir(const Torque::Path& path, Torque::FS::FileNodeRef& parentRef);
+         MemDirectory* getParentDir(const ACLib::Path& path, ACLib::FS::FileNodeRef& parentRef);
       };
 
       //-----------------------------------------------------------------------------
       /// Mem stdio file access.
       /// This class makes use the fopen, fread and fwrite for buffered io.
-      class MemFile: public Torque::FS::File
+      class MemFile: public ACLib::FS::File
       {
       public:
          MemFile(MemFileSystem* fs, MemFileData* fileData);
@@ -82,13 +83,13 @@ namespace Torque
 
       //-----------------------------------------------------------------------------
 
-      class MemDirectory: public Torque::FS::Directory
+      class MemDirectory: public ACLib::FS::Directory
       {
       public:
          MemDirectory(MemFileSystem* fs, MemDirectoryData* dir);
          ~MemDirectory();
 
-         Torque::Path getName() const;
+         ACLib::Path getName() const;
          Status getStatus() const;
          bool getAttributes(Attributes*);
 
@@ -102,7 +103,7 @@ namespace Torque
          MemDirectoryData* mDirectoryData;
 
          U32 calculateChecksum();         
-         
+
          Status   mStatus;
          U32 mSearchIndex;         
       };

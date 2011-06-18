@@ -1,13 +1,13 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _RESIZESTREAM_H_
 #define _RESIZESTREAM_H_
 
 //Includes
-#ifndef _ACL_PLATFORM_PLATFORM_H_
+#ifndef _ACL_PLATFORM_H_
 #include "platform/platform.h"
 #endif
 #ifndef _FILTERSTREAM_H_
@@ -24,7 +24,7 @@ class ResizeFilterStream : public FilterStream, public IStreamByteCount
    U32     m_currOffset;
    U32 m_lastBytesRead;
 
-  public:
+public:
    ResizeFilterStream();
    ~ResizeFilterStream();
 
@@ -33,12 +33,12 @@ class ResizeFilterStream : public FilterStream, public IStreamByteCount
    Stream* getStream();
 
    bool setStreamOffset(const U32 in_startOffset,
-                        const U32 in_streamLen);
+      const U32 in_streamLen);
 
    // Mandatory overrides.
-  protected:
+protected:
    bool _read(const U32 in_numBytes,  void* out_pBuffer);
-  public:
+public:
    U32  getPosition() const;
    bool setPosition(const U32 in_newPosition);
 

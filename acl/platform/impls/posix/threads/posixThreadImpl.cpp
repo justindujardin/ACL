@@ -1,9 +1,9 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "platform2/impls/posix/threads/posixThreadImpl.h"
+#include "platform/impls/posix/threads/posixThreadImpl.h"
 #include <errno.h>
 
 static void* threadEntry(void* p)
@@ -14,26 +14,26 @@ static void* threadEntry(void* p)
 
 namespace Platform2
 {
-namespace Internal_
-{
-   PosixThreadImpl::~PosixThreadImpl()
+   namespace Internal_
    {
-      // Errors if we never actually created a thread, but we don't care.
-      pthread_join(mThread, NULL);
-   }
-   
-   Threading::Status PosixThreadImpl::start(Param* p)
-   {
-      mCreationErr = pthread_create(&mThread, NULL, threadEntry, p);
-      switch(mCreationErr)
+      PosixThreadImpl::~PosixThreadImpl()
       {
-      case 0:
-         return Threading::Status_NoError;
-      case EAGAIN:
-         return Threading::Status_Resources;
-      default:
-         return Threading::Status_PlatformError;
+         // Errors if we never actually created a thread, but we don't care.
+         pthread_join(mThread, NULL);
+      }
+
+      Threading::Status PosixThreadImpl::start(Param* p)
+      {
+         mCreationErr = pthread_create(&mThread, NULL, threadEntry, p);
+         switch(mCreationErr)
+         {
+         case 0:
+            return Threading::Status_NoError;
+         case EAGAIN:
+            return Threading::Status_Resources;
+         default:
+            return Threading::Status_PlatformError;
+         }
       }
    }
-}
 }

@@ -1,12 +1,12 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _PROFILER_H_
 #define _PROFILER_H_
 
-#ifdef TORQUE_ENABLE_PROFILER
+#ifdef ACL_ENABLE_PROFILER
 
 #ifndef _ACL_TYPES_H_
 #include "core/types/types.h"
@@ -22,7 +22,7 @@ struct ProfilerRootData;
 /// All values outputted by the profiler are percentages of the time that it takes
 /// to run entire main loop.
 ///
-/// First, you must #define TORQUE_ENABLE_PROFILER in profiler.h in order to
+/// First, you must #define ACL_ENABLE_PROFILER in profiler.h in order to
 /// active it.  Examples of script use:
 /// @code
 /// //enables or disables profiling.  Data is only gathered when the profiler is enabled.
@@ -80,7 +80,7 @@ public:
 
    /// Sets the platform state for the profiler so it can make certain inquiries.
    void setPlatformState(Platform2::PlatformState* state);
-#ifdef TORQUE_ENABLE_PROFILE_PATH
+#ifdef ACL_ENABLE_PROFILE_PATH
    /// Get current profile path
    const char * getProfilePath();
    /// Construct profile path of given profiler data
@@ -107,7 +107,7 @@ private:
    bool mDumpToFile;
    char mDumpFileName[DumpFileNameLength];
 
-   Torque::TrackingUnion<Platform2::IThreadState> mThreadState;
+   ACLib::TrackingUnion<Platform2::IThreadState> mThreadState;
 
    void dump();
    void validate();
@@ -153,7 +153,7 @@ struct ProfilerData
    U32 mStartTime[2];
    F64 mTotalTime;
    F64 mSubTime;
-#ifdef TORQUE_ENABLE_PROFILE_PATH
+#ifdef ACL_ENABLE_PROFILE_PATH
    const char * mPath;
 #endif
 };

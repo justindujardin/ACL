@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef ACL_PLATFORM_ASSERT_H_
@@ -10,18 +10,18 @@
 
 namespace Platform2
 {
-namespace Internal_
-{
-   class PlatformAssertImpl : public Torque::AssertImpl
+   namespace Internal_
    {
-   public:
-      virtual ~PlatformAssertImpl() {}
-      virtual void forceShutdown(U32 code);
-      virtual bool shouldDebugBreak(Torque::Assert::Type type, const String& message);
-      virtual bool notifyUser(Torque::Assert::Type type, const String& title, const String& message);
-      static bool askToEnterDebugger(const char* message);
-   };
-}
+      class PlatformAssertImpl : public ACLib::AssertImpl
+      {
+      public:
+         virtual ~PlatformAssertImpl() {}
+         virtual void forceShutdown(U32 code);
+         virtual bool shouldDebugBreak(ACLib::Assert::Type type, const String& message);
+         virtual bool notifyUser(ACLib::Assert::Type type, const String& title, const String& message);
+         static bool askToEnterDebugger(const char* message);
+      };
+   }
 }
 
 #endif

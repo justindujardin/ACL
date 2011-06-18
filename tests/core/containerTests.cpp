@@ -1,9 +1,15 @@
-#include "../acl/core/types/types.h"
-#include "../acl/core/containers/tVector.h"
-#include "../acl/core/containers/tList.h"
-#include "../acl/core/containers/tPair.h"
-#include "../acl/core/strings/stringFunctions.h"
-#include<iostream>
+//-----------------------------------------------------------------------------
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
+//-----------------------------------------------------------------------------
+
+#include "core/types/types.h"
+#include "core/containers/tVector.h"
+#include "core/containers/tList.h"
+#include "core/containers/tPair.h"
+#include "core/strings/stringFunctions.h"
+
+#include <iostream>
 #include <gtest/gtest.h>
 
 
@@ -22,7 +28,7 @@ TEST(VectorTest,Insertion) {
 
 TEST(ListTest,Insertion) {
    // List
-   Torque::List<const char *> nameList;
+   ACLib::List<const char *> nameList;
    static const char *names[] = { "bill", "patricia", "rodney", "colbert", "robert", NULL };
    S32 i = 0;
    const char *nameIter = names[i];

@@ -1,10 +1,10 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#ifndef ACL_PLATFORM_PLATFORM_H_
-#define ACL_PLATFORM_PLATFORM_H_
+#ifndef ACL_PLATFORM_H_
+#define ACL_PLATFORM_H_
 
 #include "core/types/types.h"
 #include "core/containers/tVector.h"
@@ -15,13 +15,13 @@ class Point2I;
 class RectI;
 class BehaviorTestFixture;
 
-namespace Torque { class Path; }
+namespace ACLib { class Path; }
 
 namespace Platform2
 {
    struct SystemInfo;
    class Display;
-   /// @ingroup platform2
+   /// @ingroup platform
    /// Handles miscellaneous functionality.
    /// Is also used internally for the construction of implementation objects.
    class PlatformObject
@@ -29,76 +29,76 @@ namespace Platform2
    public:
       /// Call to initialize certain console variables and the math library.
       virtual void init() = 0;
-      
-      /// Call to signal the platform that the game is shutting down
+
+      /// Call to signal the platform that the app is shutting down
       virtual void shutdown() = 0;
-      
-      /// Immediately terminates the game in the most abrupt way possible without causing a crash.
+
+      /// Immediately terminates the app in the most abrupt way possible without causing a crash.
       /// @note May produce a crash report on some systems, e.g. Mac OS 10.5 and above.
       virtual void abort(U32 code) = 0;
-      
-      /// Call to stop the game in a debugger, if one is attached.  Behavior is undefined if no debugger is attached.
+
+      /// Call to stop the app in a debugger, if one is attached.  Behavior is undefined if no debugger is attached.
       virtual void debugBreak() = 0;
-      
+
       /// @returns Milliseconds since system boot.
       virtual U32 getRealMilliseconds() = 0;
-      
-      /// Call to cause the game to sleep for the given period of time.
+
+      /// Call to cause the app to sleep for the given period of time.
       /// @note On certain systems this function may show up to 10ms of variance.
-      /// @note On certain systems this function only specifies a low end.  Your game may sleep for an indefinite, 
+      /// @note On certain systems this function only specifies a low end.  Your app may sleep for an indefinite, 
       /// finite, period of time greater than ms.
       virtual void sleep(U32 ms) = 0;
-            
-      /// @returns The absolute path to the game's executable (e.g C:/Program Files/MyGame/ or /Applications/MyGame/)
-      /// @note On OS X, if you have put the game's assets inside the .app package, this function will return
-      /// a path that leads into the .app package, e.g. /Applications/MyGame/MyGame.app/Resources/
-      virtual Torque::Path getExecutablePath() = 0;
-      
+
+      /// @returns The absolute path to the app's executable (e.g C:/Program Files/MyApp/ or /Applications/MyApp/)
+      /// @note On OS X, if you have put the app's assets inside the .app package, this function will return
+      /// a path that leads into the .app package, e.g. /Applications/MyApp/MyApp.app/Resources/
+      virtual ACLib::Path getExecutablePath() = 0;
+
       /// @returns The name of the executable, excluding the extension.
       virtual String getExecutableName() = 0;
-      
+
       /// @returns The absolute path to the user's 'data' directory (e.g. Program Data or Application Support)
       virtual String getUserDataDirectory() = 0;
-      
+
       /// @returns The absolute path to the user's home directory
-      /// @note Good games don't write data here.
+      /// @note Good apps don't write data here.
       virtual String getUserHomeDirectory() = 0;
-      
+
       /// @returns The current string on the users clipboard, or the empty string if there is no data on the clipboard.
       virtual String getClipboard() = 0;
-      
+
       /// Sets the current string on the user's clipboard.
       /// @param text The string to set
       /// @returns true if the clipboard was modified, false otherwise.
       virtual bool setClipboard(const String& text) = 0;
-      
-      /// Call this to signal to the platform that a new instance of the game should be started.
+
+      /// Call this to signal to the platform that a new instance of the app should be started.
       /// @note NOT guaranteed to exit the current instance.
       virtual void restartInstance() = 0;
-      
-      /// Requests that the game quit gracefully.
+
+      /// Requests that the app quit gracefully.
       /// @note This function is NOT guaranteed to call Process::requestShutdown, nor is it guaranteed 
       /// TO NOT call Process::requestShutdown.
       virtual void postQuitMessage(U32 code) = 0;
-      
+
       /// Writes a string to the debugger, if one is attached.
       /// @note May write to stderr
       virtual void outputDebugString(const String& str) = 0;
-      
+
       /// Attempts to set the last modified date of the given file to the current time.
       /// @returns true on success, false otherwise.
-      virtual bool touchFile(const Torque::Path& path) = 0;
-      
+      virtual bool touchFile(const ACLib::Path& path) = 0;
+
       /// @returns A path to a folder in which it is safe to write out prefs.
-      Torque::Path getPrefsPath(const String& file);
-      
+      ACLib::Path getPrefsPath(const String& file);
+
       const SystemInfo& getSystemInfo() const;
-      
+
       /// Retrieves the current factory for creating implementations.
       /// @note Generally speaking you should not call this yourself.  It is
       /// public simply because so many Platform2 classes use it.
-      const Torque::TypeRebind& getFactory() const;
-            
+      const ACLib::TypeRebind& getFactory() const;
+
    protected:
       friend class MathStateKnown;
       friend class ::BehaviorTestFixture;
@@ -106,34 +106,34 @@ namespace Platform2
       virtual void setMathControlState(U32 state) = 0;
       virtual void setMathControlStateKnown() = 0;
       virtual void initSystemInfo_(SystemInfo& info) = 0;
-      
+
       PlatformObject();
       virtual ~PlatformObject();
-      
+
       /// Pushes another factory onto the stack.
       /// @remarks Currently only used by unit tests to create test impls.
       void pushFactory();
-      
+
       /// Pops the current factory off the stack.
       /// @remarks Currently only used by unit tests
       void popFactory();
 
       /// Returns a non-const TypeRebind so new types can be bound.
-      Torque::TypeRebind& getProtectedFactory();
-      
+      ACLib::TypeRebind& getProtectedFactory();
+
    private:
       friend PlatformObject* GetPlatform();
-      
+
       /// @cond
       struct Internal;
-      Torque::ScopedPtr<Internal> mImpl;
+      ACLib::ScopedPtr<Internal> mImpl;
       /// @endcond
-      
+
       PlatformObject(const PlatformObject&);
       PlatformObject& operator=(const PlatformObject&);
    };
-   
-   /// @ingroup platform2
+
+   /// @ingroup platform
    /// @brief Returns the current platform object.
    /// @details This function lazily initializes the platform layer, which can
    /// be a very expensive operation.  Once this function has executed, the
@@ -141,8 +141,8 @@ namespace Platform2
    /// for the application and the Input subsystem will have been initialized
    /// (which can entail quite a bit, including starting new threads).
    PlatformObject* GetPlatform();
-   
-   /// @ingroup platform2
+
+   /// @ingroup platform
    /// Use this to automatically set a known math state and restore the previous math state on finish.
    /// The known math state is REAL8 (53 bit precision) and is otherwise identical to the initialized state.
    class MathStateKnown
@@ -150,10 +150,10 @@ namespace Platform2
    public:
       /// Sets the math state to REAL8
       MathStateKnown();
-      
+
       /// Sets the math state to its value before the constructor was executed.
       ~MathStateKnown();
-   
+
    private:
       U32 mOldState;
    };
@@ -161,25 +161,25 @@ namespace Platform2
 
 //-----------------------------------------------------------------------------
 // Rebind constraint to force the use of SingletonBehavior on PlatformObject.
-namespace Torque
+namespace ACLib
 {
    template<typename Derived>
    struct RebindConstraint<Platform2::PlatformObject, Derived>
    {
       static const bool ForceBehavior = true;
-      typedef Torque::SingletonBehavior<Derived> RequiredBehavior;
+      typedef ACLib::SingletonBehavior<Derived> RequiredBehavior;
    };
 }
 
-/// @defgroup platform2 Platform Abstraction Layer
-/// @brief The Platform Abstraction Layer allows Torque to seamlessly operate on a variety of platforms.
+/// @defgroup platform Platform Abstraction Layer
+/// @brief The Platform Abstraction Layer allows ACLib to seamlessly operate on a variety of platforms.
 /// @details The Platform2 Platform Abstraction Layer consists of seven primary modules
 ///   - @ref p2dlibrary
 ///   - @ref p2font
 ///   - @ref p2input
 ///   - @ref p2persistence
 ///   - @ref p2thread
-///   - File I/O (via Torque::FS)
+///   - File I/O (via ACLib::FS)
 ///   - @ref p2window
 ///
 /// Except where otherwise noted, each module acts independently.  While one

@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include "core/util/delegate.h"
@@ -8,7 +8,7 @@
 #include "unit/test.h"
 
 using namespace UnitTesting;
-using namespace Torque;
+using namespace ACLib;
 
 static U32 someFnCt = 0;
 static U32 someOtherFnCt = 0;

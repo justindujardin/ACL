@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------------
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
+//-----------------------------------------------------------------------------
+
 #ifndef _UTIL_IOHELPER_H_
 #define _UTIL_IOHELPER_H_
 

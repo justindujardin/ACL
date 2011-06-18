@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef ACL_PLATFORM_WIN32_SEMAPHOREIMPL_H_
@@ -11,21 +11,21 @@
 
 namespace Platform2
 {
-namespace Internal_
-{
-   class Win32SemaphoreImpl : public SemaphoreImpl
+   namespace Internal_
    {
-   public:
-      Win32SemaphoreImpl();
-      virtual ~Win32SemaphoreImpl();
-      virtual bool init(U32 initialCount, U32 maxCount);
-      virtual Threading::Status acquire(bool block);
-      virtual Threading::Status release();
+      class Win32SemaphoreImpl : public SemaphoreImpl
+      {
+      public:
+         Win32SemaphoreImpl();
+         virtual ~Win32SemaphoreImpl();
+         virtual bool init(U32 initialCount, U32 maxCount);
+         virtual Threading::Status acquire(bool block);
+         virtual Threading::Status release();
 
-   private:
-      HANDLE mSemaphore;
-   };
-}
+      private:
+         HANDLE mSemaphore;
+      };
+   }
 }
 
 #endif

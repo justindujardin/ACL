@@ -1,12 +1,12 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#ifndef TORQUE_PLATFORM2_POSIX_DLIBRARYIMPL_H_
-#define TORQUE_PLATFORM2_POSIX_DLIBRARYIMPL_H_
+#ifndef ACL_PLATFORM_POSIX_DLIBRARYIMPL_H_
+#define ACL_PLATFORM_POSIX_DLIBRARYIMPL_H_
 
-#include "platform2/impls/base/dlibrary/dlibraryImpl.h"
+#include "platform/impls/base/dlibrary/dlibraryImpl.h"
 
 namespace Platform2
 {

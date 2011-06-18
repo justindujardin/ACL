@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _FINDMATCH_H_
@@ -15,7 +15,7 @@ class   FindMatch
    char*  expression;
    U32 maxMatches;
 
-  public:
+public:
    static bool isMatch( const char *exp, const char *string, bool caseSensitive = false );
    static bool isMatchMultipleExprs( const char *exps, const char *str, bool caseSensitive );
    Vector<char *> matchList;

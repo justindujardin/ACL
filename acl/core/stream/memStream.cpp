@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include "core/memoryFunctions.h"
@@ -8,10 +8,10 @@
 #include "core/stream/memstream.h"
 
 MemStream::MemStream(const U32 in_bufferSize,
-                     void*        io_pBuffer,
-                     const bool   in_allowRead,
-                     const bool   in_allowWrite)
- : cm_bufferSize(in_bufferSize),
+   void*        io_pBuffer,
+   const bool   in_allowRead,
+   const bool   in_allowWrite)
+   : cm_bufferSize(in_bufferSize),
    m_pBufferBase(io_pBuffer),
    m_instCaps(0),
    m_currentPosition(0)

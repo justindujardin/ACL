@@ -1,16 +1,19 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include "platform/threads/thread.h"
 #include "platform/impls/base/threads/threadImpl.h"
 #include "platform/threads/mutex.h"
 #include "platform/platform.h"
+
+// TODO: Concurrent, Threadsafe Queue without TBB?
 //#include "tbb/concurrent_queue.h"
 
 namespace Platform2
 {
+   // TODO: Yeah I know, it IS pretty wicked, right?
    struct FauxConcurrentQueue
    {
       bool pop_if_present( Thread::MessageRef& msg ) 
@@ -38,23 +41,23 @@ namespace Platform2
    {
       //tbb::concurrent_queue<MessageRef> toThread;
       FauxConcurrentQueue toThread;
-      
+
    };
    /// @endcond
-   
+
    Thread::MessageQueue::MessageQueue() : mImpl(new Internal)
    {
    }
-   
+
    Thread::MessageQueue::~MessageQueue()
    {
    }
-   
+
    void Thread::MessageQueue::postToThread(MessageRef msg)
    {
       mImpl->toThread.push(msg);
    }
-   
+
    bool Thread::MessageQueue::waitOnMessageToThread(MessageRef& msg, bool block)
    {
       if(!block)
@@ -63,21 +66,21 @@ namespace Platform2
          mImpl->toThread.pop(msg);
       return true;
    }
-   
+
    /// @cond
    struct Thread::Internal
    {
-      Torque::ScopedPtr<Internal_::ThreadImpl> impl;
+      ACLib::ScopedPtr<Internal_::ThreadImpl> impl;
       Thread::StartDelegate delegate;
       Thread::MessageQueue messageQueue;
       bool running;
       bool hasStarted;
       Mutex isRunningBlocker;
-      
+
       static bool ThreadStarted;
-      
+
       Internal(const Thread::StartDelegate& d) :
-         impl(GetPlatform()->getFactory().create<Internal_::ThreadImpl>()),
+      impl(GetPlatform()->getFactory().create<Internal_::ThreadImpl>()),
          delegate(d), messageQueue(), running(false), hasStarted(false), isRunningBlocker()
       {
       }
@@ -87,40 +90,40 @@ namespace Platform2
       }
    };
    /// @endcond
-   
+
    bool Thread::Internal::ThreadStarted = false;
-   
+
    Thread::Thread(const StartDelegate& delegate) : mImpl(new Internal(delegate))
    {
    }
-   
+
    Thread::~Thread()
    {
       mImpl->messageQueue.postToThread(new TerminateMessage);
       finish();
    }
-   
+
    Threading::Status Thread::start()
    {
       // We need a valid delgate...
       if(!mImpl->delegate)
          return Threading::Status_DelegateInvalid;
-         
+
       // Don't allow thread to be run more than once.
       if(mImpl->hasStarted)
          return Threading::Status_Again;
-      
+
       // Prevent issues with calling start() on multiple threads simultaneously
       // Also prevent issues with calling isRunning() during thread setup.
       Mutex::ScopedLock startLock(mImpl->isRunningBlocker);
       // Check if another thread succeeded while we were blocked
       if(mImpl->hasStarted)
          return Threading::Status_Again;
-      
+
       Internal_::ThreadImpl::Param* p = 
          new Internal_::ThreadImpl::Param(mImpl->delegate, mImpl->messageQueue,
          mImpl->impl.get(), this);
-      
+
       mImpl->impl->gateway.acquire();
       Threading::Status perror = mImpl->impl->start(p);
       if(perror != Threading::Status_NoError)
@@ -138,7 +141,7 @@ namespace Platform2
       }
       return Threading::Status_NoError;
    }
-   
+
    bool Thread::isRunning()
    {
       if(mImpl->running)
@@ -152,10 +155,10 @@ namespace Platform2
          if(!mImpl->running)
             mImpl->impl->gateway.release();
       }
-      
+
       return mImpl->running;
    }
-   
+
    void Thread::finish()
    {
       if(mImpl->running)
@@ -165,27 +168,27 @@ namespace Platform2
          mImpl->running = false;
       }
    }
-   
+
    Thread* Thread::GetCurrentThread()
    {
       return Internal_::ThreadImpl::GetCurrentThread();
    }
-   
+
    bool Thread::IsMainThread()
    {
       // If no thread has been started then we must be the main thread.  This is
       // done to work around certain static init problems.
       if(!Thread::Internal::ThreadStarted)
          return true;
-      
+
       return GetCurrentThread() == Internal_::ThreadImpl::GetMainThread();
    }
-   
+
    S32 Thread::getReturnCode() const
    {
       return mImpl->impl->getReturnCode();
    }
-   
+
    Thread::MessageQueue& Thread::getMessageQueue()
    {
       return mImpl->messageQueue;

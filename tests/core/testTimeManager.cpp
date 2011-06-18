@@ -1,10 +1,13 @@
-#include "platform2/platform.h"
+//-----------------------------------------------------------------------------
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
+//-----------------------------------------------------------------------------
+
+#include "platform/platform.h"
 #include "core/util/timeManager.h"
 #include "core/util/journal/journaledSignal.h"
 #include "core/util/journal/process.h"
 #include "core/simObject/simWorld.h"
-#include "math/mMath.h"
-#include "console/console.h"
 
 #include "unit/test.h"
 using namespace UnitTesting;

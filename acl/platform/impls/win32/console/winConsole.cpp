@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include <stdio.h>
@@ -28,20 +28,20 @@ void WinConsole::enable(bool enabled)
 {
    winConsoleEnabled = enabled;
    // Commented out for automated test case.
-//    if(winConsoleEnabled)
-//    {
-//       AllocConsole();
-//       const String   title = Con::getVariable("Con::WindowTitle");
-//       if (!title.isEmpty())
-//       {
-//          SetConsoleTitle(title.utf16());
-//       }
-//       stdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-//       stdIn  = GetStdHandle(STD_INPUT_HANDLE);
-//       stdErr = GetStdHandle(STD_ERROR_HANDLE);
-// 
-//       printf("%s", Con::getVariable("Con::Prompt").c_str());
-//    }
+   //    if(winConsoleEnabled)
+   //    {
+   //       AllocConsole();
+   //       const String   title = Con::getVariable("Con::WindowTitle");
+   //       if (!title.isEmpty())
+   //       {
+   //          SetConsoleTitle(title.utf16());
+   //       }
+   //       stdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+   //       stdIn  = GetStdHandle(STD_INPUT_HANDLE);
+   //       stdErr = GetStdHandle(STD_ERROR_HANDLE);
+   // 
+   //       printf("%s", Con::getVariable("Con::Prompt").c_str());
+   //    }
 }
 
 WinConsole::WinConsole()
@@ -115,140 +115,140 @@ void WinConsole::process()
                   switch (ke->uChar.AsciiChar)
                   {
                      // If no ASCII char, check if it's a handled virtual key
-                     case 0:
-                        switch (ke->wVirtualKeyCode)
-                        {
-                           // UP ARROW
-                           case 0x26 :
-                              // Go to the previous command in the cyclic array
-                              if ((-- iCmdIndex) < 0)
-                                 iCmdIndex = MAX_CMDS - 1;
+                  case 0:
+                     switch (ke->wVirtualKeyCode)
+                     {
+                        // UP ARROW
+                     case 0x26 :
+                        // Go to the previous command in the cyclic array
+                        if ((-- iCmdIndex) < 0)
+                           iCmdIndex = MAX_CMDS - 1;
 
-                              // If this command isn't empty ...
-                              if (rgCmds[iCmdIndex][0] != '\0')
-                              {
-                                 // Obliterate current displayed text
-                                 for (S32 i = outpos = 0; i < inpos; i ++)
-                                 {
-                                    outbuf[outpos ++] = '\b';
-                                    outbuf[outpos ++] = ' ';
-                                    outbuf[outpos ++] = '\b';
+                        // If this command isn't empty ...
+                        if (rgCmds[iCmdIndex][0] != '\0')
+                        {
+                           // Obliterate current displayed text
+                           for (S32 i = outpos = 0; i < inpos; i ++)
+                           {
+                              outbuf[outpos ++] = '\b';
+                              outbuf[outpos ++] = ' ';
+                              outbuf[outpos ++] = '\b';
+                           }
+
+                           // Copy command into command and display buffers
+                           for (inpos = 0; inpos < (S32)strlen(rgCmds[iCmdIndex]); inpos ++, outpos ++)
+                           {
+                              outbuf[outpos] = rgCmds[iCmdIndex][inpos];
+                              inbuf [inpos ] = rgCmds[iCmdIndex][inpos];
+                           }
+                        }
+                        // If previous is empty, stay on current command
+                        else if ((++ iCmdIndex) >= MAX_CMDS)
+                        {
+                           iCmdIndex = 0;
+                        }
+
+                        break;
+
+                        // DOWN ARROW
+                     case 0x28 : {
+                        // Go to the next command in the command array, if
+                        // it isn't empty
+                        if (rgCmds[iCmdIndex][0] != '\0' && (++ iCmdIndex) >= MAX_CMDS)
+                           iCmdIndex = 0;
+
+                        // Obliterate current displayed text
+                        for (S32 i = outpos = 0; i < inpos; i ++)
+                        {
+                           outbuf[outpos ++] = '\b';
+                           outbuf[outpos ++] = ' ';
+                           outbuf[outpos ++] = '\b';
+                        }
+
+                        // Copy command into command and display buffers
+                        for (inpos = 0; inpos < (S32)strlen(rgCmds[iCmdIndex]); inpos ++, outpos ++)
+                        {
+                           outbuf[outpos] = rgCmds[iCmdIndex][inpos];
+                           inbuf [inpos ] = rgCmds[iCmdIndex][inpos];
+                        }
                                  }
+                                 break;
 
-                                 // Copy command into command and display buffers
-                                 for (inpos = 0; inpos < (S32)strlen(rgCmds[iCmdIndex]); inpos ++, outpos ++)
-                                 {
-                                    outbuf[outpos] = rgCmds[iCmdIndex][inpos];
-                                    inbuf [inpos ] = rgCmds[iCmdIndex][inpos];
-                                 }
-                              }
-                              // If previous is empty, stay on current command
-                              else if ((++ iCmdIndex) >= MAX_CMDS)
-                              {
-                                 iCmdIndex = 0;
-                              }
-
-                              break;
-
-                           // DOWN ARROW
-                           case 0x28 : {
-                              // Go to the next command in the command array, if
-                              // it isn't empty
-                              if (rgCmds[iCmdIndex][0] != '\0' && (++ iCmdIndex) >= MAX_CMDS)
-                                  iCmdIndex = 0;
-
-                              // Obliterate current displayed text
-                              for (S32 i = outpos = 0; i < inpos; i ++)
-                              {
-                                 outbuf[outpos ++] = '\b';
-                                 outbuf[outpos ++] = ' ';
-                                 outbuf[outpos ++] = '\b';
-                              }
-
-                              // Copy command into command and display buffers
-                              for (inpos = 0; inpos < (S32)strlen(rgCmds[iCmdIndex]); inpos ++, outpos ++)
-                              {
-                                 outbuf[outpos] = rgCmds[iCmdIndex][inpos];
-                                 inbuf [inpos ] = rgCmds[iCmdIndex][inpos];
-                              }
-                              }
-                              break;
-
-                           // LEFT ARROW
-                           case 0x25 :
-                              break;
-
-                           // RIGHT ARROW
-                           case 0x27 :
-                              break;
-
-                           default :
-                              break;
-                        }
+                                 // LEFT ARROW
+                     case 0x25 :
                         break;
-                     case '\b':
-                        if(inpos > 0)
-                        {
-                           outbuf[outpos++] = '\b';
-                           outbuf[outpos++] = ' ';
-                           outbuf[outpos++] = '\b';
-                           inpos--;
-                        }
+
+                        // RIGHT ARROW
+                     case 0x27 :
                         break;
-                     case '\t':
-                        // In the output buffer, we're going to have to erase the current line (in case
-                        // we're cycling through various completions) and write out the whole input
-                        // buffer, so (inpos * 3) + complen <= 512.  Should be OK.  The input buffer is
-                        // also 512 chars long so that constraint will also be fine for the input buffer.
-                        {
-                           //TODO: Console tab completion
-                           //// Erase the current line.
-                           //U32 i;
-                           //for (i = 0; i < inpos; i++) {
-                           //   outbuf[outpos++] = '\b';
-                           //   outbuf[outpos++] = ' ';
-                           //   outbuf[outpos++] = '\b';
-                           //}
-                           //// Modify the input buffer with the completion.
-                           //U32 maxlen = 512 - (inpos * 3);
-                           //if (ke->dwControlKeyState & SHIFT_PRESSED) {
-                           //   inpos = Con::tabComplete(inbuf, inpos, maxlen, false);
-                           //}
-                           //else {
-                           //   inpos = Con::tabComplete(inbuf, inpos, maxlen, true);
-                           //}
-                           //// Copy the input buffer to the output.
-                           //for (i = 0; i < inpos; i++) {
-                           //   outbuf[outpos++] = inbuf[i];
-                           //}
-                        }
+
+                     default :
                         break;
-                     case '\n':
-                     case '\r':
-                        outbuf[outpos++] = '\r';
-                        outbuf[outpos++] = '\n';
+                     }
+                     break;
+                  case '\b':
+                     if(inpos > 0)
+                     {
+                        outbuf[outpos++] = '\b';
+                        outbuf[outpos++] = ' ';
+                        outbuf[outpos++] = '\b';
+                        inpos--;
+                     }
+                     break;
+                  case '\t':
+                     // In the output buffer, we're going to have to erase the current line (in case
+                     // we're cycling through various completions) and write out the whole input
+                     // buffer, so (inpos * 3) + complen <= 512.  Should be OK.  The input buffer is
+                     // also 512 chars long so that constraint will also be fine for the input buffer.
+                     {
+                        //TODO: Console tab completion
+                        //// Erase the current line.
+                        //U32 i;
+                        //for (i = 0; i < inpos; i++) {
+                        //   outbuf[outpos++] = '\b';
+                        //   outbuf[outpos++] = ' ';
+                        //   outbuf[outpos++] = '\b';
+                        //}
+                        //// Modify the input buffer with the completion.
+                        //U32 maxlen = 512 - (inpos * 3);
+                        //if (ke->dwControlKeyState & SHIFT_PRESSED) {
+                        //   inpos = Con::tabComplete(inbuf, inpos, maxlen, false);
+                        //}
+                        //else {
+                        //   inpos = Con::tabComplete(inbuf, inpos, maxlen, true);
+                        //}
+                        //// Copy the input buffer to the output.
+                        //for (i = 0; i < inpos; i++) {
+                        //   outbuf[outpos++] = inbuf[i];
+                        //}
+                     }
+                     break;
+                  case '\n':
+                  case '\r':
+                     outbuf[outpos++] = '\r';
+                     outbuf[outpos++] = '\n';
 
-                        inbuf[inpos] = 0;
-                        outbuf[outpos] = 0;
-                        printf("%s", outbuf);
+                     inbuf[inpos] = 0;
+                     outbuf[outpos] = 0;
+                     printf("%s", outbuf);
 
-                        // TODO: Pass the line along to the console for execution?
+                     // TODO: Pass the line along to the console for execution?
 
-                        // If we've gone off the end of our array, wrap
-                        // back to the beginning
-                        if (iCmdIndex >= MAX_CMDS)
-                            iCmdIndex %= MAX_CMDS;
+                     // If we've gone off the end of our array, wrap
+                     // back to the beginning
+                     if (iCmdIndex >= MAX_CMDS)
+                        iCmdIndex %= MAX_CMDS;
 
-                        // Put the new command into the array
-                        strcpy(rgCmds[iCmdIndex ++], inbuf);
+                     // Put the new command into the array
+                     strcpy(rgCmds[iCmdIndex ++], inbuf);
 
-                        printf("> ");
-                        inpos = outpos = 0;
-                        break;
-                     default:
-                        inbuf[inpos++] = ke->uChar.AsciiChar;
-                        outbuf[outpos++] = ke->uChar.AsciiChar;
-                        break;
+                     printf("> ");
+                     inpos = outpos = 0;
+                     break;
+                  default:
+                     inbuf[inpos++] = ke->uChar.AsciiChar;
+                     outbuf[outpos++] = ke->uChar.AsciiChar;
+                     break;
                   }
                }
             }

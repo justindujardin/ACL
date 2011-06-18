@@ -1,32 +1,32 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "platform2/impls/posix/threads/posixThreadLocalImpl.h"
+#include "platform/impls/posix/threads/posixThreadLocalImpl.h"
 
 namespace Platform2
 {
-namespace Internal_
-{
-   PosixThreadLocalImpl::PosixThreadLocalImpl()
+   namespace Internal_
    {
-      pthread_key_create(&mKey, NULL);
+      PosixThreadLocalImpl::PosixThreadLocalImpl()
+      {
+         pthread_key_create(&mKey, NULL);
+      }
+
+      PosixThreadLocalImpl::~PosixThreadLocalImpl()
+      {
+         pthread_key_delete(mKey);
+      }
+
+      void* PosixThreadLocalImpl::get()
+      {
+         return pthread_getspecific(mKey);
+      }
+
+      void PosixThreadLocalImpl::set(void* value)
+      {
+         pthread_setspecific(mKey, value);
+      }
    }
-   
-   PosixThreadLocalImpl::~PosixThreadLocalImpl()
-   {
-      pthread_key_delete(mKey);
-   }
-   
-   void* PosixThreadLocalImpl::get()
-   {
-      return pthread_getspecific(mKey);
-   }
-   
-   void PosixThreadLocalImpl::set(void* value)
-   {
-      pthread_setspecific(mKey, value);
-   }
-}
 }

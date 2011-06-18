@@ -1,14 +1,14 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "./tVector.h"
+#include "core/containers/tVector.h"
 
-#ifdef TORQUE_DEBUG_GUARD
+#ifdef ACL_DEBUG_GUARD
 bool VectorResize(U32 *aSize, U32 *aCount, void **arrayPtr, U32 newCount, U32 elemSize,
-                  const char* fileName,
-                  const U32   lineNum)
+   const char* fileName,
+   const U32   lineNum)
 {
    if (newCount > 0) {
       U32 blocks = newCount / VectorBlockSize;

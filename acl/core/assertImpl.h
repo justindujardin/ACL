@@ -1,18 +1,18 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#ifndef TORUE_CORE_ASSERTIMPL_H_
-#define TORUE_CORE_ASSERTIMPL_H_
+#ifndef ACL_CORE_ASSERTIMPL_H_
+#define ACL_CORE_ASSERTIMPL_H_
 
-#ifndef TORQUE_CORE_ASSERT_H_
-#include "./assert.h"
+#ifndef ACL_CORE_ASSERT_H_
+#include "core/assert.h"
 #endif
 
 class String;
 
-namespace Torque
+namespace ACLib
 {
    class AssertImpl
    {

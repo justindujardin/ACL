@@ -1,9 +1,9 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "./idGenerator.h"
+#include "core/idGenerator.h"
 
 void IdGenerator::reclaim()
 {

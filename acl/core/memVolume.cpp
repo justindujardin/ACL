@@ -1,16 +1,17 @@
 //-----------------------------------------------------------------------------
-// GarageGames Library
-// Copyright (c) GarageGames, All Rights Reserved
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
+
 #include "core/memVolume.h"
 #include "core/crc.h"
 #include "core/frameAllocator.h"
 #include "core/util/str.h"
 #include "core/strings/stringFunctions.h"
 
-namespace Torque
+namespace ACLib
 {
-using namespace FS;
+   using namespace FS;
    namespace Mem
    {
 
@@ -178,23 +179,23 @@ using namespace FS;
             MemDirectoryData* mdd = mDir->mDirectoryData;
             switch (mode)
             {
-               case FileNode::File :
-                  {
-                     MemFileData* mfd = new MemFileData(this, path);
-                     mdd->mFiles.push_back(mfd);
-                     return new MemFile(this, mfd);
-                  }
-                  break;
-               case FileNode::Directory :
-                  {
-                     MemDirectoryData* mfd = new MemDirectoryData(this, path);
-                     mdd->mDirectories.push_back(mfd);
-                     return new MemDirectory(this, mfd);
-                  }
-                  break;
-               default:
-                  // anything else we ignore
-                  break;
+            case FileNode::File :
+               {
+                  MemFileData* mfd = new MemFileData(this, path);
+                  mdd->mFiles.push_back(mfd);
+                  return new MemFile(this, mfd);
+               }
+               break;
+            case FileNode::Directory :
+               {
+                  MemDirectoryData* mfd = new MemDirectoryData(this, path);
+                  mdd->mDirectories.push_back(mfd);
+                  return new MemDirectory(this, mfd);
+               }
+               break;
+            default:
+               // anything else we ignore
+               break;
             }
          }         
          return NULL;
@@ -236,7 +237,7 @@ using namespace FS;
          FileNodeRef source = mRootDir->resolve(from);
          if (source.isNull())
             return false;
-          
+
          // Destination must not exist
          FileNodeRef dest = mRootDir->resolve(to);
          if (source.isValid())
@@ -345,17 +346,17 @@ using namespace FS;
          mCurrentPos = 0;
          switch (mode)
          {
-            case Read :
-            case ReadWrite :
-               mCurrentPos = 0;
-               break;
-            case Write :
-               mCurrentPos = 0;
-               mFileData->mFileSize = 0;
-               break;            
-            case WriteAppend :
-               mCurrentPos = mFileData->mFileSize; 
-               break;
+         case Read :
+         case ReadWrite :
+            mCurrentPos = 0;
+            break;
+         case Write :
+            mCurrentPos = 0;
+            mFileData->mFileSize = 0;
+            break;            
+         case WriteAppend :
+            mCurrentPos = mFileData->mFileSize; 
+            break;
          }
          return true;
       }
@@ -377,7 +378,7 @@ using namespace FS;
       {
          if (mStatus != Open && mStatus != EndOfFile)
             return 0;
-         
+
          switch (mode)
          {
          case Begin:    
@@ -511,4 +512,4 @@ using namespace FS;
       }
    } // Namespace Mem
 
-} // Namespace Torque
+} // Namespace ACLib

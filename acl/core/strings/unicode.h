@@ -1,13 +1,13 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _UNICODE_H_
 #define _UNICODE_H_
 
 #ifndef _ACL_TYPES_H_
-#include "../types/types.h"
+#include "core/types/types.h"
 #endif
 
 

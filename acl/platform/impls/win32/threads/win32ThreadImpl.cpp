@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include <windows.h>
@@ -16,38 +16,38 @@ unsigned int WINAPI threadEntry(void* p)
 
 namespace Platform2
 {
-namespace Internal_
-{
-   Win32ThreadImpl::Win32ThreadImpl() : mThread(0)
+   namespace Internal_
    {
-   }
-
-   Win32ThreadImpl::~Win32ThreadImpl()
-   {
-      if(mThread)
-         CloseHandle(mThread);
-   }
-
-   Threading::Status Win32ThreadImpl::start(Param* p)
-   {
-      // Thread is not inherited by child process, uses default stack size, 
-      // and is immediately started.
-      mThread = reinterpret_cast<HANDLE>(_beginthreadex(NULL, 0, &threadEntry, p, 0, NULL));
-      if(mThread != NULL)
-         return Threading::Status_NoError;
-      errno_t err;
-      // If we fail to get the error...
-      if(_get_errno(&err))
-         return Threading::Status_PlatformError;
-      switch(err)
+      Win32ThreadImpl::Win32ThreadImpl() : mThread(0)
       {
-      case EAGAIN:
-      case EACCES:
-         return Threading::Status_Resources;
-      default:
-         return Threading::Status_PlatformError;
-         
+      }
+
+      Win32ThreadImpl::~Win32ThreadImpl()
+      {
+         if(mThread)
+            CloseHandle(mThread);
+      }
+
+      Threading::Status Win32ThreadImpl::start(Param* p)
+      {
+         // Thread is not inherited by child process, uses default stack size, 
+         // and is immediately started.
+         mThread = reinterpret_cast<HANDLE>(_beginthreadex(NULL, 0, &threadEntry, p, 0, NULL));
+         if(mThread != NULL)
+            return Threading::Status_NoError;
+         errno_t err;
+         // If we fail to get the error...
+         if(_get_errno(&err))
+            return Threading::Status_PlatformError;
+         switch(err)
+         {
+         case EAGAIN:
+         case EACCES:
+            return Threading::Status_Resources;
+         default:
+            return Threading::Status_PlatformError;
+
+         }
       }
    }
-}
 }

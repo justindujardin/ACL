@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _REFBASE_H_
@@ -66,7 +66,7 @@ public:
    WeakRefPtr()  { mReference = NULL; }
    WeakRefPtr(T *ptr)  { mReference = NULL; set(ptr); }
    WeakRefPtr(const WeakRefPtr<T> & ref) { mReference = NULL; set(ref.mReference); }
-   
+
    ~WeakRefPtr() { set((WeakRefBase::WeakReference*)NULL); }
 
    WeakRefPtr<T>& operator=(const WeakRefPtr<T>& ref)
@@ -136,7 +136,7 @@ public:
    bool operator == (const Union &t ) const { return getPointer() == t.getPointer(); }
    bool operator != (const Union &t ) const { return getPointer() != t.getPointer(); }
    bool isNull()  const  { return mWeakReference.isNull() || !mPtr; }
-	bool isValid() const { return !isNull(); }
+   bool isValid() const { return !isNull(); }
 
    ExposedType* getPointer() const { return !mWeakReference.isNull() ? mPtr : NULL; }
    ExposedType* operator->() const { return getPointer(); }
@@ -211,8 +211,8 @@ protected:
       if(mObject)
       {
          AssertFatal(mObject->mRefCount, "Decrementing a reference with refcount 0!");
-            if(!--mObject->mRefCount)
-               mObject->destroySelf();
+         if(!--mObject->mRefCount)
+            mObject->destroySelf();
       }
    }
 };

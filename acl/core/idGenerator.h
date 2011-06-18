@@ -1,13 +1,13 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _IDGENERATOR_H_
 #define _IDGENERATOR_H_
 
 #ifndef _TVECTOR_H_
-#include "./containers/tVector.h"
+#include "core/containers/tVector.h"
 #endif
 
 

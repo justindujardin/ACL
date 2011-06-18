@@ -1,7 +1,8 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
+
 #ifndef _UTIL_DELEGATE_H_
 #define _UTIL_DELEGATE_H_
 
@@ -12,7 +13,7 @@
 /// This macro allows translation of Delegate definitions into a target
 /// delegate implementation.  
 ///
-/// By default Torque Juggernaut uses a @see FastDelegate implementation
+/// By default ACLib Juggernaut uses a @see FastDelegate implementation
 /// 
 
 #define Delegate fastdelegate::FastDelegate

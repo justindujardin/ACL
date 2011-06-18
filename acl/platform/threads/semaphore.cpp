@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include "platform/threads/semaphore.h"
@@ -8,7 +8,7 @@
 #include "platform/platform.h"
 #include "core/assert.h"
 
-#ifdef TORQUE_DEBUG_THREADING
+#ifdef ACL_DEBUG_THREADING
 #include "platform/threads/threadLocal.h"
 #endif
 
@@ -17,12 +17,12 @@ namespace Platform2
    /// @cond
    struct Semaphore::Internal
    {
-      Torque::ScopedPtr<Internal_::SemaphoreImpl> impl;
+      ACLib::ScopedPtr<Internal_::SemaphoreImpl> impl;
       S32 maxCount;
       bool valid;
-      
+
       Internal() :
-         impl(GetPlatform()->getFactory().create<Internal_::SemaphoreImpl>()),
+      impl(GetPlatform()->getFactory().create<Internal_::SemaphoreImpl>()),
          maxCount(-1), valid(false)
       {
       }
@@ -34,22 +34,22 @@ namespace Platform2
       AssertFatal(maxCount > 0, "Invalid maxCount 0");
       AssertFatal(initialCount <= maxCount, "Invalid initialCount > maxCount");
       AssertFatal(initialCount >= 0, "Invalid initialCount < 0");
-      
+
       if(maxCount <= 0)
          maxCount = S32_MAX;
-      
+
       if(initialCount > maxCount || initialCount < 0)
          initialCount = maxCount;
-      
+
       mImpl->maxCount = maxCount;
       mImpl->valid = mImpl->impl->init(initialCount, maxCount);
       AssertFatal(mImpl->valid, "SemaphoreImpl init failed");
    }
-   
+
    Semaphore::~Semaphore()
    {
    }
-   
+
    Threading::Status Semaphore::acquire(bool block)
    {
       if(!mImpl->valid)
@@ -60,7 +60,7 @@ namespace Platform2
 
       return mImpl->impl->acquire(block);
    }
-   
+
    Threading::Status Semaphore::release()
    {
       if(!mImpl->valid)
@@ -68,7 +68,7 @@ namespace Platform2
          AssertFatal(false, "SemaphoreImpl is invalid, cannot release");
          return Threading::Status_ObjectInvalid;
       }
-      
+
       return mImpl->impl->release();
    }
 }

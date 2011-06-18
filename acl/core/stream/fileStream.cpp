@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include "core/stream/fileStream.h"
@@ -16,7 +16,7 @@ FileStream::FileStream()
    init();
 }
 
-FileStream *FileStream::createAndOpen(const String &inFileName, Torque::FS::File::AccessMode inMode)
+FileStream *FileStream::createAndOpen(const String &inFileName, ACLib::FS::File::AccessMode inMode)
 {
    FileStream  *newStream = new FileStream;
 
@@ -68,7 +68,7 @@ bool FileStream::setPosition(const U32 i_newPosition)
    {
       // set the position and return
       mBuffPos = i_newPosition;
-      
+
       // FIXME [tom, 9/5/2006] This needs to be checked. Basically, when seeking within
       // the buffer, if the stream has an EOS status before the seek then if you try to
       // read immediately after seeking, you'll incorrectly get an EOS.
@@ -76,7 +76,7 @@ bool FileStream::setPosition(const U32 i_newPosition)
       // I am not 100% sure if this fix is correct, but it seems to be working for the undo system.
       if(mBuffPos < mBuffTail)
          Stream::setStatus(Ok);
-      
+
       return(true);
    }
    // otherwise the new position lies in some block not in memory
@@ -87,11 +87,11 @@ bool FileStream::setPosition(const U32 i_newPosition)
 
       clearBuffer();
 
-      mFile->setPosition(i_newPosition, Torque::FS::File::Begin);
+      mFile->setPosition(i_newPosition, ACLib::FS::File::Begin);
 
       setStatus();
-      
-      if (mFile->getStatus() == Torque::FS::FileNode::EndOfFile)
+
+      if (mFile->getStatus() == ACLib::FS::FileNode::EndOfFile)
          mEOF = true;
 
       return(Ok == getStatus() || EOS == getStatus());
@@ -113,7 +113,7 @@ U32 FileStream::getStreamSize()
 }
 
 //-----------------------------------------------------------------------------
-bool FileStream::open(const String &inFileName, Torque::FS::File::AccessMode inMode)
+bool FileStream::open(const String &inFileName, ACLib::FS::File::AccessMode inMode)
 {
    AssertWarn(0 == mStreamCaps, "FileStream::setPosition: the stream is already open");
    AssertFatal(inFileName.isNotEmpty(), "FileStream::open: empty filename");
@@ -121,35 +121,35 @@ bool FileStream::open(const String &inFileName, Torque::FS::File::AccessMode inM
    // make sure the file stream's state is clean
    clearBuffer();
 
-   Torque::Path   filePath(inFileName);
+   ACLib::Path   filePath(inFileName);
 
    // IF we are writing, make sure the path exists
-   if ( inMode == Torque::FS::File::Write || inMode == Torque::FS::File::WriteAppend )
-      Torque::FS::CreatePath(filePath);
+   if ( inMode == ACLib::FS::File::Write || inMode == ACLib::FS::File::WriteAppend )
+      ACLib::FS::CreatePath(filePath);
 
-   mFile = Torque::FS::OpenFile(filePath, inMode);
+   mFile = ACLib::FS::OpenFile(filePath, inMode);
 
    if (mFile != NULL)
    {
       setStatus();
       switch (inMode)
       {
-         case Torque::FS::File::Read:
-            mStreamCaps = U32(StreamRead) |
-                          U32(StreamPosition);
-            break;
-         case Torque::FS::File::Write:
-         case Torque::FS::File::WriteAppend:
-            mStreamCaps = U32(StreamWrite) |
-                          U32(StreamPosition);
-            break;
-         case Torque::FS::File::ReadWrite:
-            mStreamCaps = U32(StreamRead)  |
-                          U32(StreamWrite) |
-                          U32(StreamPosition);
-            break;
-         default:
-            AssertFatal(false, String::ToString( "FileStream::open: bad access mode on %s", inFileName.c_str() ));
+      case ACLib::FS::File::Read:
+         mStreamCaps = U32(StreamRead) |
+            U32(StreamPosition);
+         break;
+      case ACLib::FS::File::Write:
+      case ACLib::FS::File::WriteAppend:
+         mStreamCaps = U32(StreamWrite) |
+            U32(StreamPosition);
+         break;
+      case ACLib::FS::File::ReadWrite:
+         mStreamCaps = U32(StreamRead)  |
+            U32(StreamWrite) |
+            U32(StreamPosition);
+         break;
+      default:
+         AssertFatal(false, String::ToString( "FileStream::open: bad access mode on %s", inFileName.c_str() ));
       }
    }
    else
@@ -176,7 +176,7 @@ void FileStream::close()
       // and close the file
       mFile->close();
 
-      AssertFatal(mFile->getStatus() == Torque::FS::FileNode::Closed, "FileStream::close: close failed");
+      AssertFatal(mFile->getStatus() == ACLib::FS::FileNode::Closed, "FileStream::close: close failed");
 
       mFile = NULL;
    }
@@ -195,12 +195,12 @@ bool FileStream::flush()
    if (mDirty)
    {
       AssertFatal(hasCapability(StreamWrite), "FileStream::flush: a buffer without write-capability should never be dirty");
-      
+
       // align the file pointer to the buffer head
       if (mBuffHead != mFile->getPosition())
       {
-         mFile->setPosition(mBuffHead, Torque::FS::File::Begin);
-         if (mFile->getStatus() != Torque::FS::FileNode::Open && mFile->getStatus() != Torque::FS::FileNode::EndOfFile)
+         mFile->setPosition(mBuffHead, ACLib::FS::File::Begin);
+         if (mFile->getStatus() != ACLib::FS::FileNode::Open && mFile->getStatus() != ACLib::FS::FileNode::EndOfFile)
             return(false);
       }
 
@@ -425,8 +425,8 @@ bool FileStream::fillBuffer(const U32 i_startPosition)
    // make sure start position and file pointer jive
    if (i_startPosition != mFile->getPosition())
    {
-      mFile->setPosition(i_startPosition, Torque::FS::File::Begin);
-      if (mFile->getStatus() != Torque::FS::FileNode::Open && mFile->getStatus() != Torque::FS::FileNode::EndOfFile)
+      mFile->setPosition(i_startPosition, ACLib::FS::File::Begin);
+      if (mFile->getStatus() != ACLib::FS::FileNode::Open && mFile->getStatus() != ACLib::FS::FileNode::EndOfFile)
       {
          setStatus();
          return(false);
@@ -508,34 +508,34 @@ void FileStream::setStatus()
 {
    switch (mFile->getStatus())
    {
-      case Torque::FS::FileNode::Open:
-         Stream::setStatus(Ok);
-         break;
+   case ACLib::FS::FileNode::Open:
+      Stream::setStatus(Ok);
+      break;
 
-      case Torque::FS::FileNode::Closed:
-         Stream::setStatus(Closed);
-         break;
+   case ACLib::FS::FileNode::Closed:
+      Stream::setStatus(Closed);
+      break;
 
-      case Torque::FS::FileNode::EndOfFile:
-         Stream::setStatus(EOS);
-         break;
+   case ACLib::FS::FileNode::EndOfFile:
+      Stream::setStatus(EOS);
+      break;
 
-      case Torque::FS::FileNode::FileSystemFull:
-      case Torque::FS::FileNode::NoSuchFile:
-      case Torque::FS::FileNode::NoDisk:
-      case Torque::FS::FileNode::SharingViolation:
-         Stream::setStatus(IOError);
-         break;
+   case ACLib::FS::FileNode::FileSystemFull:
+   case ACLib::FS::FileNode::NoSuchFile:
+   case ACLib::FS::FileNode::NoDisk:
+   case ACLib::FS::FileNode::SharingViolation:
+      Stream::setStatus(IOError);
+      break;
 
-      case Torque::FS::FileNode::IllegalCall:
-         Stream::setStatus(IllegalCall);
-         break;
+   case ACLib::FS::FileNode::IllegalCall:
+      Stream::setStatus(IllegalCall);
+      break;
 
-      case Torque::FS::FileNode::UnknownError:
-         Stream::setStatus(UnknownError);
-         break;
+   case ACLib::FS::FileNode::UnknownError:
+      Stream::setStatus(UnknownError);
+      break;
 
-      default:
-         AssertFatal(false, "FileStream::setStatus: invalid error mode");
+   default:
+      AssertFatal(false, "FileStream::setStatus: invalid error mode");
    }
 }

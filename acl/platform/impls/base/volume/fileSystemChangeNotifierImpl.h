@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef ACL_PLATFORM_FILESYSTEMCHANGENOTIFIERIMPL_H_
@@ -11,19 +11,19 @@
 
 namespace Platform2
 {
-namespace Internal_
-{
-   class FileSystemChangeNotifierImpl : private Noncopyable
+   namespace Internal_
    {
-   public:
-      virtual ~FileSystemChangeNotifierImpl() {}
-      virtual bool addNotification(const Torque::Path& dir) = 0;
-      virtual bool removeNotification(const Torque::Path& dir) = 0;
-      virtual void process() = 0;
+      class FileSystemChangeNotifierImpl : private Noncopyable
+      {
+      public:
+         virtual ~FileSystemChangeNotifierImpl() {}
+         virtual bool addNotification(const ACLib::Path& dir) = 0;
+         virtual bool removeNotification(const ACLib::Path& dir) = 0;
+         virtual void process() = 0;
 
-      Delegate<void(const Torque::Path& dir)> onDirChanged;
-   };
-}
+         Delegate<void(const ACLib::Path& dir)> onDirChanged;
+      };
+   }
 }
 
 #endif

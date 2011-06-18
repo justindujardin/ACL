@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef ACL_PLATFORM_THREAD_H_
@@ -15,7 +15,7 @@
 
 class String;
 
-/// @ingroup platform2
+/// @ingroup platform
 /// @defgroup p2thread Threading
 /// @brief Classes used when creating and working with a multithreaded application.
 /// @details Every class in this module is threadsafe such that two threads can
@@ -38,7 +38,7 @@ namespace Platform2
          virtual ~Message() {}
          virtual const String& getType() const = 0;
       };
-      
+
       /// @brief A message which indicates that the thread should stop executing
       /// as soon as possible.
       /// @details You are responsible for handling this message in your thread's
@@ -58,9 +58,9 @@ namespace Platform2
          const static String Type;
          const String& getType() const { return Type; }
       };
-      
+
       typedef StrongRefPtr<Message> MessageRef;
-      
+
       /// @brief A threadsafe queue for posting messages to a thread.  
       /// @details It is valid to post messages to a thread before it has been 
       /// started; they will be in the queue once the thread is running.
@@ -74,7 +74,7 @@ namespace Platform2
          /// @brief Posts the given message to the owning thread.  
          /// @details Only the owning thread should read and act on this message.
          void postToThread(MessageRef msg);
-         
+
          /// @brief Waits to receive a message sent to the owning thread.
          /// @details This should only be called by the owning thread.
          /// @param block If true block the calling thread until a message is available
@@ -82,20 +82,20 @@ namespace Platform2
          bool waitOnMessageToThread(MessageRef& msg, bool block);
       private:
          friend class Thread;
-         
+
          MessageQueue();
          ~MessageQueue();
-         
+
          /// @cond
          struct Internal;
-         Torque::ScopedPtr<Internal> mImpl;
+         ACLib::ScopedPtr<Internal> mImpl;
          /// @endcond
       };
-      
+
       /// @brief This is the required function signature for functions started on another thread.
       /// @note You can also call methods on objects or static methods as well.
       typedef Delegate<S32(MessageQueue&)> StartDelegate;
-      
+
       /// @brief Initializes the thread with the given delegate.
       /// @details The thread is not started at this point because we can not
       /// satisfactorily indicate failure to start the thread (no exceptions).
@@ -103,11 +103,11 @@ namespace Platform2
       /// @param delegate The delegate that will be called on the new thread 
       /// when start() is called and suceeds.
       Thread(const StartDelegate& delegate);
-      
+
       /// @brief Attempts to terminate the thread.
       /// @details Blocks until the thread has finished execution.
       ~Thread();
-      
+
       /// @brief Attempts to start a new thread which will call the delegate given to
       /// the constructor.
       /// @details Once this method has returned @c true it cannot be called again
@@ -126,34 +126,34 @@ namespace Platform2
       /// or Status_PlatformError probably indicates a very serious non-recoverable
       /// error.
       Threading::Status start();
-      
+
       /// @brief Returns true if the thread is currently running, otherwise returns false.
       /// @details Sleeping counts as running. This call will directly poll the state
       /// of the thread, so its return may change even if finish() is not called.
       bool isRunning();
-      
+
       /// @brief Blocks until the thread completes all operations.
       void finish();
-      
+
       /// @brief Returns the result code returned by the StartDelegate.  
       /// @details If called when isRunning() will return true the return value is undefined.
       S32 getReturnCode() const;
-      
+
       /// @brief Returns the thread MessageQueue.  
       /// @details It is safe to use the message queue at any point.  Messages 
       /// posted before the thread has started will be in the queue when the thread starts.
       MessageQueue& getMessageQueue();
-      
+
       /// @brief Returns the thread which this was called on.
       static Thread* GetCurrentThread();
-      
+
       /// @brief Returns true when called on the same thread which the platform was
       /// initialized on.
       static bool IsMainThread();
    private:
       /// @cond
       struct Internal;
-      Torque::ScopedPtr<Internal> mImpl;
+      ACLib::ScopedPtr<Internal> mImpl;
       /// @endcond
    };
 }

@@ -1,12 +1,12 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include "core/stream/resizeStream.h"
 
 ResizeFilterStream::ResizeFilterStream()
- : m_pStream(NULL),
+   : m_pStream(NULL),
    m_startOffset(0),
    m_streamLen(0),
    m_currOffset(0),

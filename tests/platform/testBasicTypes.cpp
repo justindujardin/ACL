@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include "core/util/endian.h"
@@ -52,15 +52,15 @@ CreateUnitTest(CheckEndianConversion, "Platform/Types/EndianRoundTrip")
       // Convenient and non-palindrome byte patterns to test with.
       const U16 U16Test = 0xA1B2;
       const S16 S16Test = 0x52A1;
-      
+
       const U32 U32Test = 0xA1B2C3D4;
       const S32 S32Test = 0xD4C3B2A1;
       const F32 F32Test = 1234.5678f;
-      
+
       //const U64 U64Test = 0xA1B2C3D4E3F2E10A;
       //const S64 S64Test = 0x1A2B3C4D3E2F1EA0;
       const F64 F64Test = 12345678.9101112131415;
-      
+
       // Run through all the conversions - bump stuff from host to little or big
       // endian and back again.
 #define CheckEndianRoundTrip(type, b_or_l) \

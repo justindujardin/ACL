@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include "platform/threads/threadLocal.h"
@@ -12,10 +12,10 @@ namespace Platform2
    /// @cond
    struct ThreadLocal::Internal
    {
-      Torque::ScopedPtr<Internal_::ThreadLocalImpl> impl;
-      
+      ACLib::ScopedPtr<Internal_::ThreadLocalImpl> impl;
+
       Internal() :
-         impl(GetPlatform()->getFactory().create<Internal_::ThreadLocalImpl>())
+      impl(GetPlatform()->getFactory().create<Internal_::ThreadLocalImpl>())
       {
       }
    };
@@ -24,16 +24,16 @@ namespace Platform2
    ThreadLocal::ThreadLocal() : mImpl(new Internal)
    {
    }
-   
+
    ThreadLocal::~ThreadLocal()
    {
    }
-   
+
    void* ThreadLocal::get()
    {
       return mImpl->impl->get();
    }
-   
+
    void ThreadLocal::set(void* value)
    {
       mImpl->impl->set(value);

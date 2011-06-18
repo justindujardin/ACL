@@ -1,13 +1,13 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _FILTERSTREAM_H_
 #define _FILTERSTREAM_H_
 
 //Includes
-#ifndef _ACL_PLATFORM_PLATFORM_H_
+#ifndef _ACL_PLATFORM_H_
 #include "platform/platform.h"
 #endif
 #ifndef _STREAM_H_
@@ -16,7 +16,7 @@
 
 class FilterStream : public Stream
 {
-  public:
+public:
    virtual ~FilterStream();
 
    virtual bool    attachStream(Stream* io_pSlaveStream) = 0;
@@ -25,10 +25,10 @@ class FilterStream : public Stream
 
    // Mandatory overrides.  By default, these are simply passed to
    //  whatever is returned from getStream();
-  protected:
+protected:
    bool _read(const U32 in_numBytes,  void* out_pBuffer);
    bool _write(const U32 in_numBytes, const void* in_pBuffer);
-  public:
+public:
    bool hasCapability(const Capability) const;
 
    U32  getPosition() const;

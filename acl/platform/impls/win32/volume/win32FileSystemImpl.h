@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef ACL_PLATFORM_WIN32_FILESYSTEMIMPL_H_
@@ -10,18 +10,18 @@
 
 namespace Platform2
 {
-namespace Internal_
-{
-   class Win32FileSystemImpl : public FileSystemImpl
+   namespace Internal_
    {
-   public:
-      virtual bool getAttributesForPath(Torque::FS::FileNode::Attributes& attributes, const Torque::Path& path);
-      virtual bool createDirectory(const Torque::Path& path);
-      virtual bool removeDirectory(const Torque::Path& path);
-      virtual bool removeFile(const Torque::Path& path);
-      virtual bool move(const Torque::Path& from, const Torque::Path& to);
-   };
-}
+      class Win32FileSystemImpl : public FileSystemImpl
+      {
+      public:
+         virtual bool getAttributesForPath(ACLib::FS::FileNode::Attributes& attributes, const ACLib::Path& path);
+         virtual bool createDirectory(const ACLib::Path& path);
+         virtual bool removeDirectory(const ACLib::Path& path);
+         virtual bool removeFile(const ACLib::Path& path);
+         virtual bool move(const ACLib::Path& from, const ACLib::Path& to);
+      };
+   }
 }
 
 #endif

@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _ACL_TYPES_H_
@@ -32,7 +32,7 @@ typedef double              F64;     ///< Compiler independent 64-bit float.
 
 struct EmptyType {};             ///< "Null" type used by templates
 
-#define TORQUE_UNUSED(var) (void)var
+#define ACL_UNUSED(var) (void)var
 
 //------------------------------------------------------------------------------
 //------------------------------------- String Types
@@ -104,12 +104,12 @@ static const F32 F32_MAX = F32(3.402823466e+38F);                 ///< Constant 
 #  error "Unknown Compiler"
 #endif
 
-#ifndef TORQUE_PRETTY_FUNCTION
-#define TORQUE_PRETTY_FUNCTION ""
+#ifndef ACL_PRETTY_FUNCTION
+#define ACL_PRETTY_FUNCTION ""
 #endif
 
-#ifndef TORQUE_DEBUG_BREAK
-#define TORQUE_DEBUG_BREAK U8* torque_builtin_assert = NULL; *torque_builtin_assert = 42;
+#ifndef ACL_DEBUG_BREAK
+#define ACL_DEBUG_BREAK U8* acl_builtin_assert = NULL; *acl_builtin_assert = 42;
 #endif
 
 /// @name GeneralMath Math Helpers
@@ -137,7 +137,7 @@ template<class T> inline T getMax( T a, T b )
 inline U32 getNextPow2(U32 num)
 {
    // Taken from: http://graphics.stanford.edu/~seander/bithacks.html
-   
+
    num--;
    num |= num >> 1;
    num |= num >> 2;
@@ -145,7 +145,7 @@ inline U32 getNextPow2(U32 num)
    num |= num >> 8;
    num |= num >> 16;
    num++;
-   
+
    return num;
 }
 

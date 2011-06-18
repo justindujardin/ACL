@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include "platform/platform.h"
@@ -15,15 +15,15 @@ namespace Platform2
    /// @cond
    struct PlatformObject::Internal
    {
-      Torque::ScopedPtr<SystemInfo> systemInfo;
-      Vector<Torque::TypeRebind*> factoryStack;
-      
+      ACLib::ScopedPtr<SystemInfo> systemInfo;
+      Vector<ACLib::TypeRebind*> factoryStack;
+
       Internal() : systemInfo(0), factoryStack()
       {
          // We can't actually create a SystemInfo here because that'll trigger
          // a recursive initialization of the platform layer.
       }
-      
+
       void initSystemInfo(PlatformObject* p)
       {
          systemInfo.reset(new SystemInfo);
@@ -31,7 +31,7 @@ namespace Platform2
       }
    };
    /// @endcond
-   
+
    PlatformObject* GetPlatform()
    {
       // No special care is taken for threadsaftey here, as threads can't exist
@@ -48,35 +48,35 @@ namespace Platform2
          Internal_::InitCreator();
          PlatformObject* p = Internal_::GetPlatformFactory().create<PlatformObject>();
          Internal_::InitializePlatform();
-         
+
          // Init the system info here, because we still don't have to worry
          // about threads.
          p->mImpl->initSystemInfo(p);
       }
       return Internal_::GetPlatformFactory().create<PlatformObject>();
    }
-   
+
    PlatformObject::PlatformObject() : mImpl(new Internal)
    {
-      Torque::Assert::Get().pushImpl(new Internal_::PlatformAssertImpl);
-      mImpl->factoryStack.push_back(new Torque::TypeRebind);
+      ACLib::Assert::Get().pushImpl(new Internal_::PlatformAssertImpl);
+      mImpl->factoryStack.push_back(new ACLib::TypeRebind);
    }
-   
+
    PlatformObject::~PlatformObject()
    {
-      using namespace Torque;
+      using namespace ACLib;
       ForEach(mImpl->factoryStack.begin(), mImpl->factoryStack.end(), &DeleteSingle::destroy<TypeRebind>);
    }
-   
+
    // TODO: Consider removing this
-   Torque::Path PlatformObject::getPrefsPath(const String& file)
+   ACLib::Path PlatformObject::getPrefsPath(const String& file)
    {
-#ifdef TORQUE_PLAYER
+#ifdef ACL_PLAYER
       return file;
 #else
       String company = "app";
       String appName = "test";
-      
+
       if(file.isNotEmpty())
       {
          if(file.find("..") != String::NPos)
@@ -94,43 +94,43 @@ namespace Platform2
       }
 #endif
    }
-   
+
    const SystemInfo& PlatformObject::getSystemInfo() const
    {
       return *mImpl->systemInfo;
    }
-   
+
    void PlatformObject::pushFactory()
    {
-      mImpl->factoryStack.push_back(new Torque::TypeRebind);
+      mImpl->factoryStack.push_back(new ACLib::TypeRebind);
    }
-   
+
    void PlatformObject::popFactory()
    {
       AssertFatal(mImpl->factoryStack.size() > 1, "Can't pop last factory in the stack");
       if(mImpl->factoryStack.size() == 1)
          return;
-         
-      Torque::TypeRebind* r = mImpl->factoryStack.last();
+
+      ACLib::TypeRebind* r = mImpl->factoryStack.last();
       mImpl->factoryStack.pop_back();
       delete r;
    }
-   
-   const Torque::TypeRebind& PlatformObject::getFactory() const
+
+   const ACLib::TypeRebind& PlatformObject::getFactory() const
    {
       return *mImpl->factoryStack.last();
    }
-   
-   Torque::TypeRebind& PlatformObject::getProtectedFactory()
+
+   ACLib::TypeRebind& PlatformObject::getProtectedFactory()
    {
       return *mImpl->factoryStack.last();
    }
-   
+
    MathStateKnown::MathStateKnown() : mOldState(GetPlatform()->getMathControlState())
    {
       GetPlatform()->setMathControlStateKnown();
    }
-   
+
    MathStateKnown::~MathStateKnown()
    {
       GetPlatform()->setMathControlState(mOldState);

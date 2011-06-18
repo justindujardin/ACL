@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _AUTOPTR_H_
@@ -30,7 +30,7 @@ struct AutoPtrRef
 /// AutoPtrs do not perform reference counting and assume total ownership
 /// of any object assigned to them.  Assigning an AutoPtr to another transfers
 /// that ownership and resets the source AutoPtr to 0.
-template<class T, class P = Torque::DeleteSingle>
+template<class T, class P = ACLib::DeleteSingle>
 class AutoPtr
 {
 public:
@@ -39,7 +39,7 @@ public:
    explicit AutoPtr(T *ptr = 0): _ptr(ptr) {}
    ~AutoPtr()
    {
-       P::destroy(_ptr);
+      P::destroy(_ptr);
    }
 
    // Copy constructors
@@ -52,15 +52,15 @@ public:
    /// rhs is set to 0.
    AutoPtr& operator= (AutoPtr &rhs)
    {
-       reset(rhs.release());
-       return *this;
+      reset(rhs.release());
+      return *this;
    }
 
    template<class U>
    AutoPtr& operator= (AutoPtr<U,P> &rhs)
    {
-       reset(rhs.release());
-       return *this;
+      reset(rhs.release());
+      return *this;
    }
 
    // Access
@@ -72,29 +72,29 @@ public:
    /// Release ownership of the object without deleting it.
    T* release()
    {
-       T* tmp(_ptr);
-       _ptr = 0;
-       return tmp;
+      T* tmp(_ptr);
+      _ptr = 0;
+      return tmp;
    }
 
    /// Equivalent to *this = (T*)ptr, except that operator=(T*) isn't provided for.
    void reset(T* ptr = 0)
    {
-       if (_ptr != ptr)
-       {
-           P::destroy(_ptr);
-           _ptr = ptr;
-       }
+      if (_ptr != ptr)
+      {
+         P::destroy(_ptr);
+         _ptr = ptr;
+      }
    }
 
    // Conversion to/from ref type
    AutoPtr(AutoPtrRef<T> ref): _ptr(ref._ptr) {}
    AutoPtr& operator= (AutoPtrRef<T> ref)
    {
-        reset(ref._ptr);
-        return *this;
+      reset(ref._ptr);
+      return *this;
    }
-   
+
    bool isNull() const { return _ptr == NULL; }
    bool isValid() const { return !isNull(); }
 

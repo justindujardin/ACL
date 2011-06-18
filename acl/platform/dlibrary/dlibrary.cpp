@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include "platform/dlibrary/dlibrary.h"
@@ -13,11 +13,11 @@ namespace Platform2
    /// @cond
    struct DLibrary::Internal
    {
-      Torque::ScopedPtr<Internal_::DLibraryImpl> impl;
+      ACLib::ScopedPtr<Internal_::DLibraryImpl> impl;
       bool loaded;
-      
+
       Internal() : 
-         impl(GetPlatform()->getFactory().create<Internal_::DLibraryImpl>()),
+      impl(GetPlatform()->getFactory().create<Internal_::DLibraryImpl>()),
          loaded(false)
       {
       }
@@ -26,9 +26,9 @@ namespace Platform2
 
    DLibrary::DLibrary() : mImpl(new Internal)
    {
-      
+
    }
-   
+
    DLibrary::~DLibrary()
    {
       if(mImpl->loaded)
@@ -42,13 +42,13 @@ namespace Platform2
          AssertFatal(false, "Cannot load an empty path");
          return false;
       }
-      
+
       if(mImpl->loaded)
       { 
          AssertFatal(false, "Cannot be called again after returning true");
          return false;
       }
-      
+
       mImpl->loaded = mImpl->impl->init(file);
       return mImpl->loaded;
    }
@@ -60,16 +60,16 @@ namespace Platform2
          AssertFatal(false, "Cannot be called before load has been sucessfully called");
          return NULL;
       }
-      
+
       if(name == String(""))
       { 
          AssertFatal(false, "Cannot lookup an empty string");
          return NULL;
       }
-      
+
       return mImpl->impl->bind(name);
    }
-   
+
    bool DLibrary::isLoaded() const
    {
       return mImpl->loaded;

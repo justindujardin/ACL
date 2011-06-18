@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #include "unit/test.h"
@@ -8,7 +8,7 @@
 #include "core/util/str.h"
 
 using namespace UnitTesting;
-using namespace Torque;
+using namespace ACLib;
 
 #define FILELINE String(__FILE__) + ":" + String::ToString(__LINE__) + ": "
 

@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _STREAM_H_
@@ -20,7 +20,7 @@
 
 class String;
 
-namespace Torque {
+namespace ACLib {
    class ByteBuffer;
 }
 
@@ -32,7 +32,7 @@ class Stream
 {
    // Public structs and enumerations...
 public:
-     /// Status constants for the stream
+   /// Status constants for the stream
    enum Status {
       Ok = 0,           ///< Ok!
       IOError,          ///< Read or Write error
@@ -74,7 +74,7 @@ protected:
 
 
 public:
-     /// Checks to see if this stream has the capability of a given function
+   /// Checks to see if this stream has the capability of a given function
    virtual bool hasCapability(const Capability) const = 0;
 
    /// Gets the position in the stream
@@ -110,12 +110,12 @@ public:
    bool read(String * str) { _read(str); return true; }
 
    /// Write some raw data onto the stream.
-   bool write(const Torque::ByteBuffer &);
+   bool write(const ACLib::ByteBuffer &);
    /// Read some raw data from the stream.
-   bool read(Torque::ByteBuffer *);
+   bool read(ACLib::ByteBuffer *);
 
    // Overloaded write and read ops..
-  public:
+public:
    bool read(const U32 in_numBytes,  void* out_pBuffer) {
       return _read(in_numBytes, out_pBuffer);
    }

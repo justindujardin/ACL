@@ -1,22 +1,22 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "./assertImpl.h"
-#include "./util/str.h"
+#include "core/assertImpl.h"
+#include "core/util/str.h"
 
 #ifdef WIN32
 #include <Windows.h>
 #endif
 
-namespace Torque
+namespace ACLib
 {
    bool AssertImpl::shouldDebugBreak(Assert::Type type, const String&)
    {
       return type != Assert::Warning;
    }
-   
+
    bool AssertImpl::notifyUser(Assert::Type type, const String& title, const String& message)
    {
       printToConsole(type, title, message);
@@ -27,17 +27,17 @@ namespace Torque
 #endif
          return true;
       }
-         
+
       return true;
    }
-   
+
    void AssertImpl::forceShutdown(U32 code)
    {
       // Default behavior is to force a crash
       U32* p = NULL;
       *p = 0xdead;
    }
-   
+
    void AssertImpl::printToConsole(Assert::Type type, const String& title, const String& message)
    {
       // Default behavior is to error unless we're dealing with a warning

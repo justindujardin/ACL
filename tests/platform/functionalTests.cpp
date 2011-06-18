@@ -1,28 +1,22 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "unit/test.h"
-#include "math/mRect.h"
 #include "core/util/str.h"
-#include "platform2/platform.h"
-#include "platform2/windows/window.h"
-#include "platform2/test/windows/testWindowImpl.h"
-#include "platform2/threads/thread.h"
-#include "platform2/threads/mutex.h"
-#include "platform2/threads/semaphore.h"
-#include "platform2/threads/threadLocal.h"
+#include "platform/platform.h"
+#include "platform/threads/thread.h"
+#include "platform/threads/mutex.h"
+#include "platform/threads/semaphore.h"
+#include "platform/threads/threadLocal.h"
 #include "core/assert.h"
-#include "platform2/platform.h"
+#include "platform/platform.h"
 #include "core/util/autoPtr.h"
-
-#include "console/console.h"
 
 using fastdelegate::MakeDelegate;
 
 using namespace UnitTesting;
-using namespace Platform2;
+using namespace Platform;
 
 /// Basic validation of thread functionality.  Verifies that impl properly reports running state
 /// that impl calls the given method, and that impl passes in userData and dataSize, and that imple
@@ -37,7 +31,7 @@ CreateUnitTest(p2_thread_basic, "Platform2/Functional/Thread/Basic")
       didWork = true;
       return _magicNumber;
    }
-   
+
    void run()
    {
       didWork = passedMagicNumber = false;
@@ -70,11 +64,11 @@ CreateUnitTest(p2_thread_deletion, "Platform2/Functional/Thread/DeleteTerminates
       }
       return 0;
    }
-   
+
    void run()
    {
       AutoPtr<Thread> t(new Thread(MakeDelegate(this, &p2_thread_deletion::work)));
-                  
+
       U32 time = Platform2::GetPlatform()->getRealMilliseconds();
       t->start();
       t = NULL;
@@ -94,7 +88,7 @@ CreateUnitTest(p2_thread_postmessage, "Platform2/Functional/Thread/PostMessage")
       messageQueue.waitOnMessageToThread(msg, true);
       return Platform2::GetPlatform()->getRealMilliseconds() - start;
    }
-   
+
    void run()
    {
       Thread t(MakeDelegate(this, &p2_thread_postmessage::work));
@@ -115,13 +109,13 @@ CreateUnitTest(p2_thread_isrunning, "Platform2/Functional/Thread/IsRunning")
    AutoPtr<Thread> worker;
    AutoPtr<Thread> watchdog;
    bool passed;
-   
+
    S32 work(Thread::MessageQueue& messageQueue)
    {
       GetPlatform()->sleep(100);
       return 0;
    }
-   
+
    S32 watch(Thread::MessageQueue& messageQueue)
    {
       worker = new Thread(MakeDelegate(this, &p2_thread_isrunning::work));
@@ -130,13 +124,13 @@ CreateUnitTest(p2_thread_isrunning, "Platform2/Functional/Thread/IsRunning")
          GetPlatform()->sleep(1);
       return 0;
    }
-   
+
    void run()
    {
-      
+
       watchdog = new Thread(MakeDelegate(this, &p2_thread_isrunning::watch));
       passed = true;
-      
+
       watchdog->start();
       GetPlatform()->sleep(200);
       test(!watchdog->isRunning(), "Thread polled never finished");
@@ -150,14 +144,14 @@ CreateUnitTest(p2_thread_isrunning, "Platform2/Functional/Thread/IsRunning")
 CreateUnitTest(p2_thread_mutex_block, "Platform2/Functional/Thread/Mutex/Block")
 {
    Mutex m;
-   
+
    S32 lock(Thread::MessageQueue& messageQueue)
    {
       U32 start = Platform2::GetPlatform()->getRealMilliseconds();
       test(m.lock(true) == Threading::Status_NoError, "Failed a blocking lock");
       return Platform2::GetPlatform()->getRealMilliseconds() - start;
    }
-   
+
    void run()
    {
       Thread t(MakeDelegate(this, &p2_thread_mutex_block::lock));
@@ -174,14 +168,14 @@ CreateUnitTest(p2_thread_mutex_block, "Platform2/Functional/Thread/Mutex/Block")
 CreateUnitTest(p2_thread_mutex_nonblock, "Platform2/Functional/Thread/Mutex/NonBlock")
 {
    Mutex m;
-   
+
    S32 lock(Thread::MessageQueue& messageQueue)
    {
       U32 start = Platform2::GetPlatform()->getRealMilliseconds();
       test(m.lock(false) == Threading::Status_Busy, "Non blocking call succeeded in locking already locked mutex");
       return Platform2::GetPlatform()->getRealMilliseconds() - start; 
    }
-   
+
    void run()
    {
       Thread t(MakeDelegate(this, &p2_thread_mutex_nonblock::lock));
@@ -200,7 +194,7 @@ CreateUnitTest(p2_thread_mutex_nonblock, "Platform2/Functional/Thread/Mutex/NonB
 CreateUnitTest(p2_thread_semaphore_block, "Platform2/Functional/Thread/Semaphore/Block")
 {
    AutoPtr<Semaphore> s;
-   
+
    S32 work(Thread::MessageQueue& messageQueue)
    {
       U32 start = Platform2::GetPlatform()->getRealMilliseconds();
@@ -208,7 +202,7 @@ CreateUnitTest(p2_thread_semaphore_block, "Platform2/Functional/Thread/Semaphore
       test(s->acquire(true) == Threading::Status_NoError, "Failed to acquire blocking semaphore");
       return Platform2::GetPlatform()->getRealMilliseconds() - start; 
    }
-   
+
    void run()
    {
       s = new Semaphore(2);
@@ -227,7 +221,7 @@ CreateUnitTest(p2_thread_semaphore_block, "Platform2/Functional/Thread/Semaphore
 CreateUnitTest(p2_thread_semaphore_nonblock, "Platform2/Functional/Thread/Semaphore/NonBlock")
 {
    AutoPtr<Semaphore> s;
-   
+
    S32 work(Thread::MessageQueue& messageQueue)
    {
       U32 start = Platform2::GetPlatform()->getRealMilliseconds();
@@ -235,7 +229,7 @@ CreateUnitTest(p2_thread_semaphore_nonblock, "Platform2/Functional/Thread/Semaph
       test(s->acquire(false) == Threading::Status_Busy, "Succeeded in non-blocking acquire of semaphore with count 0");
       return Platform2::GetPlatform()->getRealMilliseconds() - start; 
    }
-   
+
    void run()
    {
       s = new Semaphore(2);
@@ -263,7 +257,7 @@ CreateUnitTest(TestSemaphoreRelease, "Platform2/Functional/Thread/Semaphore/Rele
 CreateUnitTest(p2_thread_threadlocal, "Platform2/Functional/Thread/ThreadLocal")
 {
    ThreadLocal l;
-   
+
    S32 work(Thread::MessageQueue& messageQueue)
    {
       l.set(reinterpret_cast<void*>(7));
@@ -271,7 +265,7 @@ CreateUnitTest(p2_thread_threadlocal, "Platform2/Functional/Thread/ThreadLocal")
       test(reinterpret_cast<U32>(l.get()) == 7, "Thread local value incorrect on thread");
       return 0;
    }
-   
+
    void run()
    {
       Thread t(MakeDelegate(this, &p2_thread_threadlocal::work));

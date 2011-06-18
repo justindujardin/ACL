@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _HASHFUNCTION_H_
@@ -10,11 +10,11 @@
 #include "core/types/types.h"
 #endif
 
-namespace Torque
+namespace ACLib
 {
 
-extern U32 hash(register const U8 *k, register U32 length, register U32 initval);
-extern U64 hash64(register const U8 *k, register U32 length, register U64 initval);
+   extern U32 hash(register const U8 *k, register U32 length, register U32 initval);
+   extern U64 hash64(register const U8 *k, register U32 length, register U64 initval);
 
 }
 

@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 // Quick notes on Vector<>'s memory allocation strategy
@@ -19,10 +19,10 @@
 #define _TVECTOR_H_
 
 #ifndef _CORE_STDHEADERS_H_
-#include "../torque.h"
+#include "acl.h"
 #endif
 
-#ifndef TORQUE_CORE_UTIL_ALGORITHM_H_
+#ifndef ACL_CORE_UTIL_ALGORITHM_H_
 #include "../util/tAlgorithm.h"
 #endif
 
@@ -35,17 +35,17 @@
 
 /// Size of memory blocks to allocate at a time for vectors.
 const static S32 VectorBlockSize = 16;
-#ifdef TORQUE_DEBUG_GUARD
+#ifdef ACL_DEBUG_GUARD
 extern bool VectorResize(U32 *aSize, U32 *aCount, void **arrayPtr, U32 newCount, U32 elemSize,
-                         const char* fileName,
-                         const U32   lineNum);
+   const char* fileName,
+   const U32   lineNum);
 #else
 extern bool VectorResize(U32 *aSize, U32 *aCount, void **arrayPtr, U32 newCount, U32 elemSize);
 #endif
 
 /// Use the following macro to bind a vector to a particular line
 ///  of the owning class for memory tracking purposes
-#ifdef TORQUE_DEBUG_GUARD
+#ifdef ACL_DEBUG_GUARD
 #define VECTOR_SET_ASSOCIATION(x) x.setFileAssociation(__FILE__, __LINE__)
 #else
 #define VECTOR_SET_ASSOCIATION(x)
@@ -59,7 +59,7 @@ protected:
    U32 mElementsAllocated;
    U8* mArray;
 
-#ifdef TORQUE_DEBUG_GUARD
+#ifdef ACL_DEBUG_GUARD
    const char* mFileAssociation;
    U32 mLineAssociation;
    void setFileAssociation(const char* file, U32 line);
@@ -71,14 +71,14 @@ protected:
    VectorBase(U32 elementSize, const char* fileName, U32 lineNum);
    VectorBase(const VectorBase&);
    ~VectorBase();
-   
+
    bool resize(U32);
-   
+
    U32 size() const;
    bool empty() const;
    void reserve(U32);
    U32 capacity() const;
-   
+
    U32  memSize() const;
    void*   address() const;
    U32  setSize(U32);
@@ -91,11 +91,11 @@ protected:
    void erase_fast(U32);
    void clear();
    void compact();
-   
+
    void set(void * addr, U32 sz);
-   
+
    void swap(VectorBase& other);
-   
+
    U8* operator[](U32 index);
    const U8* operator[](U32 index) const;
 };
@@ -108,7 +108,7 @@ inline VectorBase::~VectorBase()
 
 inline VectorBase::VectorBase(U32 elementSize)
 {
-#ifdef TORQUE_DEBUG_GUARD
+#ifdef ACL_DEBUG_GUARD
    mFileAssociation = NULL;
    mLineAssociation = 0;
 #endif
@@ -121,7 +121,7 @@ inline VectorBase::VectorBase(U32 elementSize)
 
 inline VectorBase::VectorBase(U32 elementSize, U32 initialSize)
 {
-#ifdef TORQUE_DEBUG_GUARD
+#ifdef ACL_DEBUG_GUARD
    mFileAssociation = NULL;
    mLineAssociation = 0;
 #endif
@@ -135,16 +135,16 @@ inline VectorBase::VectorBase(U32 elementSize, U32 initialSize)
 }
 
 inline VectorBase::VectorBase(U32 elementSize,
-                              U32 initialSize,
-                              const char* fileName,
-                              U32   lineNum)
+   U32 initialSize,
+   const char* fileName,
+   U32   lineNum)
 {
-#ifdef TORQUE_DEBUG_GUARD
+#ifdef ACL_DEBUG_GUARD
    mFileAssociation = fileName;
    mLineAssociation = lineNum;
 #else
-   TORQUE_UNUSED(fileName);
-   TORQUE_UNUSED(lineNum);
+   ACL_UNUSED(fileName);
+   ACL_UNUSED(lineNum);
 #endif
 
    mElementSize = elementSize;
@@ -156,15 +156,15 @@ inline VectorBase::VectorBase(U32 elementSize,
 }
 
 inline VectorBase::VectorBase(U32 elementSize,
-                              const char* fileName,
-                              U32   lineNum)
+   const char* fileName,
+   U32   lineNum)
 {
-#ifdef TORQUE_DEBUG_GUARD
+#ifdef ACL_DEBUG_GUARD
    mFileAssociation = fileName;
    mLineAssociation = lineNum;
 #else
-   TORQUE_UNUSED(fileName);
-   TORQUE_UNUSED(lineNum);
+   ACL_UNUSED(fileName);
+   ACL_UNUSED(lineNum);
 #endif
 
    mElementSize = elementSize;
@@ -176,7 +176,7 @@ inline VectorBase::VectorBase(U32 elementSize,
 // WARNING: Does not copy contents of p!
 inline VectorBase::VectorBase(const VectorBase& p)
 {
-#ifdef TORQUE_DEBUG_GUARD
+#ifdef ACL_DEBUG_GUARD
    mFileAssociation = p.mFileAssociation;
    mLineAssociation = p.mLineAssociation;
 #endif
@@ -187,15 +187,15 @@ inline VectorBase::VectorBase(const VectorBase& p)
 
 inline bool VectorBase::resize(U32 ecount)
 {
-#ifdef TORQUE_DEBUG_GUARD
+#ifdef ACL_DEBUG_GUARD
    return VectorResize(&mElementsAllocated, &mElementCount, (void**)&mArray, ecount, mElementSize,
-                       mFileAssociation, mLineAssociation);
+      mFileAssociation, mLineAssociation);
 #else
    return VectorResize(&mElementsAllocated, &mElementCount, (void**)&mArray, ecount, mElementSize);
 #endif
 }
 
-#ifdef TORQUE_DEBUG_GUARD
+#ifdef ACL_DEBUG_GUARD
 inline void VectorBase::setFileAssociation(const char* file, U32 line)
 {
    mFileAssociation = file;
@@ -311,8 +311,8 @@ inline void VectorBase::insert(U32 index)
       mElementCount++;
 
    dMemmove(&mArray[(index + 1) * mElementSize],
-                    &mArray[index * mElementSize],
-                    (mElementCount - index - 1) * mElementSize);
+      &mArray[index * mElementSize],
+      (mElementCount - index - 1) * mElementSize);
 }
 
 inline void VectorBase::erase(U32 index)
@@ -360,14 +360,14 @@ inline void VectorBase::set(void * addr, U32 sz)
 
 inline void VectorBase::swap(VectorBase& other)
 {
-#ifdef TORQUE_DEBUG_GUARD
-   Torque::Swap(mFileAssociation, other.mFileAssociation);
-   Torque::Swap(mLineAssociation, other.mLineAssociation);
+#ifdef ACL_DEBUG_GUARD
+   ACLib::Swap(mFileAssociation, other.mFileAssociation);
+   ACLib::Swap(mLineAssociation, other.mLineAssociation);
 #endif
-   Torque::Swap(mElementSize, other.mElementSize);
-   Torque::Swap(mArray, other.mArray);
-   Torque::Swap(mElementCount, other.mElementCount);
-   Torque::Swap(mElementsAllocated, other.mElementsAllocated);
+   ACLib::Swap(mElementSize, other.mElementSize);
+   ACLib::Swap(mArray, other.mArray);
+   ACLib::Swap(mElementCount, other.mElementCount);
+   ACLib::Swap(mElementsAllocated, other.mElementsAllocated);
 }
 
 inline U8* VectorBase::operator[](U32 index)
@@ -394,20 +394,20 @@ inline const U8* VectorBase::operator[](U32 index) const
 template<class T>
 class Vector : private VectorBase
 {
-  protected:
-  typedef VectorBase Parent;
+protected:
+   typedef VectorBase Parent;
 
    void  destroy(U32 start, U32 end);   ///< Destructs elements from <i>start</i> to <i>end-1</i>
    void  construct(U32 start, U32 end); ///< Constructs elements from <i>start</i> to <i>end-1</i>
    void  construct(U32 start, U32 end, const T* array);
-  public:
+public:
    Vector(const U32 initialSize = 0);
    Vector(const U32 initialSize, const char* fileName, const U32 lineNum);
    Vector(const char* fileName, const U32 lineNum);
    Vector(const Vector&);
    ~Vector();
 
-#ifdef TORQUE_DEBUG_GUARD
+#ifdef ACL_DEBUG_GUARD
    void setFileAssociation(const char* file, const U32 line);
 #endif
 
@@ -491,12 +491,12 @@ class Vector : private VectorBase
    /// @return Returns true if a match is found.
    bool remove( const T& );
 
-   
+
    void swap(Vector& other);
 
    /// @}
 
-#ifdef TORQUE_DEBUG
+#ifdef ACL_DEBUG
    /// @brief     Debug helper method
    /// @details      This method is purely for convenience when debugging in visual studio.
    ///               It is also called in the constructor in debug, to ensure that it exists on all vectors.
@@ -509,7 +509,7 @@ template<class T> inline Vector<T>::~Vector()
 {
    destroy(0, mElementCount);
 
-#ifdef TORQUE_DEBUG
+#ifdef ACL_DEBUG
    // Debug helper method instantiation
    // This is done to make sure the code for the debug helper message is created.
    if(false)
@@ -522,19 +522,19 @@ template<class T> inline Vector<T>::Vector(const U32 initialSize) : VectorBase(s
 }
 
 template<class T> inline Vector<T>::Vector(const U32 initialSize,
-                                           const char* fileName,
-                                           const U32   lineNum) : VectorBase(sizeof(T), initialSize, fileName, lineNum)
+   const char* fileName,
+   const U32   lineNum) : VectorBase(sizeof(T), initialSize, fileName, lineNum)
 {
 }
 
 template<class T> inline Vector<T>::Vector(const char* fileName,
-                                           const U32   lineNum) : VectorBase(sizeof(T), fileName, lineNum)
+   const U32   lineNum) : VectorBase(sizeof(T), fileName, lineNum)
 {
 }
 
 template<class T> inline Vector<T>::Vector(const Vector& p) : VectorBase((U32)sizeof(T))
 {
-#ifdef TORQUE_DEBUG_GUARD
+#ifdef ACL_DEBUG_GUARD
    mFileAssociation = p.mFileAssociation;
    mLineAssociation = p.mLineAssociation;
 #endif
@@ -545,9 +545,9 @@ template<class T> inline Vector<T>::Vector(const Vector& p) : VectorBase((U32)si
 }
 
 
-#ifdef TORQUE_DEBUG_GUARD
+#ifdef ACL_DEBUG_GUARD
 template<class T> inline void Vector<T>::setFileAssociation(const char* file,
-                                                            const U32   line)
+   const U32   line)
 {
    Parent::setFileAssociation(file, line);
 }
@@ -595,7 +595,7 @@ template<class T> inline T* Vector<T>::address() const
 template<class T> inline U32 Vector<T>::setSize(U32 size)
 {
    const U32 oldSize = mElementCount;
-   
+
    if(size > oldSize)
    {
       Parent::setSize(size);
@@ -606,7 +606,7 @@ template<class T> inline U32 Vector<T>::setSize(U32 size)
       destroy(size, oldSize);
       Parent::setSize(size);
    }
-   
+
    return mElementCount;
 }
 
@@ -644,7 +644,7 @@ template<class T> inline void Vector<T>::insert(U32 index)
    AssertFatal(index <= mElementCount, "Vector<T>::insert - out of bounds index.");
 
    Parent::insert(index);
-   
+
    constructInPlace((T*)Parent::operator[](index));
 }
 
@@ -732,16 +732,16 @@ template<class T> inline Vector<T>& Vector<T>::operator=(const Vector<T>& p)
    {
       destroy(p.mElementCount, mElementCount);
    }
-   
+
    U32 count = getMin( mElementCount, p.mElementCount );
    U32 i;
    for( i=0; i < count; i++ )
    {
       operator[](i) = p[i];
    }
-   
+
    resize( p.mElementCount );
-   
+
    if( i < p.mElementCount )
    {
       construct(i, p.mElementCount, (T*)p.mArray);
@@ -859,7 +859,7 @@ template<class T> inline void Vector<T>::reserve(U32 size)
 
 template<class T> inline U32 Vector<T>::capacity() const
 {
-    return Parent::capacity();
+   return Parent::capacity();
 }
 
 template<class T> inline void Vector<T>::set(void * addr, U32 sz)
@@ -920,19 +920,19 @@ template <class T> class UniqueVector : public Vector<T>
 public:
    void push_back(const T& dat)
    {
-      if(Torque::Find(this->begin(), this->end(), dat) == this->end())
+      if(ACLib::Find(this->begin(), this->end(), dat) == this->end())
          Parent::push_back(dat);
    }
 };
 
-namespace Torque
+namespace ACLib
 {
    template<typename Type>
    void Swap(Vector<Type>& a, Vector<Type>& b)
    {
       a.swap(b);
    }
-   
+
    template<typename Type>
    void Swap(UniqueVector<Type>& a, UniqueVector<Type>& b)
    {

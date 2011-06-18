@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _TYPESVISUALC_H
@@ -18,7 +18,7 @@ typedef unsigned _int64 U64;
 
 //--------------------------------------
 // Compiler Version
-#define TORQUE_COMPILER_VISUALC _MSC_VER
+#define ACL_COMPILER_VISUALC _MSC_VER
 
 //--------------------------------------
 // Identify the compiler string
@@ -26,25 +26,25 @@ typedef unsigned _int64 U64;
 // No support for old compilers
 #  error "VC: Minimum VisualC++ 6.0 or newer required"
 #else _MSC_VER >= 1200
-#  define TORQUE_COMPILER_STRING "VisualC++"
+#  define ACL_COMPILER_STRING "VisualC++"
 #endif
 
 
 //--------------------------------------
 // Identify the Operating System
 #if _XBOX_VER >= 200 
-#  define TORQUE_OS_STRING "Xenon"
-#  ifndef TORQUE_OS_XENON
-#     define TORQUE_OS_XENON
+#  define ACL_OS_STRING "Xenon"
+#  ifndef ACL_OS_XENON
+#     define ACL_OS_XENON
 #  endif
 #  include "./types.xenon.h"
 #elif defined( _XBOX_VER )
-#  define TORQUE_OS_STRING "Xbox"
-#  define TORQUE_OS_XBOX
+#  define ACL_OS_STRING "Xbox"
+#  define ACL_OS_XBOX
 #  include "./types.win32.h"
 #elif defined(_WIN32)
-#  define TORQUE_OS_STRING "Win32"
-#  define TORQUE_OS_WIN32
+#  define ACL_OS_STRING "Win32"
+#  define ACL_OS_WIN32
 #  include "./types.win32.h"
 #else 
 #  error "VC: Unsupported Operating System"
@@ -54,15 +54,15 @@ typedef unsigned _int64 U64;
 //--------------------------------------
 // Identify the CPU
 #if defined(_M_IX86)
-#  define TORQUE_CPU_STRING "x86"
-#  define TORQUE_CPU_X86
-#  define TORQUE_LITTLE_ENDIAN
-#  define TORQUE_SUPPORTS_NASM
-#  define TORQUE_SUPPORTS_VC_INLINE_X86_ASM
-#elif defined(TORQUE_OS_XENON)
-#  define TORQUE_CPU_STRING "ppc"
-#  define TORQUE_CPU_PPC
-#  define TORQUE_BIG_ENDIAN
+#  define ACL_CPU_STRING "x86"
+#  define ACL_CPU_X86
+#  define ACL_LITTLE_ENDIAN
+#  define ACL_SUPPORTS_NASM
+#  define ACL_SUPPORTS_VC_INLINE_X86_ASM
+#elif defined(ACL_OS_XENON)
+#  define ACL_CPU_STRING "ppc"
+#  define ACL_CPU_PPC
+#  define ACL_BIG_ENDIAN
 #else
 #  error "VC: Unsupported Target CPU"
 #endif
@@ -80,15 +80,15 @@ typedef unsigned _int64 U64;
 #define OffsetNonConst(x, cls) _Offset_Normal(x, cls)
 #endif
 
-#define TORQUE_PRETTY_FUNCTION __FUNCSIG__
-#define TORQUE_DEBUG_BREAK __debugbreak();
-#define TORQUE_NO_INLINE __declspec(noinline)
+#define ACL_PRETTY_FUNCTION __FUNCSIG__
+#define ACL_DEBUG_BREAK __debugbreak();
+#define ACL_NO_INLINE __declspec(noinline)
 
 
 //--------------------------------------
 // Visual C warnings that don't apply to us
 
-// torque strings functions validate len
+// acl string functions validate len
 #pragma warning(disable: 4996) 
 
 // disable warning caused by memory layer

@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _SIGNAL_H_
@@ -56,10 +56,10 @@ template<typename Signature> class SignalBaseT : public SignalBase
    typedef Delegate<Signature> DelegateSig;
 public:
    SignalBaseT() {}
-	SignalBaseT( const SignalBaseT &base )
+   SignalBaseT( const SignalBaseT &base )
       : SignalBase()
    {	
-	  mList.next = mList.prev = &mList;
+      mList.next = mList.prev = &mList;
 
       for ( DelegateLink *ptr = base.mList.next; ptr != &base.mList; ptr = ptr->next )
       {
@@ -282,7 +282,7 @@ template<class A, class B>
 class Signal<void(A,B)> : public SignalBaseT<void(A,B)>
 {
 public:
-  void trigger(A a, B b)
+   void trigger(A a, B b)
    {
       SignalBase::DelegateLink *ptr = this->mList.next;
       while( ptr != &this->mList )
@@ -314,7 +314,7 @@ template<class A, class B, class C, class D>
 class Signal<void(A,B,C,D)> : public SignalBaseT<void(A,B,C,D)>
 {
 public:
-  void trigger(A a, B b, C c, D d)
+   void trigger(A a, B b, C c, D d)
    {
       SignalBase::DelegateLink *ptr = this->mList.next;
       while( ptr != &this->mList )

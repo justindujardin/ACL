@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _ACL_STRING_H_
@@ -71,29 +71,29 @@ public:
    String& operator+=(const StringChar*);
    String& operator=(const String&);
    String& operator+=(const String&);
-   
+
    /**
-      Compare this string with another.
-      @param str  The string to compare against.
-      @param len  If len is non-zero, then at most len characters are compared.
-      @param mode Comparison mode.
-      @return Difference between the first two characters that don't match.
+   Compare this string with another.
+   @param str  The string to compare against.
+   @param len  If len is non-zero, then at most len characters are compared.
+   @param mode Comparison mode.
+   @return Difference between the first two characters that don't match.
    */
    S32 compare(const StringChar *str, SizeType len = 0, U32 mode = Case|Left) const;
    S32 compare(const String &str, SizeType len = 0, U32 mode = Case|Left) const; ///< @see compare(const StringChar *, SizeType, U32) const
 
    /**
-      Compare two strings for equality.
-      It will use the string hashes to determine inequality.
-      @param str  The string to compare against.
-      @param mode Comparison mode - case sensitive or not.
+   Compare two strings for equality.
+   It will use the string hashes to determine inequality.
+   @param str  The string to compare against.
+   @param mode Comparison mode - case sensitive or not.
    */
    bool equal(const String &str, U32 mode = Case) const;
 
    SizeType find(StringChar c, SizeType pos = 0, U32 mode = Case|Left) const;
    SizeType find(const StringChar *str, SizeType pos = 0, U32 mode = Case|Left) const;
    SizeType find(const String &str, SizeType pos = 0, U32 mode = Case|Left) const;
-   
+
    String   &insert(SizeType pos, const StringChar c) { return insert(pos,&c,1); }
    String   &insert(SizeType pos, const StringChar *str);
    String   &insert(SizeType pos, const String &str);
@@ -103,7 +103,7 @@ public:
 
    String   &replace(SizeType pos, SizeType len, const StringChar *str);
    String   &replace(SizeType pos, SizeType len, const String &str);
-   
+
    /// Replace all occurrences of character 'c1' with 'c2'
    String &replace( StringChar c1, StringChar c2 );
 
@@ -111,13 +111,13 @@ public:
    String &replace(const String &s1, const String &s2);
 
    String substr( SizeType pos, SizeType len = -1 ) const;
-   
+
    /// Remove leading and trailing whitespace.
    String trim() const;
-   
+
    /// Return true if the string starts with the given text.
    bool startsWith( const char* text ) const;
-   
+
    /// Return true if the string ends with the given text.
    bool endsWith( const char* text ) const;
 
@@ -176,48 +176,48 @@ public:
    /// reference counting that would otherwise be necessary.
    ///
    /// @{
-   
+
    /// Return the interned version of the string.
    /// @note Interning is case-sensitive.
    String intern() const;
-   
+
    /// Return true if this string is interned.
    bool isInterned() const;
-      
+
    /// @}
 
    /** An internal support class for ToString().
-      StrFormat manages the formatting of arbitrary length strings.
-      The class starts with a default internal fixed size buffer and
-      moves to dynamic allocation from the heap when that is exceeded.
-      Constructing the class on the stack will result in its most
-      efficient use. This class is meant to be used as a helper class,
-      and not for the permanent storage of string data.
-      @code
-         char* indexString(U32 index)
-         {
-            StrFormat format("Index: %d",index);
-            char* str = new char[format.size()];
-            format.copy(str);
-            return str;
-         }
-      @endcode
+   StrFormat manages the formatting of arbitrary length strings.
+   The class starts with a default internal fixed size buffer and
+   moves to dynamic allocation from the heap when that is exceeded.
+   Constructing the class on the stack will result in its most
+   efficient use. This class is meant to be used as a helper class,
+   and not for the permanent storage of string data.
+   @code
+   char* indexString(U32 index)
+   {
+   StrFormat format("Index: %d",index);
+   char* str = new char[format.size()];
+   format.copy(str);
+   return str;
+   }
+   @endcode
    */
    class StrFormat
    {
    public:
       StrFormat()
          :  _dynamicBuffer( NULL ),
-            _dynamicSize( 0 ),
-            _len( 0 )
+         _dynamicSize( 0 ),
+         _len( 0 )
       {
          _fixedBuffer[0] = '\0';
       }
 
       StrFormat(const char *formatStr, void *args)
          :  _dynamicBuffer( NULL ),
-            _dynamicSize( 0 ),
-            _len( 0 )
+         _dynamicSize( 0 ),
+         _len( 0 )
       {
          format(formatStr, args);
       }
@@ -261,7 +261,7 @@ private:
    // causes an ambiguous cast compile error.  Making it private is simply
    // more insurance that it isn't used on different compilers.
    // NOTE: disable on GCC since it causes hyper casting to U32 on gcc.
-#ifndef TORQUE_COMPILER_GCC
+#ifndef ACL_COMPILER_GCC
    operator const bool() const { return false; }
 #endif
 
@@ -274,55 +274,55 @@ private:
 // Utility class for formatting strings.
 class StringBuilder
 {
-   protected:
+protected:
 
-      ///
-      String::StrFormat mFormat;
+   ///
+   String::StrFormat mFormat;
 
-   public:
+public:
 
-      StringBuilder() {}
-      
-      U32 length() const
-      {
-         return mFormat.length();
-      }
-      
-      void copy( char* buffer ) const
-      {
-         mFormat.copy( buffer );
-      }
+   StringBuilder() {}
 
-      String end()
-      {
-         return mFormat.getString();
-      }
+   U32 length() const
+   {
+      return mFormat.length();
+   }
 
-      S32 append( char ch )
-      {
-         char str[2];
-         str[0]=ch;
-         str[1]='\0';
-         return mFormat.append(str);
-      }
-      S32 append( const char* str )
-      {
-         return mFormat.append(str);
-      }
-      S32 append( const String& str )
-      {
-         return mFormat.append( str.c_str(), str.length() );
-      }
-      S32 append( const char* str, U32 length )
-      {
-         return mFormat.append(str,length);
-      }
-      S32 format( const char* fmt, ... )
-      {
-         va_list args;
-         va_start(args, fmt);
-         return mFormat.formatAppend(fmt, &args);
-      }
+   void copy( char* buffer ) const
+   {
+      mFormat.copy( buffer );
+   }
+
+   String end()
+   {
+      return mFormat.getString();
+   }
+
+   S32 append( char ch )
+   {
+      char str[2];
+      str[0]=ch;
+      str[1]='\0';
+      return mFormat.append(str);
+   }
+   S32 append( const char* str )
+   {
+      return mFormat.append(str);
+   }
+   S32 append( const String& str )
+   {
+      return mFormat.append( str.c_str(), str.length() );
+   }
+   S32 append( const char* str, U32 length )
+   {
+      return mFormat.append(str,length);
+   }
+   S32 format( const char* fmt, ... )
+   {
+      va_list args;
+      va_start(args, fmt);
+      return mFormat.formatAppend(fmt, &args);
+   }
 };
 
 // For use in hash tables and the like for explicitly requesting case sensitive hashing.

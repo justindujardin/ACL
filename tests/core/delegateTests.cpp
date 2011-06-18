@@ -1,7 +1,13 @@
-#include "../acl/core/types/types.h"
-#include "../acl/core/util/delegate.h"
-#include "../acl/core/util/tSignal.h"
-#include<iostream>
+//-----------------------------------------------------------------------------
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
+//-----------------------------------------------------------------------------
+
+#include "core/types/types.h"
+#include "core/util/delegate.h"
+#include "core/util/tSignal.h"
+
+#include <iostream>
 #include <gtest/gtest.h>
 
 

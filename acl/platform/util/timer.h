@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef ACL_PLATFORM_TIMER_H_
@@ -17,7 +17,7 @@ namespace Platform2
       ~Timer();
       U32 getElapsedMs();
       void reset();
-      
+
    private:
       U32 mStartTime;
    };

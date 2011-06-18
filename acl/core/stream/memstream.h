@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _MEMSTREAM_H_
@@ -15,7 +15,7 @@ class MemStream : public Stream
 {
    typedef Stream Parent;
 
-  protected:
+protected:
    U32 const cm_bufferSize;
    void*  m_pBufferBase;
    bool mOwnsMemory;
@@ -23,24 +23,24 @@ class MemStream : public Stream
    U32 m_instCaps;
    U32 m_currentPosition;
 
-  public:
+public:
    MemStream(const U32  in_bufferSize,
-             void*      io_pBuffer = NULL,
-             const bool in_allowRead  = true,
-             const bool in_allowWrite = true);
+      void*      io_pBuffer = NULL,
+      const bool in_allowRead  = true,
+      const bool in_allowWrite = true);
    virtual ~MemStream();
 
    // Mandatory overrides from Stream
-  protected:
+protected:
    bool _read(const U32 in_numBytes,  void* out_pBuffer);
    bool _write(const U32 in_numBytes, const void* in_pBuffer);
-  public:
+public:
    bool hasCapability(const Capability) const;
    U32  getPosition() const;
    bool setPosition(const U32 in_newPosition);
    void *getBuffer() { return m_pBufferBase; }
    // Mandatory overrides from Stream
-  public:
+public:
    U32  getStreamSize();
 };
 

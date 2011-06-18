@@ -1,31 +1,31 @@
 //-----------------------------------------------------------------------------
-// Torque Game Engine
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#ifndef TORQUE_PLATFORM2_MAC_SEMAPHOREIMPL_H_
-#define TORQUE_PLATFORM2_MAC_SEMAPHOREIMPL_H_
+#ifndef ACL_PLATFORM_MAC_SEMAPHOREIMPL_H_
+#define ACL_PLATFORM_MAC_SEMAPHOREIMPL_H_
 
-#include "platform2/impls/base/threads/semaphoreImpl.h"
+#include "platform/impls/base/threads/semaphoreImpl.h"
 
 namespace Platform2
 {
-namespace Internal_
-{
-   class MacSemaphoreImpl : public SemaphoreImpl
+   namespace Internal_
    {
-   public:      
-      MacSemaphoreImpl();
-      virtual ~MacSemaphoreImpl();
-      virtual bool init(U32 initialCount, U32 maxCount);
-      virtual Threading::Status acquire(bool block);
-      virtual Threading::Status release();
-      
-   private:
-      MPSemaphoreID mSemaphore;
-      OSStatus mCreationErr;
-   };
-}
+      class MacSemaphoreImpl : public SemaphoreImpl
+      {
+      public:      
+         MacSemaphoreImpl();
+         virtual ~MacSemaphoreImpl();
+         virtual bool init(U32 initialCount, U32 maxCount);
+         virtual Threading::Status acquire(bool block);
+         virtual Threading::Status release();
+
+      private:
+         MPSemaphoreID mSemaphore;
+         OSStatus mCreationErr;
+      };
+   }
 }
 
 #endif

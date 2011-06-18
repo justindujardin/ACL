@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (C) GarageGames.com, Inc.
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _CORE_TPAIR_H_
@@ -12,28 +12,28 @@ class Pair
 public:
    typedef T1 FirstType;
    typedef T2 SecondType;
-   
+
    Pair() : first(), second() {}
    Pair(const FirstType& f, const SecondType& s) : first(f), second(s) {}
    Pair(const Pair& p) : first(p.first), second(p.second) {}
-   
+
    inline Pair& operator=(const Pair& other)
    {
       first = other.first;
       second = other.second;
       return *this;
    }
-   
+
    inline bool operator==(const Pair& other) const
    {
       return other.first == first && other.second == second;
    }
-   
+
    inline bool operator!=(const Pair& other) const
    {
       return !(other == *this);
    }
-   
+
    FirstType first;
    SecondType second;
 };
