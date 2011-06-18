@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="core\assert.cpp" />
+    <ClCompile Include="core\assertImpl.cpp" />
+    <ClCompile Include="core\containers\tDictionary.cpp" />
+    <ClCompile Include="core\containers\tVector.cpp" />
+    <ClCompile Include="core\crc.cpp" />
+    <ClCompile Include="core\dataChunker.cpp" />
+    <ClCompile Include="core\frameAllocator.cpp" />
+    <ClCompile Include="core\idGenerator.cpp" />
+    <ClCompile Include="core\memVolume.cpp" />
+    <ClCompile Include="core\stream\fileStream.cpp" />
+    <ClCompile Include="core\stream\filterStream.cpp" />
+    <ClCompile Include="core\stream\memStream.cpp" />
+    <ClCompile Include="core\stream\resizeStream.cpp" />
+    <ClCompile Include="core\stream\stream.cpp" />
+    <ClCompile Include="core\strings\findMatch.cpp" />
+    <ClCompile Include="core\strings\stringFunctions.cpp" />
+    <ClCompile Include="core\strings\stringUnit.cpp" />
+    <ClCompile Include="core\strings\unicode.cpp" />
+    <ClCompile Include="core\util\byteBuffer.cpp" />
+    <ClCompile Include="core\util\hashFunction.cpp" />
+    <ClCompile Include="core\util\path.cpp" />
+    <ClCompile Include="core\util\str.cpp" />
+    <ClCompile Include="core\util\timeClass.cpp" />
+    <ClCompile Include="core\util\tSignal.cpp" />
+    <ClCompile Include="core\util\typeRebind.cpp" />
+    <ClCompile Include="core\virtualMountSystem.cpp" />
+    <ClCompile Include="core\volume.cpp" />
+    <ClCompile Include="platform\dlibrary\dlibrary.cpp" />
+    <ClCompile Include="platform\impls\base\platformAssert.cpp" />
+    <ClCompile Include="platform\impls\base\platformCreator.cpp" />
+    <ClCompile Include="platform\impls\win32\console\winConsole.cpp" />
+    <ClCompile Include="platform\impls\win32\dlibrary\win32DLibraryImpl.cpp" />
+    <ClCompile Include="platform\impls\win32\threads\win32MutexImpl.cpp" />
+    <ClCompile Include="platform\impls\win32\threads\win32SemaphoreImpl.cpp" />
+    <ClCompile Include="platform\impls\win32\threads\win32ThreadImpl.cpp" />
+    <ClCompile Include="platform\impls\win32\threads\win32ThreadLocalImpl.cpp" />
+    <ClCompile Include="platform\impls\win32\volume\win32DirectoryImpl.cpp" />
+    <ClCompile Include="platform\impls\win32\volume\win32FileImpl.cpp" />
+    <ClCompile Include="platform\impls\win32\volume\win32FileSystemChangeNotifierImpl.cpp" />
+    <ClCompile Include="platform\impls\win32\volume\win32FileSystemImpl.cpp" />
+    <ClCompile Include="platform\impls\win32\win32Platform.cpp" />
+    <ClCompile Include="platform\impls\win32\win32SystemInfo.cpp" />
+    <ClCompile Include="platform\platform.cpp" />
+    <ClCompile Include="platform\platformSystemInfo.cpp" />
+    <ClCompile Include="platform\threads\mutex.cpp" />
+    <ClCompile Include="platform\threads\semaphore.cpp" />
+    <ClCompile Include="platform\threads\thread.cpp" />
+    <ClCompile Include="platform\threads\threadLocal.cpp" />
+    <ClCompile Include="platform\util\operation.cpp" />
+    <ClCompile Include="platform\util\timer.cpp" />
+    <ClCompile Include="platform\volume\platform2Volume.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="core\assert.h" />
+    <ClInclude Include="core\assertImpl.h" />
+    <ClInclude Include="core\containers\tDictionary.h" />
+    <ClInclude Include="core\containers\tList.h" />
+    <ClInclude Include="core\containers\tPair.h" />
+    <ClInclude Include="core\containers\tVector.h" />
+    <ClInclude Include="core\crc.h" />
+    <ClInclude Include="core\dataChunker.h" />
+    <ClInclude Include="core\frameAllocator.h" />
+    <ClInclude Include="core\idGenerator.h" />
+    <ClInclude Include="core\memoryFunctions.h" />
+    <ClInclude Include="core\memVolume.h" />
+    <ClInclude Include="core\stream\fileStream.h" />
+    <ClInclude Include="core\stream\filterStream.h" />
+    <ClInclude Include="core\stream\ioHelper.h" />
+    <ClInclude Include="core\stream\memstream.h" />
+    <ClInclude Include="core\stream\resizeStream.h" />
+    <ClInclude Include="core\stream\stream.h" />
+    <ClInclude Include="core\strings\findMatch.h" />
+    <ClInclude Include="core\strings\stringFunctions.h" />
+    <ClInclude Include="core\strings\stringUnit.h" />
+    <ClInclude Include="core\strings\unicode.h" />
+    <ClInclude Include="core\torque.h" />
+    <ClInclude Include="core\types\types.gcc.h" />
+    <ClInclude Include="core\types\types.h" />
+    <ClInclude Include="core\types\types.lint.h" />
+    <ClInclude Include="core\types\types.mac.h" />
+    <ClInclude Include="core\types\types.posix.h" />
+    <ClInclude Include="core\types\types.visualc.h" />
+    <ClInclude Include="core\types\types.win32.h" />
+    <ClInclude Include="core\types\types.xenon.h" />
+    <ClInclude Include="core\util\autoPtr.h" />
+    <ClInclude Include="core\util\byteBuffer.h" />
+    <ClInclude Include="core\util\delegate.h" />
+    <ClInclude Include="core\util\endian.h" />
+    <ClInclude Include="core\util\FastDelegate.h" />
+    <ClInclude Include="core\util\hashFunction.h" />
+    <ClInclude Include="core\util\noncopyable.h" />
+    <ClInclude Include="core\util\path.h" />
+    <ClInclude Include="core\util\profiler.h" />
+    <ClInclude Include="core\util\refBase.h" />
+    <ClInclude Include="core\util\scopedPtr.h" />
+    <ClInclude Include="core\util\str.h" />
+    <ClInclude Include="core\util\tAlgorithm.h" />
+    <ClInclude Include="core\util\timeClass.h" />
+    <ClInclude Include="core\util\tPolicy.h" />
+    <ClInclude Include="core\util\tReflection.h" />
+    <ClInclude Include="core\util\tSignal.h" />
+    <ClInclude Include="core\util\typeRebind.h" />
+    <ClInclude Include="core\virtualMountSystem.h" />
+    <ClInclude Include="core\volume.h" />
+    <ClInclude Include="platform\dlibrary\dlibrary.h" />
+    <ClInclude Include="platform\impls\base\dlibrary\dlibraryImpl.h" />
+    <ClInclude Include="platform\impls\base\platformAssert.h" />
+    <ClInclude Include="platform\impls\base\platformCreator.h" />
+    <ClInclude Include="platform\impls\base\threads\mutexImpl.h" />
+    <ClInclude Include="platform\impls\base\threads\semaphoreImpl.h" />
+    <ClInclude Include="platform\impls\base\threads\threadImpl.h" />
+    <ClInclude Include="platform\impls\base\threads\threadLocalImpl.h" />
+    <ClInclude Include="platform\impls\base\volume\directoryImpl.h" />
+    <ClInclude Include="platform\impls\base\volume\fileImpl.h" />
+    <ClInclude Include="platform\impls\base\volume\fileSystemChangeNotifierImpl.h" />
+    <ClInclude Include="platform\impls\base\volume\fileSystemImpl.h" />
+    <ClInclude Include="platform\impls\win32\console\winConsole.h" />
+    <ClInclude Include="platform\impls\win32\dlibrary\win32DLibraryImpl.h" />
+    <ClInclude Include="platform\impls\win32\threads\win32MutexImpl.h" />
+    <ClInclude Include="platform\impls\win32\threads\win32SemaphoreImpl.h" />
+    <ClInclude Include="platform\impls\win32\threads\win32ThreadImpl.h" />
+    <ClInclude Include="platform\impls\win32\threads\win32ThreadLocalImpl.h" />
+    <ClInclude Include="platform\impls\win32\volume\win32DirectoryImpl.h" />
+    <ClInclude Include="platform\impls\win32\volume\win32FileImpl.h" />
+    <ClInclude Include="platform\impls\win32\volume\win32FileSystemChangeNotifierImpl.h" />
+    <ClInclude Include="platform\impls\win32\volume\win32FileSystemImpl.h" />
+    <ClInclude Include="platform\impls\win32\win32Platform.h" />
+    <ClInclude Include="platform\platform.h" />
+    <ClInclude Include="platform\platformSystemInfo.h" />
+    <ClInclude Include="platform\threads\mutex.h" />
+    <ClInclude Include="platform\threads\semaphore.h" />
+    <ClInclude Include="platform\threads\thread.h" />
+    <ClInclude Include="platform\threads\threadingStatus.h" />
+    <ClInclude Include="platform\threads\threadLocal.h" />
+    <ClInclude Include="platform\util\operation.h" />
+    <ClInclude Include="platform\util\promise.h" />
+    <ClInclude Include="platform\util\timer.h" />
+    <ClInclude Include="platform\volume\platform2Volume.h" />
+    <ClInclude Include="plugin\plugin.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E0A7D759-2997-4BD6-AE79-73A8C9732DD8}</ProjectGuid>
+    <RootNamespace>appCoreLibrary</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>acl</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>Winmm.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
