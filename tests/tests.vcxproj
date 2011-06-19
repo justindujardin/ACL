@@ -96,6 +96,7 @@
     <ClCompile Include="core\delegateTests.cpp" />
     <ClCompile Include="core\pathTests.cpp" />
     <ClCompile Include="core\stringTests.cpp" />
+    <ClCompile Include="core\refBaseTests.cpp" />
     <ClCompile Include="testMain.cpp" />
   </ItemGroup>
   <ItemGroup>
