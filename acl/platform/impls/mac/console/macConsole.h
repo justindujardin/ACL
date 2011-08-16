@@ -6,12 +6,7 @@
 #ifndef ACL_PLATFORM_MAC_CONSOLE_H_
 #define ACL_PLATFORM_MAC_CONSOLE_H_
 
-#ifndef _CONSOLE_H_
-#include "console/console.h"
-#endif
-#ifndef _EVENT_H_
-#include "platform/event.h"
-#endif
+#include "acl.h"
 
 class MacConsole
 {

@@ -26,14 +26,6 @@ namespace Platform2
          virtual U32 getRealMilliseconds();
          virtual void sleep(U32 ms);
 
-         virtual const Vector<Display>& getDisplays();
-
-         virtual void enterFullscreen(void* display);
-         virtual bool isFullscreen() { return mIsFullscreen; }
-         virtual void setFullscreenResolution(const Point2I& res);
-         virtual RectI getFullscreenBounds();
-         virtual void exitFullscreen();
-
          virtual ACLib::Path getExecutablePath();
          virtual String getExecutableName();
 
@@ -59,7 +51,6 @@ namespace Platform2
       private:
          struct Internal;
          ACLib::ScopedPtr<Internal> mInternal;
-         bool mIsFullscreen;
       };
    }
 }

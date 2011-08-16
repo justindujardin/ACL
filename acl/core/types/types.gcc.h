@@ -84,7 +84,7 @@ typedef unsigned long long  U64;
 #  define ACL_CPU_STRING "Intel x86"
 #  define ACL_CPU_X86
 #  define ACL_LITTLE_ENDIAN
-#  define ACL_DEBUG_BREAK __asm{int 3}
+#  define ACL_DEBUG_BREAK asm("int $3");
 
 #elif defined(__ppc__)
 #  define ACL_CPU_STRING "PowerPC"

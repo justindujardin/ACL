@@ -10,6 +10,10 @@
 #include "core/types/types.h"
 #endif
 
+#ifndef CORE_UTIL_REFLECTION_H
+#include "core/util/tReflection.h"
+#endif
+
 namespace ACLib
 {
 
