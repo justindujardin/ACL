@@ -5,6 +5,7 @@
 
 #include "platform/platformSystemInfo.h"
 #include "core/assert.h"
+#include "platform/platform.h"
 
 namespace Platform2
 {
@@ -20,19 +21,19 @@ namespace Platform2
 
    void SystemInfo::dumpToConsole() const
    {
-      AssertFatal(false,"Platform system information: Not Implemented");
-      //Con::printf("System Information:");
-      //Con::printf("  OS: %s", fullOsName.c_str());
-      //Con::printf("  Major: %i Minor: %i Bugfix: %i", majorVersion, minorVersion, bugfixVersion);
-      //Con::printf("  Memory: %i MB", memoryInMB);
-      //Con::printf("");
-      //Con::printf("Processor Information:");
-      //Con::printf("  Vendor: %s", Processor.vendor.c_str());
-      //Con::printf("  Family: %s", Processor.family.c_str());
-      //Con::printf("  Number of logical processors: %i", Processor.numLogicalProcessors);
-      //Con::printf("  Speed: %i MHz", Processor.speedInMhz);
-      //Con::printf("  SSE: %i", Processor.sseLevel);
-      //Con::printf("");
+      PlatformObject * plat = Platform2::GetPlatform();
+      plat->outputDebugString("System Information:");
+      plat->outputDebugString(String::ToString("  OS: %s", fullOsName.c_str()));
+      plat->outputDebugString(String::ToString("  Major: %i Minor: %i Bugfix: %i", majorVersion, minorVersion, bugfixVersion));
+      plat->outputDebugString(String::ToString("  Memory: %i MB", memoryInMB));
+      plat->outputDebugString("");
+      plat->outputDebugString("Processor Information:");
+      plat->outputDebugString(String::ToString("  Vendor: %s", Processor.vendor.c_str()));
+      plat->outputDebugString(String::ToString("  Family: %s", Processor.family.c_str()));
+      plat->outputDebugString(String::ToString("  Number of logical processors: %i", Processor.numLogicalProcessors));
+      plat->outputDebugString(String::ToString("  Speed: %i MHz", Processor.speedInMhz));
+      plat->outputDebugString(String::ToString("  SSE: %i", Processor.sseLevel));
+      plat->outputDebugString("");
    }
 }
 

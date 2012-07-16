@@ -100,6 +100,84 @@ namespace Internal_
       usleep(ms * 1000);
    }
    
+   ACLib::Path MacPlatformObject::getExecutablePath()
+   {
+      static String cwd;
+      if(cwd.isEmpty())
+      {
+         NSString* string = [[NSBundle mainBundle] pathForResource:@"main" ofType:@"cs"];
+         if(!string)
+            string = [[NSBundle mainBundle] bundlePath];
+         
+         string = [string stringByDeletingLastPathComponent];
+         cwd = (UTF16*)[string cStringUsingEncoding:NSUTF16StringEncoding];
+         cwd += "/";
+      }
+      
+      return cwd;
+   }
+   
+   String MacPlatformObject::getExecutableName()
+   { 
+      static String name;
+      if(name.isEmpty())
+         name = [[[[NSBundle mainBundle] bundlePath] lastPathComponent] cStringUsingEncoding:NSUTF16StringEncoding];
+      
+      return name;
+   }
+   
+   String MacPlatformObject::getClipboard()
+   {
+      NSString* data = [[NSPasteboard generalPasteboard] stringForType:NSStringPboardType];
+      if(!data)
+         return "";
+      
+      return (UTF16*)[data cStringUsingEncoding:NSUTF16StringEncoding];
+   }
+   
+   bool MacPlatformObject::setClipboard(const String& text)
+   {
+      [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
+      BOOL set = [[NSPasteboard generalPasteboard] setString:CocoaUtils::StringToNSString(text) forType:NSStringPboardType];
+
+      return set == YES;
+   }
+
+   void MacPlatformObject::restartInstance()
+   {
+      // execl() leaves open file descriptors open, that's the main reason it's not
+      // used here. We want to start fresh.
+      
+      // get the path to the torque executable
+      CFBundleRef mainBundle =  CFBundleGetMainBundle();
+      CFURLRef execURL = CFBundleCopyExecutableURL(mainBundle);
+      CFStringRef execString = CFURLCopyFileSystemPath(execURL, kCFURLPOSIXPathStyle);
+
+      // append ampersand so that we can launch without blocking.
+      // encase in quotes so that spaces in the path are accepted.
+      CFMutableStringRef mut = CFStringCreateMutableCopy(NULL, 0, execString);
+      CFStringInsert(mut, 0, CFSTR("\""));
+      CFStringAppend(mut, CFSTR("\" & "));
+      
+      U32 len = CFStringGetMaximumSizeForEncoding(CFStringGetLength(mut), kCFStringEncodingUTF8);
+      char *execCString = new char[len+1];
+      CFStringGetCString(mut, execCString, len, kCFStringEncodingUTF8);
+      execCString[len] = '\0';
+      
+      //Con::printf("---- %s -----",execCString);
+      system(execCString);
+      delete[] execCString;
+   }
+   
+   void MacPlatformObject::postQuitMessage(U32 code)
+   {
+      // We need a window installed for this to properly route through the 
+      // standard quit sequence.  In the unit test or dedicated server cases
+      // we don't have a window.
+      //[NSApp terminate:nil];
+      //Process::requestShutdown();
+     AssertFatal(false,"Not implemented");
+   }
    
    void MacPlatformObject::outputDebugString(const String& str)
    {
@@ -108,8 +186,12 @@ namespace Internal_
       fflush(stderr);
    }
    
- 
-   bool MacPlatformObject::touchFile(const Path& path)
+   bool MacPlatformObject::openWebBrowser(const String& address)
+   {
+      return [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:CocoaUtils::StringToNSString(address)]];
+   }
+   
+   bool MacPlatformObject::touchFile(const ACLib::Path& path)
    {
       return utimes(path.getFullPath().c_str(), NULL) == 0;
    }

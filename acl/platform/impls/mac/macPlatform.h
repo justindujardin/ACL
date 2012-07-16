@@ -26,9 +26,16 @@ namespace Platform2
          virtual U32 getRealMilliseconds();
          virtual void sleep(U32 ms);
 
+         virtual ACLib::Path getExecutablePath();
+         virtual String getExecutableName();
+ 
+         virtual String getClipboard();
+         virtual bool setClipboard(const String& text);
+         virtual void restartInstance();
+         virtual void postQuitMessage(U32 code);
          virtual void outputDebugString(const String& str);
+         virtual bool openWebBrowser(const String& address);
          virtual bool touchFile(const ACLib::Path& path);
-
       protected:
          virtual U32 getMathControlState();
          virtual void setMathControlState(U32 state);

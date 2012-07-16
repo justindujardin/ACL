@@ -11,8 +11,6 @@
 #include "core/util/typeRebind.h"
 
 class String;
-class Point2I;
-class RectI;
 class BehaviorTestFixture;
 
 namespace ACLib { class Path; }
@@ -49,6 +47,30 @@ namespace Platform2
       /// finite, period of time greater than ms.
       virtual void sleep(U32 ms) = 0;
 
+      /// @returns The absolute path to the app's executable (e.g C:/Program Files/MyApp/ or /Applications/MyApp/)
+      /// @note On OS X, if you have put the app's assets inside the .app package, this function will return
+      /// a path that leads into the .app package, e.g. /Applications/MyApp/MyApp.app/Resources/
+      virtual ACLib::Path getExecutablePath() = 0;
+      
+      /// @returns The name of the executable, excluding the extension.
+      virtual String getExecutableName() = 0; 
+      
+      /// @returns The current string on the users clipboard, or the empty string if there is no data on the clipboard.
+      virtual String getClipboard() = 0;
+      
+      /// Sets the current string on the user's clipboard.
+      /// @param text The string to set
+      /// @returns true if the clipboard was modified, false otherwise.
+      virtual bool setClipboard(const String& text) = 0;
+      
+      /// Call this to signal to the platform that a new instance of the app should be started.
+      /// @note NOT guaranteed to exit the current instance.
+      virtual void restartInstance() = 0;
+      
+      /// Requests that the app quit gracefully.      
+      /// @note This function is NOT guaranteed to call Process::requestShutdown, nor is it guaranteed 
+      /// TO NOT call Process::requestShutdown.
+      virtual void postQuitMessage(U32 code) = 0;
 
       /// Writes a string to the debugger, if one is attached.
       /// @note May write to stderr
