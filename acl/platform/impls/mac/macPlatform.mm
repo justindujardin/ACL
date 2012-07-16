@@ -35,12 +35,9 @@ namespace Internal_
    
    struct MacPlatformObject::Internal
    {
-      Internal() : fullscreenDisplay(0), defaultDisplayMode(nil)
+      Internal()
       {
       }
-      
-      CGDirectDisplayID fullscreenDisplay;
-      NSDictionary* defaultDisplayMode;
    };
    
    MacPlatformObject::MacPlatformObject() :
@@ -81,7 +78,7 @@ namespace Internal_
    {
 //      MacConsole::destroy();
    }
-   
+
    void MacPlatformObject::abort(U32 code)
    {
       ::abort();
@@ -89,7 +86,7 @@ namespace Internal_
    
    void MacPlatformObject::debugBreak()
    {
-      DebugStr("\pDEBUG_BREAK!");
+      DebugStr((const unsigned char*)"DEBUG_BREAK!");
    }
    
    U32 MacPlatformObject::getRealMilliseconds()
@@ -104,116 +101,14 @@ namespace Internal_
    }
    
    
-   // helper func for getWorkingDirectory
-   static inline bool isMainDotCsPresent(NSString* dir)
-   { 
-      return [[NSFileManager defaultManager] fileExistsAtPath:[dir stringByAppendingPathComponent:@"main.cs"]] == YES;
-   }
-   
-   Path MacPlatformObject::getExecutablePath()
-   {
-      static String cwd;
-      if(cwd.isEmpty())
-      {
-         NSString* string = [[NSBundle mainBundle] pathForResource:@"main" ofType:@"cs"];
-         if(!string)
-            string = [[NSBundle mainBundle] bundlePath];
-         
-         string = [string stringByDeletingLastPathComponent];
-         AssertISV(isMainDotCsPresent(string), "MacPlatformObject::getExecutablePath - Failed to find main.cs!");
-         cwd = (UTF16*)[string cStringUsingEncoding:NSUTF16StringEncoding];
-         cwd += "/";
-      }
-      
-      return cwd;
-   }
-   
-   String MacPlatformObject::getExecutableName()
-   { 
-      static String name;
-      if(name.isEmpty())
-         name = [[[[NSBundle mainBundle] bundlePath] lastPathComponent] cStringUsingEncoding:NSUTF16StringEncoding];
-      
-      return name;
-   }
-   
-   String MacPlatformObject::getUserDataDirectory()
-   {
-      // application support directory is most in line with the current usages of this function.
-      // this may change with later usage
-      // perhaps the user data directory should be pref-controlled?
-      return (UTF16*)[[@"~/Library/Application Support/" stringByStandardizingPath] cStringUsingEncoding:NSUTF16StringEncoding];
-   }
-   
-   String MacPlatformObject::getUserHomeDirectory()
-   {
-      return (UTF16*)[[@"~/" stringByStandardizingPath] cStringUsingEncoding:NSUTF16StringEncoding];
-   }
-   
-   String MacPlatformObject::getClipboard()
-   {
-      NSString* data = [[NSPasteboard generalPasteboard] stringForType:NSStringPboardType];
-      if(!data)
-         return "";
-      
-      return (UTF16*)[data cStringUsingEncoding:NSUTF16StringEncoding];
-   }
-   
-   bool MacPlatformObject::setClipboard(const String& text)
-   {
-      [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
-      BOOL set = [[NSPasteboard generalPasteboard] setString:CocoaUtils::StringToNSString(text) forType:NSStringPboardType];
-
-      return set == YES;
-   }
-
-   void MacPlatformObject::restartInstance()
-   {
-      // execl() leaves open file descriptors open, that's the main reason it's not
-      // used here. We want to start fresh.
-      
-      // get the path to the torque executable
-      CFBundleRef mainBundle =  CFBundleGetMainBundle();
-      CFURLRef execURL = CFBundleCopyExecutableURL(mainBundle);
-      CFStringRef execString = CFURLCopyFileSystemPath(execURL, kCFURLPOSIXPathStyle);
-
-      // append ampersand so that we can launch without blocking.
-      // encase in quotes so that spaces in the path are accepted.
-      CFMutableStringRef mut = CFStringCreateMutableCopy(NULL, 0, execString);
-      CFStringInsert(mut, 0, CFSTR("\""));
-      CFStringAppend(mut, CFSTR("\" & "));
-      
-      U32 len = CFStringGetMaximumSizeForEncoding(CFStringGetLength(mut), kCFStringEncodingUTF8);
-      char *execCString = new char[len+1];
-      CFStringGetCString(mut, execCString, len, kCFStringEncodingUTF8);
-      execCString[len] = '\0';
-      
-//      Con::printf("---- %s -----",execCString);
-      system(execCString);
-      delete[] execCString;
-   }
-   
-   void MacPlatformObject::postQuitMessage(U32 code)
-   {
-      // We need a window installed for this to properly route through the 
-      // standard quit sequence.  In the unit test or dedicated server cases
-      // we don't have a window.
-      //[NSApp terminate:nil];
-//      Process::requestShutdown();
-   }
-   
    void MacPlatformObject::outputDebugString(const String& str)
    {
-      fprintf(stderr, str );
+      fprintf(stderr, "%s", str.c_str() );
       fprintf(stderr, "\n" );
       fflush(stderr);
    }
    
-   bool MacPlatformObject::openWebBrowser(const String& address)
-   {
-      return [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:CocoaUtils::StringToNSString(address)]];
-   }
-   
+ 
    bool MacPlatformObject::touchFile(const Path& path)
    {
       return utimes(path.getFullPath().c_str(), NULL) == 0;

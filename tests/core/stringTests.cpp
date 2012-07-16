@@ -9,7 +9,6 @@
 #include "core/strings/stringFunctions.h"
 
 #include <gtest/gtest.h>
-#include <conio.h>
 
 // Unicode Strings
 #ifdef ACL_OS_WIN32

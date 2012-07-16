@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 #include "core/stream/filterStream.h"
+#include "core/assert.h"
 
 FilterStream::~FilterStream()
 {

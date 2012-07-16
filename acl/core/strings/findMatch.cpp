@@ -27,8 +27,6 @@
 
 FindMatch::FindMatch( U32 _maxMatches )
 {
-   VECTOR_SET_ASSOCIATION(matchList);
-
    expression = NULL;
    maxMatches = _maxMatches;
    matchList.reserve( maxMatches );
@@ -36,8 +34,6 @@ FindMatch::FindMatch( U32 _maxMatches )
 
 FindMatch::FindMatch( char *_expression, U32 _maxMatches )
 {
-   VECTOR_SET_ASSOCIATION(matchList);
-
    expression = NULL;
    setExpression( _expression );
    maxMatches = _maxMatches;

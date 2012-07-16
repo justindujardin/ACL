@@ -7,7 +7,7 @@
 #define _FINDMATCH_H_
 
 #ifndef _TVECTOR_H_
-#include "../containers/tVector.h"
+#include "core/containers/tVector.h"
 #endif
 
 class   FindMatch

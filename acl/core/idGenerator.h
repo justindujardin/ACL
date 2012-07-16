@@ -24,8 +24,6 @@ private:
 public:
    IdGenerator(U32 base, U32 numIds)
    {
-      VECTOR_SET_ASSOCIATION(mPool);
-
       mIdBlockBase = base;
       mIdRangeSize = numIds;
       mNextId = mIdBlockBase;

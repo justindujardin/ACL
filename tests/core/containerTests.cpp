@@ -30,22 +30,16 @@ TEST(ListTest,Insertion) {
    // List
    ACLib::List<const char *> nameList;
    static const char *names[] = { "bill", "patricia", "rodney", "colbert", "robert", NULL };
-   S32 i = 0;
+   U32 i = 0;
    const char *nameIter = names[i];
    while(nameIter != NULL)
    {
       nameList.pushBack(nameIter);
-      nameIter = names[i++];
+      nameIter = names[++i];
    }
-   i = 0;
-   while(nameList.getSize() > 0)
+   for(i = 0; i < nameList.getSize(); i++)
    {
-      const char* theName = nameList[0];
-      const char* theOriginal = names[i];
-      EXPECT_STRCASEEQ(theName,theOriginal);
-
-      nameList.popFront();
-      i++;
+      EXPECT_STRCASEEQ(nameList[i],names[i]);
    }
 }
 

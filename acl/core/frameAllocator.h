@@ -10,16 +10,6 @@
 #include "core/memoryFunctions.h"
 #include "core/assert.h"
 
-/// Define me if you want to enable debug guards on the FrameAllocator.
-/// 
-/// This is similar to the above memory manager guards, but applies only to the
-/// fast FrameAllocator temporary pool memory allocations. The guards are only
-/// checked when the FrameAllocator frees memory (when it's water mark changes).
-/// This is most useful for detecting buffer overruns when using FrameTemp<> .
-/// A buffer overrun in the FrameAllocator is unlikely to cause a crash, but may
-/// still result in unexpected behavior, if other FrameTemp's are stomped.
-//#define FRAMEALLOCATOR_DEBUG_GUARD
-
 /// This #define is used by the FrameAllocator to align starting addresses to
 /// be byte aligned to this value. This is important on the 360 and possibly
 /// on other platforms as well. Use this #define anywhere alignment is needed.
@@ -84,10 +74,6 @@ public:
 
 void FrameAllocator::init(const U32 frameSize)
 {
-#ifdef FRAMEALLOCATOR_DEBUG_GUARD
-   AssertISV( false, "FRAMEALLOCATOR_DEBUG_GUARD has been removed because it allows non-contiguous memory allocation by the FrameAllocator, and this is *not* ok." );
-#endif
-
    AssertFatal(smBuffer == NULL, "Error, already initialized");
    smBuffer = new U8[frameSize];
    smWaterMark = 0;

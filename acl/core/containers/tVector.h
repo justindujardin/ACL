@@ -23,33 +23,16 @@
 #endif
 
 #ifndef ACL_CORE_UTIL_ALGORITHM_H_
-#include "../util/tAlgorithm.h"
+#include "core/util/tAlgorithm.h"
 #endif
 
-#ifndef AssertFatal 
-#define AssertFatal //
-#endif
 
 //-----------------------------------------------------------------------------
 // Helper definitions for the vector class.
 
 /// Size of memory blocks to allocate at a time for vectors.
 const static S32 VectorBlockSize = 16;
-#ifdef ACL_DEBUG_GUARD
-extern bool VectorResize(U32 *aSize, U32 *aCount, void **arrayPtr, U32 newCount, U32 elemSize,
-   const char* fileName,
-   const U32   lineNum);
-#else
 extern bool VectorResize(U32 *aSize, U32 *aCount, void **arrayPtr, U32 newCount, U32 elemSize);
-#endif
-
-/// Use the following macro to bind a vector to a particular line
-///  of the owning class for memory tracking purposes
-#ifdef ACL_DEBUG_GUARD
-#define VECTOR_SET_ASSOCIATION(x) x.setFileAssociation(__FILE__, __LINE__)
-#else
-#define VECTOR_SET_ASSOCIATION(x)
-#endif
 
 class VectorBase
 {
@@ -59,16 +42,8 @@ protected:
    U32 mElementsAllocated;
    U8* mArray;
 
-#ifdef ACL_DEBUG_GUARD
-   const char* mFileAssociation;
-   U32 mLineAssociation;
-   void setFileAssociation(const char* file, U32 line);
-#endif
-
    VectorBase(U32 elementSize);
    VectorBase(U32 elementSize, U32 initialSize);
-   VectorBase(U32 elementSize, U32 initialSize, const char* fileName, U32 lineNum);
-   VectorBase(U32 elementSize, const char* fileName, U32 lineNum);
    VectorBase(const VectorBase&);
    ~VectorBase();
 
@@ -108,11 +83,6 @@ inline VectorBase::~VectorBase()
 
 inline VectorBase::VectorBase(U32 elementSize)
 {
-#ifdef ACL_DEBUG_GUARD
-   mFileAssociation = NULL;
-   mLineAssociation = 0;
-#endif
-
    mElementSize = elementSize;
    mArray        = 0;
    mElementCount = 0;
@@ -121,87 +91,25 @@ inline VectorBase::VectorBase(U32 elementSize)
 
 inline VectorBase::VectorBase(U32 elementSize, U32 initialSize)
 {
-#ifdef ACL_DEBUG_GUARD
-   mFileAssociation = NULL;
-   mLineAssociation = 0;
-#endif
-
    mElementSize = elementSize;
    mArray        = 0;
    mElementCount = 0;
    mElementsAllocated    = 0;
    if(initialSize)
       reserve(initialSize);
-}
-
-inline VectorBase::VectorBase(U32 elementSize,
-   U32 initialSize,
-   const char* fileName,
-   U32   lineNum)
-{
-#ifdef ACL_DEBUG_GUARD
-   mFileAssociation = fileName;
-   mLineAssociation = lineNum;
-#else
-   ACL_UNUSED(fileName);
-   ACL_UNUSED(lineNum);
-#endif
-
-   mElementSize = elementSize;
-   mArray        = 0;
-   mElementCount = 0;
-   mElementsAllocated    = 0;
-   if(initialSize)
-      reserve(initialSize);
-}
-
-inline VectorBase::VectorBase(U32 elementSize,
-   const char* fileName,
-   U32   lineNum)
-{
-#ifdef ACL_DEBUG_GUARD
-   mFileAssociation = fileName;
-   mLineAssociation = lineNum;
-#else
-   ACL_UNUSED(fileName);
-   ACL_UNUSED(lineNum);
-#endif
-
-   mElementSize = elementSize;
-   mArray        = 0;
-   mElementCount = 0;
-   mElementsAllocated    = 0;
 }
 
 // WARNING: Does not copy contents of p!
 inline VectorBase::VectorBase(const VectorBase& p)
 {
-#ifdef ACL_DEBUG_GUARD
-   mFileAssociation = p.mFileAssociation;
-   mLineAssociation = p.mLineAssociation;
-#endif
-
    mArray = 0;
    resize(p.mElementCount);
 }
 
 inline bool VectorBase::resize(U32 ecount)
 {
-#ifdef ACL_DEBUG_GUARD
-   return VectorResize(&mElementsAllocated, &mElementCount, (void**)&mArray, ecount, mElementSize,
-      mFileAssociation, mLineAssociation);
-#else
    return VectorResize(&mElementsAllocated, &mElementCount, (void**)&mArray, ecount, mElementSize);
-#endif
 }
-
-#ifdef ACL_DEBUG_GUARD
-inline void VectorBase::setFileAssociation(const char* file, U32 line)
-{
-   mFileAssociation = file;
-   mLineAssociation = line;
-}
-#endif
 
 inline U32 VectorBase::size() const
 {
@@ -360,10 +268,6 @@ inline void VectorBase::set(void * addr, U32 sz)
 
 inline void VectorBase::swap(VectorBase& other)
 {
-#ifdef ACL_DEBUG_GUARD
-   ACLib::Swap(mFileAssociation, other.mFileAssociation);
-   ACLib::Swap(mLineAssociation, other.mLineAssociation);
-#endif
    ACLib::Swap(mElementSize, other.mElementSize);
    ACLib::Swap(mArray, other.mArray);
    ACLib::Swap(mElementCount, other.mElementCount);
@@ -402,14 +306,8 @@ protected:
    void  construct(U32 start, U32 end, const T* array);
 public:
    Vector(const U32 initialSize = 0);
-   Vector(const U32 initialSize, const char* fileName, const U32 lineNum);
-   Vector(const char* fileName, const U32 lineNum);
    Vector(const Vector&);
    ~Vector();
-
-#ifdef ACL_DEBUG_GUARD
-   void setFileAssociation(const char* file, const U32 line);
-#endif
 
    /// @name STL interface
    /// @{
@@ -521,37 +419,13 @@ template<class T> inline Vector<T>::Vector(const U32 initialSize) : VectorBase(s
 {
 }
 
-template<class T> inline Vector<T>::Vector(const U32 initialSize,
-   const char* fileName,
-   const U32   lineNum) : VectorBase(sizeof(T), initialSize, fileName, lineNum)
-{
-}
-
-template<class T> inline Vector<T>::Vector(const char* fileName,
-   const U32   lineNum) : VectorBase(sizeof(T), fileName, lineNum)
-{
-}
-
 template<class T> inline Vector<T>::Vector(const Vector& p) : VectorBase((U32)sizeof(T))
 {
-#ifdef ACL_DEBUG_GUARD
-   mFileAssociation = p.mFileAssociation;
-   mLineAssociation = p.mLineAssociation;
-#endif
-
    mArray = 0;
    resize(p.mElementCount);
    construct(0, p.mElementCount, (T*)p.mArray);
 }
 
-
-#ifdef ACL_DEBUG_GUARD
-template<class T> inline void Vector<T>::setFileAssociation(const char* file,
-   const U32   line)
-{
-   Parent::setFileAssociation(file, line);
-}
-#endif
 
 template<class T> inline void  Vector<T>::destroy(U32 start, U32 end) // destroys from start to end-1
 {

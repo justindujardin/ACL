@@ -6,10 +6,6 @@
 #ifndef _FILTERSTREAM_H_
 #define _FILTERSTREAM_H_
 
-//Includes
-#ifndef _ACL_PLATFORM_H_
-#include "platform/platform.h"
-#endif
 #ifndef _STREAM_H_
 #include "core/stream/stream.h"
 #endif

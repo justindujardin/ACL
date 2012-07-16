@@ -68,33 +68,6 @@ namespace Platform2
       ForEach(mImpl->factoryStack.begin(), mImpl->factoryStack.end(), &DeleteSingle::destroy<TypeRebind>);
    }
 
-   // TODO: Consider removing this
-   ACLib::Path PlatformObject::getPrefsPath(const String& file)
-   {
-#ifdef ACL_PLAYER
-      return file;
-#else
-      String company = "app";
-      String appName = "test";
-
-      if(file.isNotEmpty())
-      {
-         if(file.find("..") != String::NPos)
-         {
-            //TODO: Console
-            //Con::errorf("getPrefsPath - filename cannot be relative");
-            return String();
-         }
-
-         return getUserDataDirectory() + "/" + company + "/" + appName + "/" + file;
-      }
-      else
-      {
-         return getUserDataDirectory() + "/" + company + "/" + appName;
-      }
-#endif
-   }
-
    const SystemInfo& PlatformObject::getSystemInfo() const
    {
       return *mImpl->systemInfo;
