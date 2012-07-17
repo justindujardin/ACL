@@ -6,7 +6,7 @@
 #ifndef ACL_PLATFORM_H_
 #define ACL_PLATFORM_H_
 
-#include "core/types/types.h"
+#include "core/types.h"
 #include "core/containers/tVector.h"
 #include "core/util/typeRebind.h"
 

@@ -6,7 +6,7 @@
 #ifndef ACL_PLATFORM_TIMER_H_
 #define ACL_PLATFORM_TIMER_H_
 
-#include "core/types/types.h"
+#include "core/types.h"
 
 namespace Platform2
 {   

@@ -3,7 +3,7 @@
 // Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "core/types/types.h"
+#include "core/types.h"
 #include "core/containers/tVector.h"
 #include "core/containers/tList.h"
 #include "core/containers/tPair.h"

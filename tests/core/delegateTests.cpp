@@ -3,7 +3,7 @@
 // Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "core/types/types.h"
+#include "core/types.h"
 #include "core/util/delegate.h"
 #include "core/util/tSignal.h"
 

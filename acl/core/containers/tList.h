@@ -7,7 +7,7 @@
 #define _ACL_LIST_
 
 #ifndef _ACL_TYPES_H_
-#include "core/types/types.h"
+#include "core/types.h"
 #endif
 
 #ifndef CORE_UTIL_REFLECTION_H

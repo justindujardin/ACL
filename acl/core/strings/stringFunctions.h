@@ -11,7 +11,7 @@
 #include <ctype.h>
 
 #ifndef _ACL_TYPES_H_
-#include "core/types/types.h"
+#include "core/types.h"
 #endif
 
 #if defined(ACL_OS_WIN32) || defined(ACL_OS_XBOX) || defined(ACL_OS_XENON)

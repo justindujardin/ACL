@@ -6,7 +6,7 @@
 #ifndef ACL_PLATFORM_SYSTEMINFO_H_
 #define ACL_PLATFORM_SYSTEMINFO_H_
 
-#include "core/types/types.h"
+#include "core/types.h"
 #include "core/util/str.h"
 
 namespace Platform2

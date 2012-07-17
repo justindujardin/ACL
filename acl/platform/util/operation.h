@@ -6,7 +6,7 @@
 #ifndef _ACL_PLATFORM_OPERATION_H_
 #define _ACL_PLATFORM_OPERATION_H_
 
-#include "core/types/types.h"
+#include "core/types.h"
 #include "core/containers/tVector.h"
 #include "core/util/autoPtr.h"
 

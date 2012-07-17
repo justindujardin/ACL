@@ -6,7 +6,7 @@
 #ifndef _C_PLUGIN_H_
 #define _C_PLUGIN_H_
 
-#include "core/types/types.h"
+#include "core/types.h"
 
 #ifdef __cplusplus
 extern "C" {

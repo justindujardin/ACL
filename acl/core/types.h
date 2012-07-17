@@ -93,13 +93,13 @@ static const F32 F32_MAX = F32(3.402823466e+38F);                 ///< Constant 
 // PC-lint
 // Comes first because our PC-lint run also defines _MSC_VER
 #if defined(_lint)
-#  include "./types.lint.h"
+#  include "./types/types.lint.h"
 // Microsoft Visual C++/Visual.NET
 #elif defined(_MSC_VER)
-#  include "./types.visualc.h"
+#  include "./types/types.visualc.h"
 // GNU GCC
 #elif defined(__GNUC__)
-#  include "./types.gcc.h"
+#  include "./types/types.gcc.h"
 #else
 #  error "Unknown Compiler"
 #endif

@@ -6,7 +6,7 @@
 #ifndef _FRAMEALLOCATOR_H_
 #define _FRAMEALLOCATOR_H_
 
-#include "core/types/types.h"
+#include "core/types.h"
 #include "core/memoryFunctions.h"
 #include "core/assert.h"
 

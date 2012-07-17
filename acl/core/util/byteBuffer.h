@@ -6,7 +6,7 @@
 #ifndef _BYTEBUFFER_H_
 #define _BYTEBUFFER_H_
 
-#include "core/types/types.h"
+#include "core/types.h"
 
 namespace ACLib
 {

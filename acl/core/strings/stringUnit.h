@@ -6,7 +6,7 @@
 #ifndef _STRINGUNIT_H_
 #define _STRINGUNIT_H_
 
-#include "core/types/types.h"
+#include "core/types.h"
 
 /// These functions are used for chunking up strings by delimiter.
 /// Especially useful for handling ACLibScript space-delimited fields

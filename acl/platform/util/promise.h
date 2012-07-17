@@ -6,7 +6,7 @@
 #ifndef _ACL_PLATFORM_PROMISE_H_
 #define _ACL_PLATFORM_PROMISE_H_
 
-#include "core/types/types.h"
+#include "core/types.h"
 
 namespace Platform2
 {

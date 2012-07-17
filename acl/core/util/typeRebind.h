@@ -6,7 +6,7 @@
 #ifndef ACL_CORE_UTIL_TYPEREBIND_H_
 #define ACL_CORE_UTIL_TYPEREBIND_H_
 
-#include "core/types/types.h"
+#include "core/types.h"
 #include "core/assert.h"
 #include "core/util/scopedPtr.h"
 #include "core/util/delegate.h"

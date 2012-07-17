@@ -11,7 +11,7 @@
 #undef min
 #undef max
 
-#include "core/types/types.h"
+#include "core/types.h"
 
 //-----------------------------------------------------------------------------
 

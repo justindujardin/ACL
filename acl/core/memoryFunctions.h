@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <new>
-#include "core/types/types.h"
+#include "core/types.h"
 
 #if defined( ACL_OS_WIN32 ) || defined( ACL_OS_XBOX ) || defined( ACL_OS_XENON )
 #include <malloc.h>

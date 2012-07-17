@@ -9,7 +9,7 @@
 #ifdef ACL_ENABLE_PROFILER
 
 #ifndef _ACL_TYPES_H_
-#include "core/types/types.h"
+#include "core/types.h"
 #endif
 
 #include "core/util/trackingBase.h"

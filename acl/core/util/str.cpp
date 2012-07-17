@@ -9,6 +9,7 @@
 #include "platform/threads/mutex.h"
 
 #include "core/util/str.h"
+#include "core/intrinsics.h"
 #include "core/assert.h"
 #include "core/memoryFunctions.h"
 #include "core/containers/tVector.h"
@@ -32,12 +33,6 @@ namespace KeyCmp
 
 #ifdef STR_USE_PROFILER
 #include "./profiler.h"
-#endif
-
-//#define STR_MEM_STATS
-
-#ifdef STR_MEM_STATS
-#include "console/console.h"
 #endif
 
 const String::SizeType String::NPos = U32(~0);
@@ -420,11 +415,6 @@ static U32 sgStringMemBytes;
 
 /// Tracks the number of Strings which are currently instantiated.
 static U32 sgStringInstances;
-
-ConsoleFunction( dumpStringMemStats, void, 1, 1, "() - Dumps information about String memory usage" )
-{
-   Con::printf( "String Data: %i instances, %i bytes", sgStringInstances, sgStringMemBytes );
-}
 
 #endif
 
