@@ -7,7 +7,7 @@
 #define ACL_PLATFORM_POSIX_MUTEXIMPL_H_
 
 #include "platform/impls/base/threads/mutexImpl.h"
-#include "core/types/types.h"
+#include "core/types.h"
 #include <pthread.h>
 
 namespace Platform2

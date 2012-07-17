@@ -6,7 +6,7 @@
 #include <dlfcn.h>
 
 #include "platform/impls/posix/dlibrary/posixDLibraryImpl.h"
-#include "core/types/types.h"
+#include "core/types.h"
 #include "core/util/str.h"
 
 namespace Platform2
