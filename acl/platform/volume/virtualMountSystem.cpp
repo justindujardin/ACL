@@ -3,7 +3,7 @@
 // Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "core/virtualMountSystem.h"
+#include "platform/volume/virtualMountSystem.h"
 #include "platform/platform.h"
 //#include "console/console.h"
 

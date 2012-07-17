@@ -6,7 +6,7 @@
 #ifndef ACL_PLATFORM_FILESYSTEMCHANGENOTIFIERIMPL_H_
 #define ACL_PLATFORM_FILESYSTEMCHANGENOTIFIERIMPL_H_
 
-#include "core/volume.h"
+#include "platform/volume/volume.h"
 #include "core/util/noncopyable.h"
 
 namespace Platform2

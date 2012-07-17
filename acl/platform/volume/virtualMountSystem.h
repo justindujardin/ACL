@@ -6,7 +6,7 @@
 #ifndef _CORE_VMS_H_
 #define _CORE_VMS_H_
 
-#include "core/volume.h"
+#include "platform/volume/volume.h"
 #include "core/containers/tDictionary.h"
 
 namespace ACLib

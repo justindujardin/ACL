@@ -27,7 +27,7 @@
 #endif
 
 #ifndef _PATH_H_
-#include "core/util/path.h"
+#include "core/strings/path.h"
 #endif
 
 #ifndef _TIMECLASS_H_

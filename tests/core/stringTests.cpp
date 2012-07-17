@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 #include "acl.h"
-#include "core/util/str.h"
+#include "core/strings/str.h"
 #include "core/containers/tVector.h"
 #include "core/strings/stringFunctions.h"
 

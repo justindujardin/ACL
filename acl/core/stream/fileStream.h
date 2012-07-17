@@ -7,7 +7,7 @@
 #define _FILESTREAM_H_
 
 #ifndef _VOLUME_H_
-#include "core/volume.h"
+#include "platform/volume/volume.h"
 #endif
 #ifndef _STREAM_H_
 #include "core/stream/stream.h"

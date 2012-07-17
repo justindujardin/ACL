@@ -6,7 +6,7 @@
 #ifndef ACL_PLATFORM_ACL_PLATFORMVOLUME_H_
 #define ACL_PLATFORM_ACL_PLATFORMVOLUME_H_
 
-#include "core/volume.h"
+#include "platform/volume/volume.h"
 #include "core/util/scopedPtr.h"
 #include "core/util/noncopyable.h"
 

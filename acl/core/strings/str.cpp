@@ -6,9 +6,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#include "platform/threads/mutex.h"
-
-#include "core/util/str.h"
+#include "core/strings/str.h"
 #include "core/intrinsics.h"
 #include "core/assert.h"
 #include "core/memoryFunctions.h"
@@ -29,10 +27,10 @@ namespace KeyCmp
 #include "core/strings/unicode.h"
 #include "core/util/autoPtr.h"
 
-#define STR_USE_PROFILER
-
-#ifdef STR_USE_PROFILER
-#include "./profiler.h"
+// Comment this out if using acl core without the platform.
+#define STR_THREADSAFE_INTERN
+#ifdef STR_THREADSAFE_INTERN
+#include "platform/threads/mutex.h"
 #endif
 
 const String::SizeType String::NPos = U32(~0);
@@ -344,8 +342,6 @@ public:
    {
       if( mHashNoCase == U32_MAX)
       {
-         PROFILE_SCOPE(String_getHashCaseInsensitive);
-
          StringChar sLowerBuffer[ MAX_HASH_LENGTH ];
          U32 len = getMin( mLength, ( U32 ) MAX_HASH_LENGTH - 1 );
 
@@ -401,7 +397,9 @@ namespace KeyCmp
 /// table is destroyed.
 typedef HashTable< String::StringData*, String::StringData* > StringTable;
 
+#ifdef STR_THREADSAFE_INTERN
 static Platform2::Mutex sStringTableLock;
+#endif
 static DataChunker sStringTableChunker;
 static StringTable sStringTable;
 
@@ -467,20 +465,17 @@ void* String::StringData::operator new( size_t size, U32 len, DataChunker& chunk
 
 String::String()
 {
-   PROFILE_SCOPE(String_default_constructor);
    _string = StringData::Empty();
 }
 
 String::String(const String &str)
 {
-   PROFILE_SCOPE(String_String_constructor);
    _string = str._string;
    _string->addRef();
 }
 
 String::String(const StringChar *str)
 {
-   PROFILE_SCOPE(String_char_constructor);
    if( str && *str )
    {
       U32 len = dStrlen(str);
@@ -492,7 +487,6 @@ String::String(const StringChar *str)
 
 String::String(const StringChar *str, SizeType len)
 {
-   PROFILE_SCOPE(String_char_len_constructor);
    if (str && *str && len!=0)
    {
       AssertFatal(len<=dStrlen(str), "String::String: string too short");
@@ -504,8 +498,6 @@ String::String(const StringChar *str, SizeType len)
 
 String::String(const UTF16 *str)
 {
-   PROFILE_SCOPE(String_UTF16_constructor);
-
    if( str && str[ 0 ] )
    {
       UTF8* utf8 = convertUTF16toUTF8( str );
@@ -529,18 +521,17 @@ String String::intern() const
    if( isInterned() )
       return *this;
 
+#ifdef STR_THREADSAFE_INTERN
    // Lock the string table.
-
    Platform2::Mutex::ScopedLock scopeLock( sStringTableLock );
-
+#endif
+  
    // Lookup.
-
    StringTable::Iterator iter = sStringTable.find( _string );
    if( iter != sStringTable.end() )
       return ( *iter ).value;
 
    // Create new.
-
    StringData* data = new ( length(), sStringTableChunker ) StringData( c_str(), true );
    iter = sStringTable.insertUnique( data, data );
 

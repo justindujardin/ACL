@@ -3,10 +3,10 @@
 // Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "core/memVolume.h"
+#include "platform/volume/memVolume.h"
 #include "core/crc.h"
 #include "core/frameAllocator.h"
-#include "core/util/str.h"
+#include "core/strings/str.h"
 #include "core/strings/stringFunctions.h"
 
 namespace ACLib

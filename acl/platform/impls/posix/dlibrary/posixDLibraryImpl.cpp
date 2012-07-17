@@ -7,7 +7,7 @@
 
 #include "platform/impls/posix/dlibrary/posixDLibraryImpl.h"
 #include "core/types.h"
-#include "core/util/str.h"
+#include "core/strings/str.h"
 
 namespace Platform2
 {

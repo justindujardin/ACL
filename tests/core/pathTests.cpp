@@ -3,8 +3,8 @@
 // Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "core/util/path.h"
-#include "core/util/str.h"
+#include "core/strings/path.h"
+#include "core/strings/str.h"
 
 #include <gtest/gtest.h>
 

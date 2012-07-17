@@ -3,7 +3,6 @@
 // Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-
 #ifndef _ACL_INTRINSICS_GCC_H_
 #define _ACL_INTRINSICS_GCC_H_
 
@@ -37,8 +36,6 @@ inline void dFetchAndAdd( volatile S32& ref, S32 val )
 
 inline bool dCompareAndSwap( volatile U32& ref, U32 oldVal, U32 newVal )
 {
-   // bool
-   //OSAtomicCompareAndSwap32(int32_t oldValue, int32_t newValue, volatile int32_t *theValue);
    #ifndef ACL_OS_MAC
       return ( __sync_val_compare_and_swap( ( volatile long* ) &ref, newVal, oldVal ) == oldVal );
    #else
@@ -52,7 +49,6 @@ inline bool dCompareAndSwap( volatile U64& ref, U64 oldVal, U64 newVal )
    #else
       return OSAtomicCompareAndSwap64(oldVal, newVal, (int64_t *) &ref);
    #endif
-
 }
 
 #endif // _ACL_INTRINSICS_GCC_H_

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 #include "core/assertImpl.h"
-#include "core/util/str.h"
+#include "core/strings/str.h"
 
 #ifdef WIN32
 #include <Windows.h>

@@ -3,8 +3,8 @@
 // Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "core/volume.h"
-#include "core/virtualMountSystem.h"
+#include "platform/volume/volume.h"
+#include "platform/volume/virtualMountSystem.h"
 #include "core/strings/findMatch.h"
 #include "platform/platform.h"
 

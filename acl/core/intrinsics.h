@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
-// Torque 3D
-// Copyright (C) GarageGames.com, Inc.
+// Application Core Library
+// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
 #ifndef _PLATFORMINTRINSICS_H_

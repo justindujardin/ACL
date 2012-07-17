@@ -6,7 +6,7 @@
 #include <sys/sysctl.h>
 #include <CoreServices/CoreServices.h>
 
-#include "core/util/str.h"
+#include "core/strings/str.h"
 #include "platform/impls/mac/macPlatform.h"
 #include "platform/platformSystemInfo.h"
 

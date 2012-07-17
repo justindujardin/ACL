@@ -3,7 +3,7 @@
 // Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "core/util/path.h"
+#include "core/strings/path.h"
 
 
 namespace ACLib
@@ -14,12 +14,13 @@ namespace ACLib
    {
       // Make sure we have platform separators
       path = PathToPlatform(path);
-      // root:
-      S32 idx = path.find(':');
-      if (idx >= 0)
-         return true;
-
-      return false;
+#ifdef ACL_OS_WIN32
+      // on windows a root is indicated by a colon
+      return path.find(':') >= 0;
+#else
+      // linux/mac a leading / indicates a full path
+      return (path[0] == Path::OsSeparator);
+#endif
    }
 
 

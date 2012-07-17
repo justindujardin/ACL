@@ -7,7 +7,7 @@
 #define ACL_PLATFORM_MAC_COCOAUTILS_H_
 
 #import <Cocoa/Cocoa.h>
-#include "core/util/str.h"
+#include "core/strings/str.h"
 
 namespace Platform2
 {

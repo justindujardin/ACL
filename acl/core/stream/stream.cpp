@@ -11,7 +11,7 @@
 
 #include "core/util/byteBuffer.h"
 #include "core/util/endian.h"
-#include "core/util/str.h"
+#include "core/strings/str.h"
 
 
 #define IMPLEMENT_OVERLOADED_READ(type)      \

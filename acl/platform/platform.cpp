@@ -7,7 +7,7 @@
 #include "platform/platformSystemInfo.h"
 #include "platform/impls/base/platformCreator.h"
 #include "platform/impls/base/platformAssert.h"
-#include "core/util/path.h"
+#include "core/strings/path.h"
 #include "core/util/tPolicy.h"
 
 namespace Platform2

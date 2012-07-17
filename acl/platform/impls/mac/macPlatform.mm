@@ -148,7 +148,7 @@ namespace Internal_
       // execl() leaves open file descriptors open, that's the main reason it's not
       // used here. We want to start fresh.
       
-      // get the path to the torque executable
+      // get the path to the executable
       CFBundleRef mainBundle =  CFBundleGetMainBundle();
       CFURLRef execURL = CFBundleCopyExecutableURL(mainBundle);
       CFStringRef execString = CFURLCopyFileSystemPath(execURL, kCFURLPOSIXPathStyle);

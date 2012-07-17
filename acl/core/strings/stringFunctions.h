@@ -192,7 +192,7 @@ bool dStrEndsWith(const char* str1, const char* str2);
 char* dStripPath(const char* filename);
 
 //------------------------------------------------------------------------------
-// standard I/O functions [defined in platformString.cpp]
+// standard I/O functions [defined in stringFunctions.cpp]
 
 extern void   dPrintf(const char *format, ...);
 extern int    dVprintf(const char *format, void *arglist);

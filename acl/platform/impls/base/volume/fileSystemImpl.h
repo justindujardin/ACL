@@ -7,7 +7,7 @@
 #define ACL_PLATFORM_FILESYSTEMIMPL_H_
 
 #include "core/util/refBase.h"
-#include "core/volume.h"
+#include "platform/volume/volume.h"
 #include "core/util/noncopyable.h"
 
 namespace Platform2

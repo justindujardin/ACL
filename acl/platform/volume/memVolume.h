@@ -7,7 +7,7 @@
 #define _MEMVOLUME_H_
 
 #ifndef _VOLUME_H_
-#include "core/volume.h"
+#include "platform/volume/volume.h"
 #endif
 
 #ifndef _TDICTIONARY_H_

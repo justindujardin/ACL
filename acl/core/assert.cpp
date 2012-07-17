@@ -7,7 +7,7 @@
 #include "core/assertImpl.h"
 #include "core/containers/tVector.h"
 #include "core/strings/stringFunctions.h"
-#include "core/util/str.h"
+#include "core/strings/str.h"
 #include <stdarg.h>
 
 namespace ACLib

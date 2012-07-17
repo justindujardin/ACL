@@ -8,7 +8,6 @@
 #include "core/frameAllocator.h"
 #include "core/strings/unicode.h"
 #include "core/strings/stringFunctions.h"
-#include "core/util/profiler.h"
 
 //-----------------------------------------------------------------------------
 /// replacement character. Standard correct value is 0xFFFD.
@@ -61,7 +60,6 @@ inline bool isAboveBMP(U32 codepoint)
 U32 convertUTF8toUTF16(const UTF8 *unistring, UTF16 *outbuffer, U32 len)
 {
    AssertFatal(len >= 1, "Buffer for unicode conversion must be large enough to hold at least the null terminator.");
-   PROFILE_START(convertUTF8toUTF16);
    U32 walked, nCodepoints;
    UTF32 middleman;
 
@@ -78,7 +76,6 @@ U32 convertUTF8toUTF16(const UTF8 *unistring, UTF16 *outbuffer, U32 len)
    nCodepoints = getMin(nCodepoints,len - 1);
    outbuffer[nCodepoints] = '\0';
 
-   PROFILE_END();
    return nCodepoints; 
 }
 
@@ -86,7 +83,6 @@ U32 convertUTF8toUTF16(const UTF8 *unistring, UTF16 *outbuffer, U32 len)
 U32 convertUTF16toUTF8( const UTF16 *unistring, UTF8  *outbuffer, U32 len)
 {
    AssertFatal(len >= 1, "Buffer for unicode conversion must be large enough to hold at least the null terminator.");
-   PROFILE_START(convertUTF16toUTF8);
    U32 walked, nCodeunits, codeunitLen;
    UTF32 middleman;
 
@@ -103,14 +99,12 @@ U32 convertUTF16toUTF8( const UTF16 *unistring, UTF8  *outbuffer, U32 len)
    nCodeunits = getMin(nCodeunits,len - 1);
    outbuffer[nCodeunits] = '\0';
 
-   PROFILE_END();
    return nCodeunits;
 }
 
 U32 convertUTF16toUTF8DoubleNULL( const UTF16 *unistring, UTF8  *outbuffer, U32 len)
 {
    AssertFatal(len >= 1, "Buffer for unicode conversion must be large enough to hold at least the null terminator.");
-   PROFILE_START(convertUTF16toUTF8DoubleNULL);
    U32 walked, nCodeunits, codeunitLen;
    UTF32 middleman;
 
@@ -128,7 +122,6 @@ U32 convertUTF16toUTF8DoubleNULL( const UTF16 *unistring, UTF8  *outbuffer, U32 
    outbuffer[nCodeunits] = NULL;
    outbuffer[nCodeunits+1] = NULL;
 
-   PROFILE_END();
    return nCodeunits;
 }
 
@@ -137,7 +130,6 @@ U32 convertUTF16toUTF8DoubleNULL( const UTF16 *unistring, UTF8  *outbuffer, U32 
 //-----------------------------------------------------------------------------
 UTF16* convertUTF8toUTF16( const UTF8* unistring)
 {
-   PROFILE_START(convertUTF8toUTF16_create);
    static const U32 sBufferLen = 512;
    static UTF16 sBuffer[sBufferLen];
 
@@ -156,14 +148,12 @@ UTF16* convertUTF8toUTF16( const UTF8* unistring)
    UTF16 *ret = new UTF16[nCodepoints];
    dMemcpy(ret, buf, nCodepoints * sizeof(UTF16));
 
-   PROFILE_END();
    return ret;
 }
 
 //-----------------------------------------------------------------------------
 UTF8*  convertUTF16toUTF8( const UTF16* unistring)
 {
-   PROFILE_SCOPE(convertUTF16toUTF8_create);
 
    static const U32  sBufferLen = 512;
    static UTF8       sBuffer[sBufferLen];
@@ -205,7 +195,6 @@ UTF8*  convertUTF16toUTF8( const UTF16* unistring)
 //-----------------------------------------------------------------------------
 UTF32 oneUTF8toUTF32( const UTF8* codepoint, U32 *unitsWalked)
 {
-   PROFILE_START(oneUTF8toUTF32);
    // codepoints 6 codeunits long are read, but do not convert correctly,
    // and are filtered out anyway.
 
@@ -213,7 +202,6 @@ UTF32 oneUTF8toUTF32( const UTF8* codepoint, U32 *unitsWalked)
    if(!(*codepoint & 0x0080))
    {
       *unitsWalked = 1;
-      PROFILE_END();
       return (UTF32)*codepoint;
    }
 
@@ -272,14 +260,12 @@ UTF32 oneUTF8toUTF32( const UTF8* codepoint, U32 *unitsWalked)
    if(isAboveBMP(ret))
       ret = kReplacementChar;
 
-   PROFILE_END();
    return ret;
 }
 
 //-----------------------------------------------------------------------------
 UTF32  oneUTF16toUTF32(const UTF16* codepoint, U32 *unitsWalked)
 {
-   PROFILE_START(oneUTF16toUTF32);
    U8    expectedType;
    U32   unitCount;
    UTF32 ret = 0;
@@ -331,7 +317,6 @@ UTF32  oneUTF16toUTF32(const UTF16* codepoint, U32 *unitsWalked)
    if(isAboveBMP(ret))
       ret = kReplacementChar;
 
-   PROFILE_END();
    return ret;
 }
 
@@ -353,7 +338,6 @@ UTF16 oneUTF32toUTF16(const UTF32 codepoint)
 //-----------------------------------------------------------------------------
 U32 oneUTF32toUTF8(const UTF32 codepoint, UTF8 *threeByteCodeunitBuf)
 {
-   PROFILE_START(oneUTF32toUTF8);
    U32 bytecount = 0;
    UTF8 *buf;
    U32 working = codepoint;
@@ -392,7 +376,6 @@ U32 oneUTF32toUTF8(const UTF32 codepoint, UTF8 *threeByteCodeunitBuf)
    marker = ( ~mask << 1 );
    threeByteCodeunitBuf[0] = marker | working & mask;
 
-   PROFILE_END();
    return bytecount;
 }
 

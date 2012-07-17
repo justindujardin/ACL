@@ -15,7 +15,7 @@
 #endif
 
 #ifndef _ACL_STRING_H_
-#include "core/util/str.h"
+#include "core/strings/str.h"
 #endif
 
 #ifndef _DATACHUNKER_H_
