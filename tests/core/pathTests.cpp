@@ -10,8 +10,6 @@
 
 using namespace ACLib;
 
-#define FILELINE String(__FILE__) + ":" + String::ToString(__LINE__) + ": "
-
 TEST(PathTest,BasicStuff)
 {
    // String must end with / otherwise Path will treat Dir2 as a file name
