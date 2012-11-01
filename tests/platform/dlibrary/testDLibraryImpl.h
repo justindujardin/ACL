@@ -7,7 +7,7 @@
 #define ACL_PLATFORM_TEST_DLIBRARYIMPL_H_
 
 #include "platform/impls/base/dlibrary/dlibraryImpl.h"
-#include "unit/test.h"
+#include <gtest/gtest.h>
 
 namespace Platform2
 {
@@ -22,7 +22,7 @@ namespace Platform2
          bool initSuccess;
          void* voidRet;
 
-         UnitTesting::UnitTest* currentTest;
+        testing::Test* currentTest;
 
          TestDLibraryImpl()
          {
@@ -35,7 +35,8 @@ namespace Platform2
          ~TestDLibraryImpl()
          {
             if(currentTest)
-               currentTest->test(initCt == closeCt, "expected DLibrary destructor to call close");
+              //"expected DLibrary destructor to call close"
+               EXPECT_TRUE(initCt == closeCt);
          }
 
          virtual bool init(const String& file)

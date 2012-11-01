@@ -16,8 +16,6 @@ namespace Platform2
       class TestFileSystemImpl : public FileSystemImpl
       {
       public:
-         UnitTesting::UnitTest* currentTest;
-
          U32 getAttributesForPathCt;
          U32 removeFileCt;
          U32 removeDirectoryCt;
@@ -29,14 +27,15 @@ namespace Platform2
          Map<String, bool> removeDirectoryMap;
          Map<String, bool> removeFileMap;
 
-         TestFileSystemImpl() { currentTest = NULL; getAttributesForPathCt = removeFileCt = removeDirectoryCt = createDirectoryCt = 0; }
+         TestFileSystemImpl() { getAttributesForPathCt = removeFileCt = removeDirectoryCt = createDirectoryCt = 0; }
 
          bool getAttributesForPath(ACLib::FS::FileNode::Attributes& attributes, const ACLib::Path& path)
          {
             getAttributesForPathCt++;
             if(!hasAttributesMap.contains(path))
             {
-               currentTest->fail(String::ToString("Unexpected path in getAttributesForPath: %s", path.getFullPath().c_str()).c_str());
+               //"Unexpected path in getAttributesForPath"
+               EXPECT_TRUE(false); 
                return false;
             }
             if(!hasAttributesMap[path])
@@ -51,7 +50,8 @@ namespace Platform2
             createDirectoryCt++;
             if(!createDirectoryMap.contains(path))
             {
-               currentTest->fail(String::ToString("Unexpected path in createDirectory: %s", path.getFullPath().c_str()).c_str());
+               //"Unexpected path in createDirectory"
+               EXPECT_TRUE(false); 
                return false;
             }
             return createDirectoryMap[path];
@@ -62,7 +62,8 @@ namespace Platform2
             removeDirectoryCt++;
             if(!removeDirectoryMap.contains(path))
             {
-               currentTest->fail(String::ToString("Unexpected path in removeDirectory: %s", path.getFullPath().c_str()).c_str());
+               //"Unexpected path in removeDirectory"
+               EXPECT_TRUE(false);
                return false;
             }
             return true;
@@ -73,7 +74,8 @@ namespace Platform2
             removeFileCt++;
             if(!removeFileMap.contains(path))
             {
-               currentTest->fail(String::ToString("Unexpected path in removeFile: %s", path.getFullPath().c_str()).c_str());
+               //"Unexpected path in removeFile"
+               EXPECT_TRUE(false);              
                return false;
             }
             return true;

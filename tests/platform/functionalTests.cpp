@@ -3,7 +3,7 @@
 // Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "core/util/str.h"
+#include "core/strings/str.h"
 #include "platform/platform.h"
 #include "platform/threads/thread.h"
 #include "platform/threads/mutex.h"
@@ -15,8 +15,6 @@
 
 using fastdelegate::MakeDelegate;
 
-using namespace UnitTesting;
-using namespace Platform;
 
 /// Basic validation of thread functionality.  Verifies that impl properly reports running state
 /// that impl calls the given method, and that impl passes in userData and dataSize, and that imple

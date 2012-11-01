@@ -3,25 +3,25 @@
 // Copyright (c) 2009-2011 DuJardin Consulting, LLC.
 //-----------------------------------------------------------------------------
 
-#include "platform2/platform.h"
+#include "platform/platform.h"
 #include "core/assert.h"
 #include "core/util/autoPtr.h"
 
-#include "platform2/threads/thread.h"
-#include "platform2/threads/mutex.h"
-#include "platform2/threads/semaphore.h"
-#include "platform2/dlibrary/dlibrary.h"
-#include "platform2/volume/platform2Volume.h"
+#include "platform/threads/thread.h"
+#include "platform/threads/mutex.h"
+#include "platform/threads/semaphore.h"
+#include "platform/dlibrary/dlibrary.h"
+#include "platform/volume/platformVolume.h"
 
-#include "platform2/test/threads/testThreadImpl.h"
-#include "platform2/test/threads/testMutexImpl.h"
-#include "platform2/test/threads/testSemaphoreImpl.h"
-#include "platform2/test/threads/testThreadLocalImpl.h"
-#include "platform2/test/dlibrary/testDLibraryImpl.h"
-#include "platform2/test/volume/testFileSystemImpl.h"
-#include "platform2/test/volume/testFileImpl.h"
-#include "platform2/test/volume/testDirectoryImpl.h"
-#include "platform2/test/volume/testFileSystemChangeNotifierImpl.h"
+#include "./threads/testThreadImpl.h"
+#include "./threads/testMutexImpl.h"
+#include "./threads/testSemaphoreImpl.h"
+#include "./threads/testThreadLocalImpl.h"
+#include "./dlibrary/testDLibraryImpl.h"
+#include "./volume/testFileSystemImpl.h"
+#include "./volume/testFileImpl.h"
+#include "./volume/testDirectoryImpl.h"
+#include "./volume/testFileSystemChangeNotifierImpl.h"
 
 using fastdelegate::MakeDelegate;
 
