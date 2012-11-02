@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
+// Copyright (c) 2009-2012 DuJardin Consulting, LLC.
+// Portions Copyright (c) 2009 GarageGames, Inc.
 //-----------------------------------------------------------------------------
 
 #ifndef _C_PLUGIN_H_
@@ -27,10 +28,10 @@ extern "C" {
       S32 minor;
    } PluginAPIVersion;
 
-   // Describe a plugins' compatibility with the host API
+   // Describe a plugin's compatibility with the host API
    typedef struct PluginDescription
    {
-      S32 platSize; ///< must be set manually platDesc.platSize = sizeof(PluginPlatformServices);
+      S32 platSize; ///< must be set manually, e.g. platDesc.platSize = sizeof(PluginPlatformServices);
       PluginAPIVersion version; //< Current Plugin Platform API Version
    } PluginDescription;
 

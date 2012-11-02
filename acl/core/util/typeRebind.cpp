@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 // Application Core Library
-// Copyright (c) 2009-2011 DuJardin Consulting, LLC.
+// Copyright (c) 2009-2012 DuJardin Consulting, LLC.
+// Portions Copyright (c) 2009 GarageGames, Inc.
 //-----------------------------------------------------------------------------
 
 #include "core/util/typeRebind.h"

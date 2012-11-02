@@ -1,8 +1,8 @@
 #!/bin/sh
-./bin/premake4 --to=./testProjects gmake 
+./bin/premake4 --to=./build/test gmake 
 cd test 
 make clean && make 
 cd ../
-rm -rf ./testProjects/ 
+rm -rf ./build/test/ 
 ./bin/debug/acltests
 
