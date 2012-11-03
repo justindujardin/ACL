@@ -1,5 +1,5 @@
 #!/bin/sh
-./bin/premake4 --to=./build/test gmake 
+./bin/linux/premake4 --to=./build/test gmake 
 cd build/test 
 make clean && make 
 cd ../../
