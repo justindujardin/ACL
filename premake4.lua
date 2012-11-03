@@ -35,6 +35,9 @@ solution "ApplicationCoreLibrary"
       configuration "windows"
          defines  { "UNICODE" }
          links    { "winmm" }
+
+      configuration "linux"
+         links       { "pthread", "dl" }
          
 
    -- The google test static lib
@@ -71,13 +74,26 @@ solution "ApplicationCoreLibrary"
       configuration "windows"
          defines  { "UNICODE" }
          links    { "winmm" }
-         excludes { "acl/platform/impls/mac/**", "acl/platform/impls/posix/**" }
+         excludes { 
+            "acl/platform/impls/mac/**", 
+            "acl/platform/impls/posix/**",
+            "acl/platform/impls/linux/**"
+         }
 
       configuration "macosx"
-         excludes    { "acl/platform/impls/win32/**" }
+         excludes    { 
+            "acl/platform/impls/win32/**",
+            "acl/platform/impls/linux/**"
+         }
          files       { "acl/**.mm" }
          links       { "Cocoa.framework", "CoreServices.framework" }
-         
+
+      configuration "linux"
+         excludes { 
+            "acl/platform/impls/mac/**", 
+            "acl/platform/impls/win32/**" 
+         }
+
       configuration { "macosx", "gmake" }
          buildoptions { "-mmacosx-version-min=10.4" }
          linkoptions  { "-mmacosx-version-min=10.4" }             

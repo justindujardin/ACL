@@ -22,7 +22,7 @@
 #define _MALLOC(size)      _aligned_malloc(size, 16)
 #define _REALLOC(ptr,size) _aligned_realloc(ptr,size, 16)
 #define _FREE(ptr)         _aligned_free(ptr)
-#elif defined( ACL_OS_MAC )
+#elif defined( ACL_OS_MAC ) || defined( ACL_OS_LINUX )
 // Mac OS X always aligns malloc'd memory on 16-byte boundaries, so just use normal malloc routines
 //    <http://developer.apple.com/technotes/tn2005/tn2130.html#TNTAG6>
 #define _MALLOC(size)      malloc(size)

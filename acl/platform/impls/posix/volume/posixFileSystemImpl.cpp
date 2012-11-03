@@ -6,7 +6,9 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#ifdef ACL_OS_MACOS
 #include <sys/syslimits.h>
+#endif
 #include <stdio.h>
 #include <sys/stat.h>
 

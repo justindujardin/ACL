@@ -33,7 +33,7 @@ TEST(TimeTest,DateTimeConversions) {
   curr = base;
   for (int i = 0; i < 100; ++i)
   {
-    t = ACLib::Time::Time(curr);
+    t = ACLib::Time(curr);
     t.get(dt2);
     // Convert back to DateTime
     EXPECT_TRUE(curr == dt2);
@@ -45,7 +45,7 @@ TEST(TimeTest,DateTimeConversions) {
   curr = base;
   for (int i = 0; i < 12; ++i)
   {
-    t = ACLib::Time::Time(curr);
+    t = ACLib::Time(curr);
     t.get(dt2);
     // Convert back to DateTime    
     EXPECT_TRUE(curr == dt2);
@@ -57,7 +57,7 @@ TEST(TimeTest,DateTimeConversions) {
   curr = base;
   for (int i = 0; i < 31; ++i)
   {
-    t = ACLib::Time::Time(curr);
+    t = ACLib::Time(curr);
     t.get(dt2);
     // Convert back to DateTime    
     EXPECT_TRUE(curr == dt2);
@@ -69,7 +69,7 @@ TEST(TimeTest,DateTimeConversions) {
   curr = base;
   for (int i = 0; i < 24; ++i)
   {
-    t = ACLib::Time::Time(curr);
+    t = ACLib::Time(curr);
     t.get(dt2);
     // Convert back to DateTime
     EXPECT_TRUE(curr == dt2);
@@ -81,7 +81,7 @@ TEST(TimeTest,DateTimeConversions) {
   curr = base;
   for (int i = 0; i < 60; ++i)
   {
-    t = ACLib::Time::Time(curr);
+    t = ACLib::Time(curr);
     t.get(dt2);
     // Convert back to DateTime
     EXPECT_TRUE(curr == dt2);
@@ -93,7 +93,7 @@ TEST(TimeTest,DateTimeConversions) {
   curr = base;
   for (int i = 0; i < 60; ++i)
   {
-    t = ACLib::Time::Time(curr);
+    t = ACLib::Time(curr);
     t.get(dt2);
     // Convert back to DateTime
     EXPECT_TRUE(curr == dt2);
@@ -105,7 +105,7 @@ TEST(TimeTest,DateTimeConversions) {
   // 1/31/2000 (leap year)
   curr = base;
   curr.day = 31;
-  t = ACLib::Time::Time(curr);
+  t = ACLib::Time(curr);
   t.get(dt2);
   // Convert back to DateTime
   EXPECT_TRUE(curr == dt2);
@@ -113,7 +113,7 @@ TEST(TimeTest,DateTimeConversions) {
   curr = base;
   curr.day = 31;
   curr.year = 2001;
-  t = ACLib::Time::Time(curr);
+  t = ACLib::Time(curr);
   t.get(dt2);
   // Convert back to DateTime
   EXPECT_TRUE(curr == dt2);
@@ -121,7 +121,7 @@ TEST(TimeTest,DateTimeConversions) {
   curr = base;
   curr.day = 31;
   curr.month = 3;
-  t = ACLib::Time::Time(curr);
+  t = ACLib::Time(curr);
   t.get(dt2);
   // Convert back to DateTime
   EXPECT_TRUE(curr == dt2);
@@ -130,7 +130,7 @@ TEST(TimeTest,DateTimeConversions) {
   curr.day = 31;
   curr.month = 3;
   curr.year = 2001;
-  t = ACLib::Time::Time(curr);
+  t = ACLib::Time(curr);
   t.get(dt2);
   // Convert back to DateTime
   EXPECT_TRUE(curr == dt2);
