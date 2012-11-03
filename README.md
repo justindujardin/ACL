@@ -1,16 +1,23 @@
-### Overview
+# Application Core Library
 
-The ACL project shares roots with the [Torque 3D](https://github.com/GarageGames/Torque3D) game engine from [GarageGames](http://www.garagegames.com), but does provides only basic application specific classes, and a abstracted platform layer for interacting with basic OS systems such as the file system, dynamic libraries, and threading.
+- [Overview](#overview)
+- [Credits](#credits)
+- [License](#license)
 
-### Credits
+### <a id="overview">Overview</a>
 
-ACL would never have been possible without all the amazing developers that have contributed to the Torque family of game engines over the years.  I am eternally grateful for all the hard work they have put forward to make this library so brutally good at what it does.
+Application Core Library is built from a stripped-down version of the utility classes used in Torque engines.  It does not include any windowing, graphics, or input code.  It includes only the basic cross-platform types and classes for building applications on top of.  The main function of the ACL is to provide a solid basis for developing applications in a cross-platform way.  In addition to the code reused from Torque, the ACL includes a generic C API plugin system, that can be used to implement dynamic library plugins.
 
-### License
+### <a id="credits">Credits</a>
+
+The ACL shares roots with the [Torque](https://github.com/GarageGames/Torque3D) family of game engines from [GarageGames](http://www.garagegames.com), and as such, it would never have been possible without the many people who contributed to Torque over the years.  I am eternally grateful for all the hard work they have put forward, and how it has made this library so brutally good at what it does.
+
+### <a id="license">License</a>
 
 Application Core Library is freely distributable under the MIT license
 
-Copyright (c) 2009-2012 DuJardin Consulting, LLC
+Copyright (c) 2009-2012 DuJardin Consulting, LLC  
+Copyright (c) 2009 GarageGames, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
