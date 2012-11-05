@@ -14,7 +14,7 @@
 /// This macro allows translation of Delegate definitions into a target
 /// delegate implementation.  
 ///
-/// By default ACLib Juggernaut uses a @see FastDelegate implementation
+/// By default ACLib uses a @see FastDelegate implementation
 /// 
 
 #define Delegate fastdelegate::FastDelegate
