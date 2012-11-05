@@ -2,12 +2,39 @@
 [![Build Status](https://secure.travis-ci.org/justindujardin/ACL.png?branch=master)](http://travis-ci.org/justindujardin/ACL)
 
 - [Overview](#overview)
+- Systems
+ - [Core](#core)
+ - [Platform](#platform)
+ - [Plugin](#plugin)
 - [Credits](#credits)
 - [License](#license)
 
 ### <a id="overview">Overview</a>
 
 Application Core Library is built from a stripped-down version of the utility classes used in Torque engines.  It does not include any windowing, graphics, or input code.  It includes only the basic cross-platform types and classes for building applications on top of.  The main function of the ACL is to provide a solid basis for developing applications in a cross-platform way.  In addition to the code reused from Torque, the ACL includes a generic C API plugin system, that can be used to implement dynamic library plugins.
+
+### <a id="core">Core</a>
+
+When writing any substantial C++ application, solid core classes are essential.  The ACL provides an impressive suite of core classes for building your application on top of, e.g.
+
+- [Compiler independent types](https://github.com/justindujardin/ACL/blob/master/acl/core/types.h), e.g. 32-bit numbers are `S32` signed int, `U32` unsigned int, `F32` float
+- [Compiler independent string functions](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/stringFunctions.h), e.g. dStrcpy, dStrcmp, etc.
+- [String class](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/str.h) with ultra-fast hashtable support for [pointer string comparisons](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/str.h#L166).
+- Filesystem [Path class](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/path.h)
+- [Unicode string support](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/unicode.h)
+- [A full complement of Stream classes](https://github.com/justindujardin/ACL/tree/master/acl/core/stream)
+- [Container Classes](https://github.com/justindujardin/ACL/tree/master/acl/core/containers), e.g. Vector, List, Dictionary, Pair
+- [Compiler independent aligned memory allocation functions](https://github.com/justindujardin/ACL/blob/master/acl/core/memoryFunctions.h)
+- [Ultra-fast delegates](https://github.com/justindujardin/ACL/blob/master/acl/core/util/delegate.h) and [multi-cast delegates](https://github.com/justindujardin/ACL/blob/master/acl/core/util/tSignal.h)
+- Utilities, e.g. [endian conversions](https://github.com/justindujardin/ACL/blob/master/acl/core/util/endian.h), [crc functions](https://github.com/justindujardin/ACL/blob/master/acl/core/crc.h), [compiler intrinsics](https://github.com/justindujardin/ACL/blob/master/acl/core/intrinsics.h), [compile-time and runtime assertions](https://github.com/justindujardin/ACL/blob/master/acl/core/assert.h).
+
+### <a id="platform">Platform</a>
+
+*TODO*
+
+### <a id="plugin">Plugin</a>
+
+*TODO*
 
 ### <a id="credits">Credits</a>
 
