@@ -6,6 +6,7 @@
  - [Core](#core)
  - [Platform](#platform)
  - [Plugin](#plugin)
+- [Building and Testing](#build)
 - [Credits](#credits)
 - [License](#license)
 
@@ -20,13 +21,15 @@ When writing any substantial C++ application, solid core classes are essential. 
 - [Compiler independent types](https://github.com/justindujardin/ACL/blob/master/acl/core/types.h)
 - [Compiler independent string functions](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/stringFunctions.h)
 - [String class](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/str.h) with support for [pointer string comparisons](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/str.h#L166).
-- [Filesystem Path class](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/path.h)
+- [Path class](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/path.h)
 - [Unicode string support](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/unicode.h)
-- [A full complement of Stream classes](https://github.com/justindujardin/ACL/tree/master/acl/core/stream)
-- [Container Classes](https://github.com/justindujardin/ACL/tree/master/acl/core/containers), e.g. Vector, List, Dictionary, Pair
+- [Stream classes](https://github.com/justindujardin/ACL/tree/master/acl/core/stream)
+- [Container classes](https://github.com/justindujardin/ACL/tree/master/acl/core/containers), e.g. Vector, List, Dictionary, Pair
 - [Compiler independent aligned memory allocation functions](https://github.com/justindujardin/ACL/blob/master/acl/core/memoryFunctions.h)
 - [Ultra-fast delegates](https://github.com/justindujardin/ACL/blob/master/acl/core/util/delegate.h) and [multi-cast delegates](https://github.com/justindujardin/ACL/blob/master/acl/core/util/tSignal.h)
-- Utilities, e.g. [endian conversions](https://github.com/justindujardin/ACL/blob/master/acl/core/util/endian.h), [crc functions](https://github.com/justindujardin/ACL/blob/master/acl/core/crc.h), [compiler intrinsics](https://github.com/justindujardin/ACL/blob/master/acl/core/intrinsics.h), [compile-time and runtime assertions](https://github.com/justindujardin/ACL/blob/master/acl/core/assert.h).
+- [Reference-counted pointer classes](https://github.com/justindujardin/ACL/blob/master/acl/core/util/refBase.h)
+- [Type rebinding](https://github.com/justindujardin/ACL/blob/master/acl/core/util/typeRebind.h) for implementation-specific abstracted class creation.
+- Various Utilities: [endian conversion](https://github.com/justindujardin/ACL/blob/master/acl/core/util/endian.h), [crc calculation](https://github.com/justindujardin/ACL/blob/master/acl/core/crc.h), [compiler intrinsics](https://github.com/justindujardin/ACL/blob/master/acl/core/intrinsics.h), [compile-time and runtime assertions](https://github.com/justindujardin/ACL/blob/master/acl/core/assert.h), ...
 
 ### <a id="platform">Platform</a>
 
@@ -35,6 +38,27 @@ When writing any substantial C++ application, solid core classes are essential. 
 ### <a id="plugin">Plugin</a>
 
 *TODO*
+
+### <a id="build">Building and Testing</a>
+
+ACL uses [premake4](https://github.com/justindujardin/ACL/blob/master/premake4.lua) to generate Xcode, Visual Studio, and make projects, putting them in the `projects` subfolder. It geneates projects for the library, gtest, and the test-runner application.  
+
+**Build Scripts**
+
+There are scripts in the root directory for generating projects on each platform, and for building and running the test-suite, e.g.
+
+Generate make project on linux:
+> ./generateLinux.sh
+
+Build and run the test-suite on OSX:
+> ./testOSX.sh
+
+Generate Visual Studio projects on Windows:
+> ./generateWindows.bat
+
+**Continuous Integration Testing**
+
+ACL is setup to do continuous integration building and testing on Ubuntu linux, via travis-ci.  It uses the [gtest](https://github.com/justindujardin/ACL/tree/master/lib/gtest) library for testing the C++ classes.  The test-suite is still relatively small, but it's a good start.  The test-suite passes on OSX, Windows, and Linux platforms.
 
 ### <a id="credits">Credits</a>
 
