@@ -11,7 +11,7 @@
 
 ### <a id="overview">Overview</a>
 
-Application Core Library is built from a stripped-down version of the utility classes used in Torque engines.  It does not include any windowing, graphics, or input code.  It includes only the basic cross-platform types and classes for building applications on top of.  The main function of the ACL is to provide a solid basis for developing applications in a cross-platform way.  In addition to the code reused from Torque, the ACL includes a generic C API plugin system, that can be used to implement dynamic library plugins.
+Application Core Library is built from a stripped-down version of the utility classes used in the Torque family of engines.  It includes basic cross-platform types and classes for building applications on top of.  The main function of the ACL is to provide a solid basis for developing applications in a cross-platform way.  In addition to the code reused from Torque, the ACL includes a generic C API plugin system, that can be used to implement dynamic library plugins.
 
 ### <a id="core">Core</a>
 
