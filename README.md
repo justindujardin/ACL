@@ -16,7 +16,7 @@ Application Core Library is built from a stripped-down version of the utility cl
 
 ### <a id="core">Core</a>
 
-When writing any substantial C++ application, solid core classes are essential.  The ACL provides an impressive suite of core classes for building your application on top of, e.g.
+When writing any substantial C++ application, solid core classes are essential.  The ACL provides an impressive suite of core classes for building your application on top of.
 
 - [Compiler independent types](https://github.com/justindujardin/ACL/blob/master/acl/core/types.h)
 - [Compiler independent string functions](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/stringFunctions.h)
