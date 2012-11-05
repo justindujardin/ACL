@@ -17,10 +17,10 @@ Application Core Library is built from a stripped-down version of the utility cl
 
 When writing any substantial C++ application, solid core classes are essential.  The ACL provides an impressive suite of core classes for building your application on top of, e.g.
 
-- [Compiler independent types](https://github.com/justindujardin/ACL/blob/master/acl/core/types.h), e.g. 32-bit numbers are `S32` signed int, `U32` unsigned int, `F32` float
-- [Compiler independent string functions](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/stringFunctions.h), e.g. dStrcpy, dStrcmp, etc.
-- [String class](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/str.h) with ultra-fast hashtable support for [pointer string comparisons](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/str.h#L166).
-- Filesystem [Path class](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/path.h)
+- [Compiler independent types](https://github.com/justindujardin/ACL/blob/master/acl/core/types.h)
+- [Compiler independent string functions](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/stringFunctions.h)
+- [String class](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/str.h) with support for [pointer string comparisons](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/str.h#L166).
+- [Filesystem Path class](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/path.h)
 - [Unicode string support](https://github.com/justindujardin/ACL/blob/master/acl/core/strings/unicode.h)
 - [A full complement of Stream classes](https://github.com/justindujardin/ACL/tree/master/acl/core/stream)
 - [Container Classes](https://github.com/justindujardin/ACL/tree/master/acl/core/containers), e.g. Vector, List, Dictionary, Pair
