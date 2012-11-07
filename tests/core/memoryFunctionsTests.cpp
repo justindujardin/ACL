@@ -11,7 +11,7 @@
 #include <gtest/gtest.h>
 
 // Determine if a block of memory is aligned
-#define IS_ALIGNED(x) EXPECT_TRUE(int(x) % 4 == 0)
+#define IS_ALIGNED(ptr) EXPECT_TRUE(((((unsigned long)ptr) & 15) == 0))
 
 // Test to be sure the memory allocations for this platform are aligned.
 TEST(MemoryAllocation,Aligned) {
