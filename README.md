@@ -5,7 +5,12 @@
 
 
 Application Core Library is a C++ library, built from a stripped-down version of the utility classes used in the Torque family of engines.  It includes basic cross-platform types and classes for building applications on top of.  The main function of the ACL is to provide a solid basis for developing applications in a cross-platform way.  In addition to the code reused from Torque, the ACL includes a generic C API plugin system, that can be used to implement dynamic library plugins.
-## Core
+
+## Architecture
+
+There are three general classifications of systems provided by the ACL, and each one exists in its own subdirectory of `acl/`.  The core path contains most of the classes for writing applications that you'll interact with.  The platform directory contains an abstracted platform layer, that provides access to OS-specific services (e.g. Threads, FileSystem, Dynamic Libraries).  The plugin directory contains a C-interface based plugin system skeleton, to allow compiler independent exporting of functions for use in other libraries.
+
+### Core
 
 When writing any substantial C++ application, solid core classes are essential.  The ACL provides an impressive suite of core classes for building your application on top of.
 
@@ -22,11 +27,11 @@ When writing any substantial C++ application, solid core classes are essential. 
 - [Type rebinding](https://github.com/justindujardin/ACL/blob/master/acl/core/util/typeRebind.h) for implementation-specific abstracted class creation.
 - Various Utilities: [endian conversion](https://github.com/justindujardin/ACL/blob/master/acl/core/util/endian.h), [crc calculation](https://github.com/justindujardin/ACL/blob/master/acl/core/crc.h), [compiler intrinsics](https://github.com/justindujardin/ACL/blob/master/acl/core/intrinsics.h), [compile-time and runtime assertions](https://github.com/justindujardin/ACL/blob/master/acl/core/assert.h), ...
 
-## Platform
+### Platform
 
 *TODO*
 
-## Plugin
+### Plugin
 
 *TODO*
 
