@@ -1,11 +1,11 @@
 # Application Core Library
 [![Build Status](https://secure.travis-ci.org/justindujardin/ACL.png?branch=master)](http://travis-ci.org/justindujardin/ACL)
 
-# <a id="overview">Overview</a>
+## Overview
 
 
 Application Core Library is a C++ library, built from a stripped-down version of the utility classes used in the Torque family of engines.  It includes basic cross-platform types and classes for building applications on top of.  The main function of the ACL is to provide a solid basis for developing applications in a cross-platform way.  In addition to the code reused from Torque, the ACL includes a generic C API plugin system, that can be used to implement dynamic library plugins.
-# <a id="core">Core</a>
+## Core
 
 When writing any substantial C++ application, solid core classes are essential.  The ACL provides an impressive suite of core classes for building your application on top of.
 
@@ -22,40 +22,43 @@ When writing any substantial C++ application, solid core classes are essential. 
 - [Type rebinding](https://github.com/justindujardin/ACL/blob/master/acl/core/util/typeRebind.h) for implementation-specific abstracted class creation.
 - Various Utilities: [endian conversion](https://github.com/justindujardin/ACL/blob/master/acl/core/util/endian.h), [crc calculation](https://github.com/justindujardin/ACL/blob/master/acl/core/crc.h), [compiler intrinsics](https://github.com/justindujardin/ACL/blob/master/acl/core/intrinsics.h), [compile-time and runtime assertions](https://github.com/justindujardin/ACL/blob/master/acl/core/assert.h), ...
 
-# <a id="platform">Platform</a>
+## Platform
 
 *TODO*
 
-# <a id="plugin">Plugin</a>
+## Plugin
 
 *TODO*
 
-# <a id="build">Building and Testing</a>
+## Building and Testing
 
 ACL uses [premake4](https://github.com/justindujardin/ACL/blob/master/premake4.lua) to generate Xcode, Visual Studio, and make projects, putting them in the `projects` subfolder. It geneates projects for the library, gtest, and the test-runner application.  
 
-## Build Scripts
+### Build Scripts
 
 There are scripts in the root directory for generating projects on each platform, and for building and running the test-suite, e.g.
 
 Generate make project on linux:
-> ./generateLinux.sh
+
+     ./generateLinux.sh
 
 Build and run the test-suite on OSX:
-> ./testOSX.sh
+
+     ./testOSX.sh
 
 Generate Visual Studio projects on Windows:
-> ./generateWindows.bat
 
-## Continuous Integration Testing
+     ./generateWindows.bat
+
+### Continuous Integration Testing
 
 ACL is setup to do continuous integration building and testing on Ubuntu linux, via travis-ci.  It uses the [gtest](https://github.com/justindujardin/ACL/tree/master/lib/gtest) library for testing the C++ classes.  The test-suite is still relatively small, but it's a good start.  The test-suite passes on OSX, Windows, and Linux platforms.
 
-# <a id="credits">Credits</a>
+## Credits
 
 The ACL shares roots with the [Torque](https://github.com/GarageGames/Torque3D) family of game engines from [GarageGames](http://www.garagegames.com), and as such, it would never have been possible without the many people who contributed to Torque over the years.  I am eternally grateful for all the hard work they have put forward, and how it has made this library so brutally good at what it does.
 
-# <a id="license">License</a>
+## License
 
 Application Core Library is freely distributable under the MIT license
 
