@@ -3,12 +3,13 @@
 
 ## Overview
 
+Application Core Library is a C++ library, built from a stripped-down version of the utility classes used in the Torque family of engines.  It includes basic cross-platform types and classes for building applications on top of.  
 
-Application Core Library is a C++ library, built from a stripped-down version of the utility classes used in the Torque family of engines.  It includes basic cross-platform types and classes for building applications on top of.  The main function of the ACL is to provide a solid basis for developing applications in a cross-platform way.  In addition to the code reused from Torque, the ACL includes a generic C API plugin system, that can be used to implement dynamic library plugins.
+The main function of the ACL is to provide a solid basis for developing applications in a cross-platform way.  In addition to the code reused from Torque, the ACL includes a generic C API plugin system, that can be used to implement dynamic library plugins.
 
 ## Architecture
 
-There are three general classifications of systems provided by the ACL, and each one exists in its own subdirectory of `acl/`.  The core path contains most of the classes for writing applications that you'll interact with.  The platform directory contains an abstracted platform layer, that provides access to OS-specific services (e.g. Threads, FileSystem, Dynamic Libraries).  The plugin directory contains a C-interface based plugin system skeleton, to allow compiler independent exporting of functions for use in other libraries.
+There are three general classifications of systems provided by the ACL.  The `core` path contains most of the classes for writing applications that you'll interact with.  The `platform` directory contains an abstracted platform layer, that provides access to OS-specific services (e.g. Threads, FileSystem, Dynamic Libraries).  The `plugin` directory contains a C-interface based plugin system skeleton, to allow compiler independent exporting of functions for use in other libraries.
 
 ### Core
 
