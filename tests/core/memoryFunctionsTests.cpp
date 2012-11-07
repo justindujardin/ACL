@@ -26,3 +26,22 @@ TEST(MemoryAllocation,Aligned) {
    for(S32 i = 0; i < loops; i++)
       dFree(allocArray[i]);
 }
+
+// 
+TEST(MemoryReallocation,Aligned) {
+
+   S32 loops = 100;
+   void *allocArray[loops];
+   for(S32 i = 0; i < loops; i++)
+   {
+      allocArray[i] = dMalloc(sizeof(U8));
+      IS_ALIGNED(allocArray[i]);
+   }
+   for(S32 i = 0; i < loops; i++)
+   {
+      allocArray[i] = dRealloc(allocArray[i],sizeof(S64));
+      IS_ALIGNED(allocArray[i]);
+   }
+   for(S32 i = 0; i < loops; i++)
+      dFree(allocArray[i]);
+}
