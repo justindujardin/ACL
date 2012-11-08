@@ -18,6 +18,7 @@
 #include "platform/impls/mac/threads/macThreadLocalImpl.h"
 #include "platform/impls/posix/threads/posixThreadImpl.h"
 #include "platform/impls/posix/threads/posixMutexImpl.h"
+#include "platform/impls/posix/threads/posixWaitObjectImpl.h"
 #include "platform/impls/posix/threads/posixThreadLocalImpl.h"
 #include "platform/impls/posix/volume/posixFileSystemImpl.h"
 #include "platform/impls/posix/volume/posixFileImpl.h"
@@ -48,6 +49,7 @@ namespace Internal_
       factory.bind<DLibraryImpl>().to<PosixDLibraryImpl>();
       factory.bind<ThreadImpl>().to<PosixThreadImpl>();
       factory.bind<MutexImpl>().to<PosixMutexImpl>();
+      factory.bind<WaitObjectImpl>().to<PosixWaitObjectImpl>();
       factory.bind<SemaphoreImpl>().to<MacSemaphoreImpl>();
       factory.bind<ThreadLocalImpl>().to<MacThreadLocalImpl>();
       

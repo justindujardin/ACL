@@ -4,9 +4,11 @@
 // Portions Copyright (c) 2009 GarageGames, Inc.
 //-----------------------------------------------------------------------------
 
+#include "core/containers/tVector.h"
 #include "platform/threads/thread.h"
 #include "platform/impls/base/threads/threadImpl.h"
 #include "platform/threads/mutex.h"
+#include "platform/threads/waitObject.h"
 #include "platform/platform.h"
 
 // TODO: Concurrent, Threadsafe Queue without TBB?
@@ -14,25 +16,49 @@
 
 namespace Platform2
 {
-   // TODO: Yeah I know, it IS pretty wicked, right?
-   struct FauxConcurrentQueue
+
+
+   template<typename T> class ConcurrentQueue
    {
-      bool pop_if_present( Thread::MessageRef& msg ) 
+   private:
+      Vector<T> mQueue;
+      mutable Mutex mMutex;
+      WaitObject mWaitObject;
+   public:
+      void push(T const& data)
       {
-         AssertFatal(false,"The method or operation is not implemented.");
-         return true;  
+         mMutex.lock();
+         mQueue.push_back(data);
+         mMutex.unlock();
+         mWaitObject.signalOne();
       }
 
-      void pop( Thread::MessageRef& msg ) 
+      bool empty() const
       {
-         AssertFatal(false,"The method or operation is not implemented.");
+         Mutex::ScopedLock lock(mMutex);
+         return mQueue.empty();
       }
 
-      void push( Thread::MessageRef msg ) 
-      {
-         AssertFatal(false,"The method or operation is not implemented.");
-      }
+     void pop(T& msg)
+     {
+       Mutex::ScopedLock lock(mMutex);
+       while(mQueue.empty())
+         mWaitObject.wait(lock.getMutex());
+       
+       msg = mQueue.front();
+       mQueue.pop_front();
+     }
 
+     bool pop_if_present(T& msg)
+      {
+         Mutex::ScopedLock lock(mMutex);
+         if(mQueue.empty())
+            return false;
+        
+         msg = mQueue.front();
+         mQueue.pop_front();
+         return true;
+      }
    };
 
    const String Thread::TerminateMessage::Type("Terminate");
@@ -40,9 +66,7 @@ namespace Platform2
    /// @cond
    struct Thread::MessageQueue::Internal
    {
-      //tbb::concurrent_queue<MessageRef> toThread;
-      FauxConcurrentQueue toThread;
-
+      ConcurrentQueue<MessageRef> toThread;
    };
    /// @endcond
 

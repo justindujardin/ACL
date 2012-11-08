@@ -48,6 +48,9 @@ namespace Platform2
          /// @returns Threading::Status_PlatformError if the mutex could not be unlocked
          /// for any other reason.
          virtual Threading::Status unlock() = 0;
+
+         /// Returns the native os mutex handle.
+         virtual void *getNative() = 0;
       };
    }
 }

@@ -47,7 +47,13 @@ namespace Platform2
 
          /// Indicates that some unknown platform specific error occurred.  
          /// There is probably no recovery.
-         Status_PlatformError = 0xFF
+         Status_PlatformError,
+
+         /// Indicates that the wait object was signaled.
+         Status_WaitSignaled,
+
+         /// Indicates that the wait object timed out.
+         Status_WaitTimeout = 0xFF,
       };
    }
 }

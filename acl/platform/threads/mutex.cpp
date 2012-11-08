@@ -89,4 +89,9 @@ namespace Platform2
 #endif
       return ret;
    }
+
+   void * Mutex::getNative() 
+   {
+      return mImpl->impl->getNative();
+   }
 }

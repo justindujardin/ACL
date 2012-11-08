@@ -20,7 +20,6 @@ solution "ApplicationCoreLibrary"
       links       { "acl", "gtest" }
       includedirs { "acl", "lib/gtest/include" }
       files       { "tests/testMain.cpp", "tests/**Tests.cpp" }
-      excludes    { "tests/platform/**" }
  
       configuration "Debug"
          defines  { "ACL_DEBUG" }        
