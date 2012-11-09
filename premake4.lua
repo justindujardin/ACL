@@ -59,7 +59,7 @@ solution "ApplicationCoreLibrary"
       targetname  "acl"
       kind        "StaticLib"
       language    "C++"
-      flags       { "No64BitChecks", "StaticRuntime" } 
+      flags       { "No64BitChecks", "StaticRuntime", "ExtraWarnings" } 
       includedirs { "acl" }
       files       { "acl/**.h", "acl/**.cpp" }
 

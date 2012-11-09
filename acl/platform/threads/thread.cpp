@@ -10,57 +10,11 @@
 #include "platform/threads/mutex.h"
 #include "platform/threads/waitObject.h"
 #include "platform/platform.h"
+#include "platform/threads/concurrentQueue.h"
 
-// TODO: Concurrent, Threadsafe Queue without TBB?
-//#include "tbb/concurrent_queue.h"
 
 namespace Platform2
 {
-
-
-   template<typename T> class ConcurrentQueue
-   {
-   private:
-      Vector<T> mQueue;
-      mutable Mutex mMutex;
-      WaitObject mWaitObject;
-   public:
-      void push(T const& data)
-      {
-         mMutex.lock();
-         mQueue.push_back(data);
-         mMutex.unlock();
-         mWaitObject.signalOne();
-      }
-
-      bool empty() const
-      {
-         Mutex::ScopedLock lock(mMutex);
-         return mQueue.empty();
-      }
-
-     void pop(T& msg)
-     {
-       Mutex::ScopedLock lock(mMutex);
-       while(mQueue.empty())
-         mWaitObject.wait(lock.getMutex());
-       
-       msg = mQueue.front();
-       mQueue.pop_front();
-     }
-
-     bool pop_if_present(T& msg)
-      {
-         Mutex::ScopedLock lock(mMutex);
-         if(mQueue.empty())
-            return false;
-        
-         msg = mQueue.front();
-         mQueue.pop_front();
-         return true;
-      }
-   };
-
    const String Thread::TerminateMessage::Type("Terminate");
 
    /// @cond

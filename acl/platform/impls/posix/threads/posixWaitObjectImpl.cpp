@@ -30,8 +30,9 @@ namespace Platform2
 
       Threading::Status PosixWaitObjectImpl::wait(Mutex *mutex, S32 timeout /*= -1*/)
       {
-        int result = 0;
-        if(timeout != -1 && timeout != 0)
+        S32 result = 0;
+        pthread_mutex_t *nativeMutex = (pthread_mutex_t*)mutex->getNative();
+        if(timeout > 0)
         {
           struct timespec ts;
 #ifdef ACL_OS_MAC
@@ -43,11 +44,11 @@ namespace Platform2
           clock_gettime(CLOCK_REALTIME, &ts);
 #endif
           ts.tv_nsec += timeout * 1000000; // convert milliseconds to nanoseconds
-          result = pthread_cond_timedwait(&mCondition, (pthread_mutex_t*)mutex->getNative(), &ts);
+          result = pthread_cond_timedwait(&mCondition, nativeMutex, &ts);
         }
         else
         {
-          result = pthread_cond_wait(&mCondition,(pthread_mutex_t*)mutex->getNative());
+          result = pthread_cond_wait(&mCondition,nativeMutex);
         }
         if(result == ETIMEDOUT)
           return Threading::Status_WaitTimeout;

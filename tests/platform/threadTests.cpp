@@ -12,6 +12,7 @@
 #include "platform/threads/mutex.h"
 #include "platform/threads/semaphore.h"
 #include "platform/threads/threadLocal.h"
+#include "platform/threads/waitObject.h"
 #include "core/assert.h"
 #include "platform/platform.h"
 #include "core/util/autoPtr.h"
@@ -48,6 +49,59 @@ namespace BasicUsage
    }
 }
 
+
+/// Basic validation of WaitObject functionality.  
+/// The WaitObject must be called with a locked Mutex, and it will return with the same Mutex locked.
+namespace BasicWaitObject 
+{
+   static WaitObject *_wait      = NULL;
+   static Mutex *_mutex          = NULL;
+   static const U32 _magicNumber = 42;
+
+   S32 work(Thread::MessageQueue& messageQueue)
+   {
+      _wait->wait(_mutex);
+      return GetPlatform()->getRealMilliseconds();
+   }  
+
+   TEST(Threads,WaitObject) {
+      _mutex = new Mutex();
+      _wait = new WaitObject();
+      Thread t(MakeDelegate(&work));
+      S32 start = GetPlatform()->getRealMilliseconds();
+      t.start();
+      GetPlatform()->sleep(150);
+      _wait->signalOne();      
+      GetPlatform()->sleep(1);
+      EXPECT_FALSE(t.isRunning()); // Wait signal should cause thread to exit.
+      EXPECT_TRUE(t.getReturnCode() - start >= 150);
+      //, "Thread took at least sleep time before returning from wait object");
+   }
+}
+
+/// Basic validation of WaitObject timeout functionality.  
+namespace WaitObjectTimeout
+{
+   static WaitObject *_wait      = NULL;
+   static Mutex *_mutex          = NULL;
+
+   S32 work(Thread::MessageQueue& messageQueue)
+   {
+      Threading::Status ret = _wait->wait(_mutex,10);
+      return (ret == Threading::Status_WaitTimeout) ? 0 : -1;
+   }
+
+   TEST(Threads,WaitObjectTimeout) {
+      _mutex = new Mutex();
+      _wait = new WaitObject();
+      Thread t(MakeDelegate(&work));
+      S32 start = GetPlatform()->getRealMilliseconds();
+      t.start();
+      GetPlatform()->sleep(150);
+      EXPECT_FALSE(t.isRunning()); // Wait signal should cause thread to exit.
+      EXPECT_TRUE(t.getReturnCode() == 0); // Thread wait should have timed out
+   }
+}
 
 
 
@@ -91,10 +145,10 @@ namespace MessageQueuePost
    // This will return as soon as a message is posted
    S32 work(Thread::MessageQueue& messageQueue)
    {
-      U32 start = Platform2::GetPlatform()->getRealMilliseconds();
+      U32 start = GetPlatform()->getRealMilliseconds();
       Thread::MessageRef msg;
       messageQueue.waitOnMessageToThread(msg, true);
-      return Platform2::GetPlatform()->getRealMilliseconds() - start;
+      return GetPlatform()->getRealMilliseconds() - start;
    }
 
    TEST(Threads, PostMessage)
