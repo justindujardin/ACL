@@ -36,7 +36,7 @@ solution "ApplicationCoreLibrary"
          links    { "winmm" }
 
       configuration "linux"
-         links       { "pthread", "dl" }
+         links       { "pthread", "dl", "rt" }
          
 
    -- The google test static lib
@@ -92,6 +92,7 @@ solution "ApplicationCoreLibrary"
             "acl/platform/impls/mac/**", 
             "acl/platform/impls/win32/**" 
          }
+         links { "pthread", "dl", "rt" }
 
       configuration { "macosx", "gmake" }
          buildoptions { "-mmacosx-version-min=10.4" }
