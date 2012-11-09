@@ -22,8 +22,6 @@ namespace Platform2
       public:
          virtual ~WaitObjectImpl() {}
 
-         /// Returns the value of the thread local on the current thread.
-         /// Undefined if called before set() has been called on the current thread.
          virtual Threading::Status wait(Mutex *mutex, S32 timeout=-1) = 0;
         
          virtual void signalOne() = 0;

@@ -24,8 +24,6 @@ namespace Platform2
       WaitObject();
       ~WaitObject();
 
-      /// Returns the value of the thread local on the current thread.
-      /// Undefined if called before set() has been called on the current thread.
       Threading::Status wait(Mutex *mutex, S32 timeout=-1);
      
       /// Unblock one thread that is waiting on this object.

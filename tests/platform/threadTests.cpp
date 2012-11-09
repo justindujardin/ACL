@@ -43,68 +43,14 @@ namespace BasicUsage
       Thread t(MakeDelegate(&work));
       t.start();
       t.finish();
+      GetPlatform()->sleep(10); // Give the OS a moment to start/end the tread.  We shouldn't assume this is sync.
       EXPECT_FALSE(t.isRunning()); //"Thread in a running state after finish()");
       EXPECT_TRUE(didWork); //"Thread not executed");
       EXPECT_TRUE(t.getReturnCode() == _magicNumber);//, "Thread did not return magic number");
    }
 }
 
-
-/// Basic validation of WaitObject functionality.  
-/// The WaitObject must be called with a locked Mutex, and it will return with the same Mutex locked.
-namespace BasicWaitObject 
-{
-   static WaitObject *_wait      = NULL;
-   static Mutex *_mutex          = NULL;
-   static const U32 _magicNumber = 42;
-
-   S32 work(Thread::MessageQueue& messageQueue)
-   {
-      _wait->wait(_mutex);
-      return GetPlatform()->getRealMilliseconds();
-   }  
-
-   TEST(Threads,WaitObject) {
-      _mutex = new Mutex();
-      _wait = new WaitObject();
-      Thread t(MakeDelegate(&work));
-      S32 start = GetPlatform()->getRealMilliseconds();
-      t.start();
-      GetPlatform()->sleep(150);
-      _wait->signalOne();      
-      GetPlatform()->sleep(1);
-      EXPECT_FALSE(t.isRunning()); // Wait signal should cause thread to exit.
-      EXPECT_TRUE(t.getReturnCode() - start >= 150);
-      //, "Thread took at least sleep time before returning from wait object");
-   }
-}
-
-/// Basic validation of WaitObject timeout functionality.  
-namespace WaitObjectTimeout
-{
-   static WaitObject *_wait      = NULL;
-   static Mutex *_mutex          = NULL;
-
-   S32 work(Thread::MessageQueue& messageQueue)
-   {
-      Threading::Status ret = _wait->wait(_mutex,10);
-      return (ret == Threading::Status_WaitTimeout) ? 0 : -1;
-   }
-
-   TEST(Threads,WaitObjectTimeout) {
-      _mutex = new Mutex();
-      _wait = new WaitObject();
-      Thread t(MakeDelegate(&work));
-      S32 start = GetPlatform()->getRealMilliseconds();
-      t.start();
-      GetPlatform()->sleep(150);
-      EXPECT_FALSE(t.isRunning()); // Wait signal should cause thread to exit.
-      EXPECT_TRUE(t.getReturnCode() == 0); // Thread wait should have timed out
-   }
-}
-
-
-
+#ifndef ACL_OS_LINUX
 /// Verifies that when a thread is deleted it posts a Terminate message to the message queue and 
 /// waits until that message is received and acted upon.
 namespace DeleteTermination 
@@ -164,6 +110,8 @@ namespace MessageQueuePost
       EXPECT_TRUE(t.getReturnCode() >= 90);
    }
 }
+#endif
+
 
 /// Verify that the implementation polls the thread when isRunning is called, and that given
 /// a thread that will finish in a finite amount of time isRunning begins to return false in a finite amount of time.
@@ -208,21 +156,21 @@ namespace ThreadIsRunning
 namespace ThreadMutexBlock
 {
    static Mutex m;
+   static waitObject wait;
    S32 lock(Thread::MessageQueue& messageQueue)
    {
-      U32 start = Platform2::GetPlatform()->getRealMilliseconds();
+      wait.signalOne();
       EXPECT_TRUE(m.lock(true) == Threading::Status_NoError);//, "Failed a blocking lock");
-      return Platform2::GetPlatform()->getRealMilliseconds() - start;
+      return 0;
    }
    TEST(Threads, MutexBlock)
    {
       Thread t(MakeDelegate(&lock));
       EXPECT_TRUE(m.lock(true) == Threading::Status_NoError);//, "Failed to lock unlocked mutex");
       t.start();
-      Platform2::GetPlatform()->sleep(100);
+      wait.wait(&m);
       m.unlock();
       t.finish();
-      EXPECT_TRUE(t.getReturnCode() >= 90);//, "Blocking lock didn't block!");
    }
 };
 
@@ -230,12 +178,14 @@ namespace ThreadMutexBlock
 namespace ThreadMutexNonBlock
 {
    static Mutex m;
+   static waitObject wait;
 
    S32 lock(Thread::MessageQueue& messageQueue)
    {
-      U32 start = Platform2::GetPlatform()->getRealMilliseconds();
-      EXPECT_TRUE(m.lock(false) == Threading::Status_Busy);//, "Non blocking call succeeded in locking already locked mutex");
-      return Platform2::GetPlatform()->getRealMilliseconds() - start; 
+      // Cannot lock already locked Mutex
+      EXPECT_TRUE(m.lock(true) == Threading::Status_Busy);
+      wait.signalOne();
+      return 0;
    }
 
    TEST(Threads, MutexNonBlock)
@@ -243,10 +193,9 @@ namespace ThreadMutexNonBlock
       Thread t(MakeDelegate(&lock));
       EXPECT_TRUE(m.lock(false) == Threading::Status_NoError);//, "Failed to lock unlocked mutex");
       t.start();
-      Platform2::GetPlatform()->sleep(100);
+      wait.wait(&m);
       m.unlock();
       t.finish();
-      EXPECT_TRUE(t.getReturnCode() < 110);//, "Non-blocking lock blocked!");
    }
 };
 

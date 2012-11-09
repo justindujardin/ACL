@@ -19,13 +19,13 @@ namespace Platform2
    {
       PosixWaitObjectImpl::PosixWaitObjectImpl()
       {
-         pthread_cond_init( &mCondition, NULL );
+        pthread_cond_init( &mCondition, NULL );
         AssertFatal(&mCondition != NULL, "Failed to initialize condition variable");
       }
 
       PosixWaitObjectImpl::~PosixWaitObjectImpl()
       {
-         pthread_cond_destroy( &mCondition );
+        pthread_cond_destroy( &mCondition );
       }
 
       Threading::Status PosixWaitObjectImpl::wait(Mutex *mutex, S32 timeout /*= -1*/)
