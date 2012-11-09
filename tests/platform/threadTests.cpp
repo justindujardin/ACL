@@ -4,6 +4,7 @@
 // Portions Copyright (c) 2009 GarageGames, Inc.
 //-----------------------------------------------------------------------------
 
+
 #include "core/strings/str.h"
 #include "core/util/delegate.h"
 #include "platform/platform.h"
@@ -19,7 +20,6 @@
 
 using fastdelegate::MakeDelegate;
 using namespace Platform2;
-
 
 /// Basic validation of thread functionality.  Verifies that impl properly reports running state
 /// that impl calls the given method, and that impl passes in userData and dataSize, and that imple
@@ -271,7 +271,7 @@ namespace ThreadsLocalData
       return 0;
    }
 
-   void run()
+   TEST(Threads,ThreadLocalStorage)
    {
       Thread t(MakeDelegate(&work));
       l.set(reinterpret_cast<void*>(42));

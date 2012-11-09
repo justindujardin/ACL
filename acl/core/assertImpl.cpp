@@ -6,6 +6,7 @@
 
 #include "core/assertImpl.h"
 #include "core/strings/str.h"
+#include "core/strings/stringFunctions.h"
 
 #ifdef WIN32
 #include <Windows.h>
@@ -41,6 +42,7 @@ namespace ACLib
 
    void AssertImpl::printToConsole(Assert::Type type, const String& title, const String& message)
    {
+      dPrintf("%s: %s", title.c_str(), message.c_str());
       // Default behavior is to error unless we're dealing with a warning
       //if (Con::isActive())
       //{

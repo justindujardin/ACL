@@ -53,7 +53,7 @@ namespace Platform2
 #ifdef ACL_DEBUG_THREADING
       // If we already own the mutex and we're trying to lock on it, and blocking
       // we'll probably deadlock.
-      if(reinterpret_cast<U32>(mImpl->threadLocked.get()) == 1 && block)
+      if(block && reinterpret_cast<U32>(mImpl->threadLocked.get()) == 1)
       {
          AssertFatal(false, "Locking mutex twice from same thread, this will usually deadlock");
          return Threading::Status_Deadlock;

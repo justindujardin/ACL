@@ -12,6 +12,7 @@
 #include "platform/impls/posix/threads/posixSemaphoreImpl.h"
 #include "platform/impls/posix/threads/posixThreadImpl.h"
 #include "platform/impls/posix/threads/posixMutexImpl.h"
+#include "platform/impls/posix/threads/posixWaitObjectImpl.h"
 #include "platform/impls/posix/threads/posixThreadLocalImpl.h"
 #include "platform/impls/posix/volume/posixFileSystemImpl.h"
 #include "platform/impls/posix/volume/posixFileImpl.h"
@@ -21,6 +22,9 @@
 
 #include "core/strings/unicode.h"
 #include "platform/platformSystemInfo.h"
+
+#include <unistd.h>
+#include <sys/time.h>
 
 
 namespace Platform2
@@ -38,6 +42,7 @@ namespace Platform2
          factory.bind<SemaphoreImpl>().to<PosixSemaphoreImpl>();
          factory.bind<ThreadImpl>().to<PosixThreadImpl>();
          factory.bind<MutexImpl>().to<PosixMutexImpl>();
+         factory.bind<WaitObjectImpl>().to<PosixWaitObjectImpl>();
          factory.bind<ThreadLocalImpl>().to<PosixThreadLocalImpl>();
 
          factory.bind<DLibraryImpl>().to<PosixDLibraryImpl>();
@@ -67,13 +72,26 @@ namespace Platform2
       {
       }
 
+      static U32 sgTimeOffset  = 0;
+      static bool sgTimeInitialized = false;
       U32 LinuxPlatformObject::getRealMilliseconds()
       {
-         return -1;
+         timeval t;
+         if (sgTimeInitialized == false) {
+            sgTimeInitialized = true;
+            gettimeofday(&t, NULL);
+            sgTimeOffset = t.tv_sec;
+         }
+         gettimeofday(&t, NULL);
+         U32 secs  = t.tv_sec - sgTimeOffset;
+         U32 uSecs = t.tv_usec;
+         // Make granularity 1 ms
+         return (secs * 1000) + (uSecs / 1000);
       }
 
       void LinuxPlatformObject::sleep(U32 ms)
       {
+         usleep( ms * 1000 );
       }
 
       ACLib::Path LinuxPlatformObject::getExecutablePath()
