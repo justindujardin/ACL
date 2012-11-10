@@ -50,7 +50,6 @@ namespace BasicUsage
    }
 }
 
-#ifndef ACL_OS_LINUX
 /// Verifies that when a thread is deleted it posts a Terminate message to the message queue and 
 /// waits until that message is received and acted upon.
 namespace DeleteTermination 
@@ -110,8 +109,6 @@ namespace MessageQueuePost
       EXPECT_TRUE(t.getReturnCode() >= 90);
    }
 }
-#endif
-
 
 /// Verify that the implementation polls the thread when isRunning is called, and that given
 /// a thread that will finish in a finite amount of time isRunning begins to return false in a finite amount of time.
@@ -156,7 +153,7 @@ namespace ThreadIsRunning
 namespace ThreadMutexBlock
 {
    static Mutex m;
-   static waitObject wait;
+   static WaitObject wait;
    S32 lock(Thread::MessageQueue& messageQueue)
    {
       wait.signalOne();
@@ -169,8 +166,10 @@ namespace ThreadMutexBlock
       EXPECT_TRUE(m.lock(true) == Threading::Status_NoError);//, "Failed to lock unlocked mutex");
       t.start();
       wait.wait(&m);
+      GetPlatform()->sleep(100);
       m.unlock();
       t.finish();
+      EXPECT_TRUE(t.getReturnCode() == 0);
    }
 };
 
@@ -178,91 +177,29 @@ namespace ThreadMutexBlock
 namespace ThreadMutexNonBlock
 {
    static Mutex m;
-   static waitObject wait;
+   static WaitObject w;
 
    S32 lock(Thread::MessageQueue& messageQueue)
    {
-      // Cannot lock already locked Mutex
-      EXPECT_TRUE(m.lock(true) == Threading::Status_Busy);
-      wait.signalOne();
+      // Lock the mutex
+      EXPECT_TRUE(m.lock(false) == Threading::Status_NoError);
       return 0;
    }
 
    TEST(Threads, MutexNonBlock)
    {
+      EXPECT_TRUE(m.lock(true) == Threading::Status_NoError);
       Thread t(MakeDelegate(&lock));
-      EXPECT_TRUE(m.lock(false) == Threading::Status_NoError);//, "Failed to lock unlocked mutex");
       t.start();
-      wait.wait(&m);
+      t.finish();
+      EXPECT_TRUE(m.lock(false) == Threading::Status_Busy);//, "Failed to lock unlocked mutex");
       m.unlock();
-      t.finish();
    }
 };
 
-
-/// Verifies that when a semaphore of count 0 is acquired the calling thread is blocked
-/// until the semaphores count is > 0.
-namespace ThreadSemaphoreBlock
-{
-   static AutoPtr<Semaphore> s;
-
-   S32 work(Thread::MessageQueue& messageQueue)
-   {
-      U32 start = Platform2::GetPlatform()->getRealMilliseconds();
-      EXPECT_TRUE(s->acquire(true) == Threading::Status_NoError);//, "Failed to acquire blocking semaphore with count > 0");
-      EXPECT_TRUE(s->acquire(true) == Threading::Status_NoError);//, "Failed to acquire blocking semaphore");
-      return Platform2::GetPlatform()->getRealMilliseconds() - start; 
-   }
-
-   TEST(Threads, SemaphoreBlock)
-   {
-      s = new Semaphore(2);
-      Thread t(MakeDelegate(&work));
-      s->acquire(true);
-      t.start();
-      GetPlatform()->sleep(100);
-      s->release();
-      t.finish();
-      EXPECT_TRUE(t.getReturnCode() >= 90);//, "Semaphore wasn't blocking");
-   }
-};
-
-/// Verifies that an attempt to acquire a semaphore of count 0 does *not* block and returns false
-/// if block is false.
-namespace ThreadsSemaphoreNonBlock
-{
-   static AutoPtr<Semaphore> s;
-
-   S32 work(Thread::MessageQueue& messageQueue)
-   {
-      U32 start = Platform2::GetPlatform()->getRealMilliseconds();
-      EXPECT_TRUE(s->acquire(true) == Threading::Status_NoError);//, "Failed to acquire blocking semaphore with count > 0");
-      EXPECT_TRUE(s->acquire(false) == Threading::Status_Busy);//, "Succeeded in non-blocking acquire of semaphore with count 0");
-      return Platform2::GetPlatform()->getRealMilliseconds() - start; 
-   }
-
-   TEST(Threads, SemaphoreNonBlock)
-   {
-      s = new Semaphore(2);
-      Thread t(MakeDelegate(&work));
-      s->acquire(true);
-      t.start();
-      GetPlatform()->sleep(100);
-      s->release();
-      t.finish();
-      EXPECT_TRUE(t.getReturnCode() < 110);//, "Semaphore was blocking");
-   }
-};
-
-TEST(Threads, SemaphoreRelease)
-{
-   AutoPtr<Semaphore> s(new Semaphore(1, 1));
-   EXPECT_TRUE(s->release() == Threading::Status_Resources);//, 
-   //"Expected that releasing semaphore beyond maxCount would return Status_Resources");
-};
 
 /// Verifies that a thread local stores different values for each accessing thread.
-namespace ThreadsLocalData
+namespace ThreadLocalData
 {
    static ThreadLocal l;
 
@@ -274,7 +211,7 @@ namespace ThreadsLocalData
       return 0;
    }
 
-   TEST(Threads,ThreadLocalStorage)
+   TEST(ThreadLocal,GetSet)
    {
       Thread t(MakeDelegate(&work));
       l.set(reinterpret_cast<void*>(42));

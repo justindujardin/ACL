@@ -5,14 +5,14 @@
 //-----------------------------------------------------------------------------
 
 #include "platform/impls/posix/threads/posixSemaphoreImpl.h"
+#include <errno.h>
 
 namespace Platform2
 {
    namespace Internal_
    {
-      PosixSemaphoreImpl::PosixSemaphoreImpl() 
+      PosixSemaphoreImpl::PosixSemaphoreImpl() : mMaxCount(S32_MAX)
       {
-         //mSemaphore = dMalloc(sizeof(sem_t),0);
       }
 
       PosixSemaphoreImpl::~PosixSemaphoreImpl()
@@ -20,20 +20,39 @@ namespace Platform2
          sem_destroy(&mSemaphore);
       }
 
-      bool PosixSemaphoreImpl::init(U32 initialCount, U32 maxCount)
+      bool PosixSemaphoreImpl::init(S32 initialCount, S32 maxCount)
       {
-         int result = sem_init(&mSemaphore,0,initialCount);
-         return result != -1;
+         mMaxCount = maxCount;
+         S32 ret = sem_init(&mSemaphore,0,initialCount);
+         return ret == 0;
       }
 
       Threading::Status PosixSemaphoreImpl::acquire(bool block)
       {
+         S32 ret = block ? sem_wait(&mSemaphore) : sem_trywait(&mSemaphore);
+         if(ret == -1 && errno == EAGAIN)
+            return Threading::Status_Resources;
+         else if (ret == 0)
+            return Threading::Status_NoError;
          return Threading::Status_PlatformError;
       }
 
       Threading::Status PosixSemaphoreImpl::release()
       {
-         return Threading::Status_PlatformError;
+         S32 count;
+         if(sem_getvalue(&mSemaphore, &count) == -1)
+            return Threading::Status_PlatformError;
+         if(count == mMaxCount)
+            return Threading::Status_Resources;
+
+         S32 ret = sem_post(&mSemaphore);
+         switch(ret)
+         {
+         case 0:
+            return Threading::Status_NoError;
+         default:
+            return Threading::Status_PlatformError;
+         }
       }
    }
 }

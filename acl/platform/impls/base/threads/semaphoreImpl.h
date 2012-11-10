@@ -24,7 +24,7 @@ namespace Platform2
 
          /// You should initialize your semaphore such that it has count initialCount
          /// and attempting to release it beyond maxCount results in an error.
-         virtual bool init(U32 initialCount, U32 maxCount) = 0;
+         virtual bool init(S32 initialCount, S32 maxCount) = 0;
 
          /// This should decrement the count of your semaphore.
          /// @param block If @c true, your semaphore should block if its count is

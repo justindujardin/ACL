@@ -19,13 +19,13 @@ namespace Platform2
       public:
          PosixSemaphoreImpl();
          virtual ~PosixSemaphoreImpl();
-         virtual bool init(U32 initialCount, U32 maxCount);
+         virtual bool init(S32 initialCount, S32 maxCount);
          virtual Threading::Status acquire(bool block);
          virtual Threading::Status release();
 
       private:
          sem_t mSemaphore;
-         int mMaxCount;
+         S32 mMaxCount;
       };
    }
 }

@@ -42,7 +42,7 @@ namespace ACLib
 
    void AssertImpl::printToConsole(Assert::Type type, const String& title, const String& message)
    {
-      dPrintf("%s: %s", title.c_str(), message.c_str());
+      dPrintf("\nASSERTION FAILED: %s: %s\x00", title.c_str(), message.c_str());
       // Default behavior is to error unless we're dealing with a warning
       //if (Con::isActive())
       //{

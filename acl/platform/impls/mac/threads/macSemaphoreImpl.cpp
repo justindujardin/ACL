@@ -22,7 +22,7 @@ namespace Platform2
             MPDeleteSemaphore(mSemaphore);
       }
 
-      bool MacSemaphoreImpl::init(U32 initialCount, U32 maxCount)
+      bool MacSemaphoreImpl::init(S32 initialCount, S32 maxCount)
       {
          mCreationErr = MPCreateSemaphore(maxCount, initialCount, &mSemaphore);
          return mCreationErr == noErr;

@@ -27,27 +27,15 @@ namespace Platform2
 
       Threading::Status PosixMutexImpl::lock(bool block)
       {
-         if(!block)
-         {
-            S32 ret = pthread_mutex_trylock(&mMutex);
-            switch(ret)
-            {
-            case 0:
-               return Threading::Status_NoError;
-            case EBUSY:
-               return Threading::Status_Busy;
-            default:
-               return Threading::Status_PlatformError;
-            }
-         }
-         S32 ret = pthread_mutex_lock(&mMutex);
+         S32 ret = block ? pthread_mutex_lock(&mMutex) : pthread_mutex_trylock(&mMutex);
          switch(ret)
          {
          case 0:
             return Threading::Status_NoError;
-         default:
-            return Threading::Status_PlatformError;
+         case EBUSY:
+            return Threading::Status_Busy;
          }
+         return Threading::Status_PlatformError;
       }
 
       Threading::Status PosixMutexImpl::unlock()
