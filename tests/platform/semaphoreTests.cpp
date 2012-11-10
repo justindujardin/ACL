@@ -38,7 +38,7 @@ namespace ThreadSemaphoreBlock
       return GetPlatform()->getRealMilliseconds() - start; 
    }
 
-   TEST(Threads, SemaphoreBlock)
+   TEST(Semaphore, Blocking)
    {
       semaphore = new Semaphore(2);
       Thread t(MakeDelegate(&work));
@@ -65,7 +65,7 @@ namespace ThreadsSemaphoreNonBlock
       return result ? 0 : -1; 
    }
 
-   TEST(Threads, SemaphoreNonBlock)
+   TEST(Semaphore, NonBlock)
    {
       semaphore = new Semaphore(0);
       Thread t(MakeDelegate(&work));
@@ -76,7 +76,7 @@ namespace ThreadsSemaphoreNonBlock
    }
 };
 
-TEST(Threads, SemaphoreRelease)
+TEST(Semaphore, Release)
 {
    AutoPtr<Semaphore> semaphore(new Semaphore(1, 3));
    EXPECT_TRUE(semaphore->release() == Threading::Status_NoError);

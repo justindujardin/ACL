@@ -38,7 +38,7 @@ namespace BasicUsage
       return _magicNumber;
    }  
 
-   TEST(Threads,BasicUsage) {
+   TEST(Thread,BasicUsage) {
       didWork = passedMagicNumber = false;
       Thread t(MakeDelegate(&work));
       t.start();
@@ -71,7 +71,7 @@ namespace DeleteTermination
       return 0;
    }
 
-   TEST(Threads, DeleteTermination)
+   TEST(Thread, DeleteTermination)
    {
       AutoPtr<Thread> t(new Thread(MakeDelegate(&work)));
 
@@ -96,7 +96,7 @@ namespace MessageQueuePost
       return GetPlatform()->getRealMilliseconds() - start;
    }
 
-   TEST(Threads, PostMessage)
+   TEST(Thread, PostMessage)
    {
       Thread t(MakeDelegate(&work));
       t.start();
@@ -133,7 +133,7 @@ namespace ThreadIsRunning
       return 0;
    }
 
-   TEST(Threads, IsRunning)
+   TEST(Thread, IsRunning)
    {
 
       watchdog = new Thread(MakeDelegate(&watch));
@@ -147,75 +147,3 @@ namespace ThreadIsRunning
       worker = NULL;
    }
 }
-
-/// Verifies that locking a mutex twice results in the second lock blocking the calling
-/// thread until the first thread unlocks the mutex.
-namespace ThreadMutexBlock
-{
-   static Mutex m;
-   static WaitObject wait;
-   S32 lock(Thread::MessageQueue& messageQueue)
-   {
-      wait.signalOne();
-      EXPECT_TRUE(m.lock(true) == Threading::Status_NoError);//, "Failed a blocking lock");
-      return 0;
-   }
-   TEST(Threads, MutexBlock)
-   {
-      Thread t(MakeDelegate(&lock));
-      EXPECT_TRUE(m.lock(true) == Threading::Status_NoError);//, "Failed to lock unlocked mutex");
-      t.start();
-      wait.wait(&m);
-      GetPlatform()->sleep(100);
-      m.unlock();
-      t.finish();
-      EXPECT_TRUE(t.getReturnCode() == 0);
-   }
-};
-
-/// Verifies that an attempt to lock a locked mutex returns false if block is false.
-namespace ThreadMutexNonBlock
-{
-   static Mutex m;
-   static WaitObject w;
-
-   S32 lock(Thread::MessageQueue& messageQueue)
-   {
-      // Cannot non-blocking lock the mutex
-      EXPECT_TRUE(m.lock(false) == Threading::Status_Busy);
-      return 0;
-   }
-
-   TEST(Threads, MutexNonBlock)
-   {
-      EXPECT_TRUE(m.lock(true) == Threading::Status_NoError);
-      Thread t(MakeDelegate(&lock));
-      t.start();
-      t.finish();
-      m.unlock();
-   }
-};
-
-
-/// Verifies that a thread local stores different values for each accessing thread.
-namespace ThreadLocalData
-{
-   static ThreadLocal l;
-
-   S32 work(Thread::MessageQueue& messageQueue)
-   {
-      l.set(reinterpret_cast<void*>(7));
-      GetPlatform()->sleep(100);
-      EXPECT_TRUE(reinterpret_cast<U32>(l.get()) == 7);//, "Thread local value incorrect on thread");
-      return 0;
-   }
-
-   TEST(ThreadLocal,GetSet)
-   {
-      Thread t(MakeDelegate(&work));
-      l.set(reinterpret_cast<void*>(42));
-      t.start();
-      t.finish();
-      EXPECT_TRUE(reinterpret_cast<U32>(l.get()) == 42);//, "Thread local value incorrect");
-   }
-};
