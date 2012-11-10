@@ -181,8 +181,8 @@ namespace ThreadMutexNonBlock
 
    S32 lock(Thread::MessageQueue& messageQueue)
    {
-      // Lock the mutex
-      EXPECT_TRUE(m.lock(false) == Threading::Status_NoError);
+      // Cannot non-blocking lock the mutex
+      EXPECT_TRUE(m.lock(false) == Threading::Status_Busy);
       return 0;
    }
 
@@ -192,7 +192,6 @@ namespace ThreadMutexNonBlock
       Thread t(MakeDelegate(&lock));
       t.start();
       t.finish();
-      EXPECT_TRUE(m.lock(false) == Threading::Status_Busy);//, "Failed to lock unlocked mutex");
       m.unlock();
    }
 };

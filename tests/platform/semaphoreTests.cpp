@@ -48,7 +48,7 @@ namespace ThreadSemaphoreBlock
       GetPlatform()->sleep(100);
       semaphore->release();
       t.finish();
-      EXPECT_TRUE(t.getReturnCode() >= 90);//, "Semaphore wasn't blocking");
+      EXPECT_TRUE(t.getReturnCode() >= 100);//, "Semaphore wasn't blocking");
    }
 };
 
@@ -57,12 +57,9 @@ namespace ThreadSemaphoreBlock
 namespace ThreadsSemaphoreNonBlock
 {
    static AutoPtr<Semaphore> semaphore;
-   static WaitObject wait;
-   static Mutex mutex;
 
    S32 work(Thread::MessageQueue& messageQueue)
    {
-      wait.signalOne();
       bool result = semaphore->acquire(false) == Threading::Status_Busy;
       EXPECT_TRUE(result);//, "Succeeded in non-blocking acquire of semaphore with count 0");
       return result ? 0 : -1; 
@@ -70,13 +67,11 @@ namespace ThreadsSemaphoreNonBlock
 
    TEST(Threads, SemaphoreNonBlock)
    {
-      semaphore = new Semaphore(1);
+      semaphore = new Semaphore(0);
       Thread t(MakeDelegate(&work));
-      semaphore->acquire(true);
       t.start();
-      wait.wait(&mutex);
-      semaphore->release();
       t.finish();
+      semaphore->release();
       EXPECT_TRUE(t.getReturnCode() == 0);//, "Semaphore was blocking");
    }
 };

@@ -31,7 +31,7 @@ namespace Platform2
       {
          S32 ret = block ? sem_wait(&mSemaphore) : sem_trywait(&mSemaphore);
          if(ret == -1 && errno == EAGAIN)
-            return Threading::Status_Resources;
+            return Threading::Status_Busy;
          else if (ret == 0)
             return Threading::Status_NoError;
          return Threading::Status_PlatformError;
