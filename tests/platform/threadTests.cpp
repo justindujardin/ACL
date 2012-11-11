@@ -28,8 +28,7 @@ using namespace Platform2;
 
 namespace BasicUsage 
 {
-   static bool didWork;
-   static bool passedMagicNumber;
+   bool didWork;
    static const U32 _magicNumber = 42;
 
    S32 work(Thread::MessageQueue& messageQueue)
@@ -39,7 +38,7 @@ namespace BasicUsage
    }  
 
    TEST(Thread,BasicUsage) {
-      didWork = passedMagicNumber = false;
+      didWork = false;
       Thread t(MakeDelegate(&work));
       t.start();
       t.finish();

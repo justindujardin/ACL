@@ -4,9 +4,9 @@
 // Portions Copyright (c) 2009 GarageGames, Inc.
 //-----------------------------------------------------------------------------
 
-
 #include "core/strings/str.h"
 #include "core/util/delegate.h"
+#include "core/util/autoPtr.h"
 #include "platform/platform.h"
 #include "platform/threads/thread.h"
 #include "platform/threads/mutex.h"
@@ -64,41 +64,37 @@ namespace WaitObjectSignalAll
 /// The WaitObject must be called with a locked Mutex, and it will return with the same Mutex locked.
 namespace WaitObjectSignalOne 
 {
-   static WaitObject _wait;
-   static Mutex _mutex;
-   static const U32 _magicNumber = 42;
-
+   AutoPtr<WaitObject> _wait;
    S32 work(Thread::MessageQueue& messageQueue)
    {
-      _wait.wait(1500);
-      return GetPlatform()->getRealMilliseconds();
+      Threading::Status ret = _wait->wait(1500);
+      EXPECT_TRUE(ret != Threading::Status_WaitTimeout);
+      return 0;
    }  
 
    TEST(WaitObject,SignalOne) {
-      Mutex::ScopedLock m(_mutex);
+      _wait = new WaitObject();
       Thread t(MakeDelegate(&work));
-      S32 start = GetPlatform()->getRealMilliseconds();
       t.start();
-      GetPlatform()->sleep(150);
-      _wait.signalOne();
-      GetPlatform()->sleep(1);
-      EXPECT_FALSE(t.isRunning()); // Wait signal should cause thread to exit.
-      EXPECT_TRUE(t.getReturnCode() - start >= 150);
-      //, "Thread took at least sleep time before returning from wait object");
+      GetPlatform()->sleep(100);
+      _wait->signalOne();
+      t.finish();
+      EXPECT_TRUE(t.getReturnCode() == 0);
    }
 }
 
 /// Basic validation of WaitObject timeout functionality.  
 namespace WaitObjectTimeout
 {
-   static WaitObject _wait;
+   AutoPtr<WaitObject> _wait;
    S32 work(Thread::MessageQueue& messageQueue)
    {
-      Threading::Status ret = _wait.wait(10);
+      Threading::Status ret = _wait->wait(10);
       return (ret == Threading::Status_WaitTimeout) ? 0 : -1;
    }
 
    TEST(WaitObject,Timeout) {
+      _wait = new WaitObject();
       Thread t(MakeDelegate(&work));
       S32 start = GetPlatform()->getRealMilliseconds();
       t.start();

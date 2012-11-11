@@ -25,12 +25,12 @@ using namespace Platform2;
 /// until the semaphores count is > 0.
 namespace ThreadSemaphoreBlock
 {
-   static AutoPtr<Semaphore> semaphore;
-   static WaitObject wait;
+   AutoPtr<Semaphore> semaphore;
+   AutoPtr<WaitObject> wait;
 
    S32 work(Thread::MessageQueue& messageQueue)
    {
-      wait.signalOne();
+      wait->signalOne();
       U32 start = GetPlatform()->getRealMilliseconds();
       EXPECT_TRUE(semaphore->acquire(true) == Threading::Status_NoError);//, "Failed to acquire blocking semaphore with count > 0");
       EXPECT_TRUE(semaphore->acquire(true) == Threading::Status_NoError);//, "Failed to acquire blocking semaphore");
@@ -39,11 +39,12 @@ namespace ThreadSemaphoreBlock
 
    TEST(Semaphore, Blocking)
    {
+      wait = new WaitObject();
       semaphore = new Semaphore(2);
       Thread t(MakeDelegate(&work));
       semaphore->acquire(true);
       t.start();
-      wait.wait();
+      wait->wait();
       GetPlatform()->sleep(100);
       semaphore->release();
       t.finish();
@@ -55,7 +56,7 @@ namespace ThreadSemaphoreBlock
 /// if block is false.
 namespace ThreadsSemaphoreNonBlock
 {
-   static AutoPtr<Semaphore> semaphore;
+   AutoPtr<Semaphore> semaphore;
 
    S32 work(Thread::MessageQueue& messageQueue)
    {

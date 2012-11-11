@@ -9,7 +9,7 @@
 #include "platform/threads/thread.h"
 #include "platform/threads/mutex.h"
 #include "platform/threads/waitObject.h"
-
+#include "core/util/autoPtr.h"
 #include <gtest/gtest.h>
 
 using fastdelegate::MakeDelegate;
@@ -20,23 +20,27 @@ using namespace Platform2;
 /// thread until the first thread unlocks the mutex.
 namespace MutexBlock
 {
-   static Mutex m;
-   static WaitObject wait;
+   AutoPtr<Mutex> m;
+   AutoPtr<WaitObject> wait;
+
    S32 lock(Thread::MessageQueue& messageQueue)
    {
-      GetPlatform()->sleep(500);
-      wait.signalOne();
-      EXPECT_TRUE(m.lock(true) == Threading::Status_NoError);//, "Failed a blocking lock");
+      EXPECT_TRUE(wait->wait(1500) == Threading::Status_WaitSignaled);
+      EXPECT_TRUE(m->unlock() == Threading::Status_NoError);
       return 0;
    }
    TEST(Mutex, Blocking)
    {
-      EXPECT_TRUE(m.lock(true) == Threading::Status_NoError);//, "Failed to lock unlocked mutex");
+      m = new Mutex();
+      wait = new WaitObject();
+      EXPECT_TRUE(m->lock(true) == Threading::Status_NoError);//, "Failed to lock unlocked mutex");
       Thread t(MakeDelegate(&lock));
       t.start();
-      EXPECT_TRUE(wait.wait(1500) == Threading::Status_WaitSignaled);
-      EXPECT_TRUE(m.unlock() == Threading::Status_NoError);
+      GetPlatform()->sleep(500);
+      wait->signalOne();
+      EXPECT_TRUE(m->lock(true) == Threading::Status_NoError);//, "Failed a blocking lock");
       t.finish();
+      EXPECT_TRUE(m->unlock() == Threading::Status_NoError);//, "Failed to lock unlocked mutex");
       EXPECT_TRUE(t.getReturnCode() == 0);
    }
 };
@@ -44,22 +48,22 @@ namespace MutexBlock
 /// Verifies that an attempt to lock a locked mutex returns false if block is false.
 namespace MutexNonBlock
 {
-   static Mutex m;
-   static WaitObject w;
+   AutoPtr<Mutex> m;
 
    S32 lock(Thread::MessageQueue& messageQueue)
    {
       // Cannot non-blocking lock the mutex
-      EXPECT_TRUE(m.lock(false) == Threading::Status_Busy);
+      EXPECT_TRUE(m->lock(false) == Threading::Status_Busy);
       return 0;
    }
 
    TEST(Mutex, NonBlocking)
    {
-      EXPECT_TRUE(m.lock(true) == Threading::Status_NoError);
+      m = new Mutex();
+      EXPECT_TRUE(m->lock(true) == Threading::Status_NoError);
       Thread t(MakeDelegate(&lock));
       t.start();
       t.finish();
-      m.unlock();
+      m->unlock();
    }
 };
