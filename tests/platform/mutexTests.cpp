@@ -25,8 +25,7 @@ namespace MutexBlock
 
    S32 lock(Thread::MessageQueue& messageQueue)
    {
-      EXPECT_TRUE(wait->wait(1500) == Threading::Status_WaitSignaled);
-      EXPECT_TRUE(m->unlock() == Threading::Status_NoError);
+      EXPECT_TRUE(m->lock(true) == Threading::Status_NoError);
       return 0;
    }
    TEST(Mutex, Blocking)
@@ -36,11 +35,10 @@ namespace MutexBlock
       EXPECT_TRUE(m->lock(true) == Threading::Status_NoError);//, "Failed to lock unlocked mutex");
       Thread t(MakeDelegate(&lock));
       t.start();
-      GetPlatform()->sleep(500);
-      wait->signalOne();
-      EXPECT_TRUE(m->lock(true) == Threading::Status_NoError);//, "Failed a blocking lock");
-      t.finish();
+      while(!t.isRunning())
+         GetPlatform()->sleep(10);
       EXPECT_TRUE(m->unlock() == Threading::Status_NoError);//, "Failed to lock unlocked mutex");
+      t.finish();
       EXPECT_TRUE(t.getReturnCode() == 0);
    }
 };
