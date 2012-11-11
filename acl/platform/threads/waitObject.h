@@ -14,8 +14,7 @@
 
 namespace Platform2
 {
-   class Mutex;
-  
+ 
    /// @ingroup p2thread
    /// WaitObject can wait on a threaded condition to be signaled.
    class WaitObject : private Noncopyable
@@ -24,7 +23,7 @@ namespace Platform2
       WaitObject();
       ~WaitObject();
 
-      Threading::Status wait(Mutex *mutex, S32 timeout=-1);
+      Threading::Status wait(S32 timeout=-1);
      
       /// Unblock one thread that is waiting on this object.
       void signalOne();

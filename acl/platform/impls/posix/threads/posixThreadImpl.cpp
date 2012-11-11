@@ -19,7 +19,6 @@ namespace Platform2
    {
       PosixThreadImpl::~PosixThreadImpl()
       {
-         // Errors if we never actually created a thread, but we don't care.
          pthread_join(mThread, NULL);
       }
 

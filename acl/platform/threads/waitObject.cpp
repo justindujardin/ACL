@@ -30,9 +30,9 @@ namespace Platform2
    {
    }
 
-   Threading::Status WaitObject::wait(Mutex *mutex, S32 timeout/*=-1*/)
+   Threading::Status WaitObject::wait(S32 timeout)
    {
-      return mImpl->impl->wait(mutex,timeout);
+      return mImpl->impl->wait(timeout);
    }
   
    void WaitObject::signalAll()

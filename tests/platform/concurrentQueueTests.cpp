@@ -30,18 +30,15 @@ namespace ConcurrentQueueRace
    static Thread *               _threads[_numThreads];
    static ConcurrentQueue<S32>   _queue;
    static WaitObject             _wait;
-   static Mutex                  _mutex;
 
    // Wait on the signal from the main thread, and return 0 if it is properly received.
    S32 work(Thread::MessageQueue& messageQueue)
    {
       S32 sleepMS = rand() % 5;
       S32 iterations = rand() % 25;
-      Mutex::ScopedLock lock(_mutex);
-      Threading::Status ret = _wait.wait(&_mutex, 1500);
+      Threading::Status ret = _wait.wait(1500);
       if (ret == Threading::Status_WaitTimeout)
          return -1;
-
       // The race has begun, iterate over the list, and insert/remove items.
       for (S32 i = 0; i < iterations; i++)
       {
@@ -53,15 +50,15 @@ namespace ConcurrentQueueRace
       return 0;
    }
    TEST(ConcurrentQueue,RaceConditions) {
-      // Always use the same random seed, for deterministic test debugging across sessions.
       srand(1337);
-
       // Create the threads, which will sit idle until we signal the start of the race.
       for (S32 i = 0; i < _numThreads; i++)
       {
          _threads[i] = new Thread(MakeDelegate(&work));
          _threads[i]->start();
       }
+
+      GetPlatform()->sleep(500);
 
       // Once the threads are created and waiting, call signalAll to cause them to exit.
       _wait.signalAll();

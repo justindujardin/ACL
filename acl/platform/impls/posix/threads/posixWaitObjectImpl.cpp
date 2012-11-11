@@ -17,8 +17,15 @@ namespace Platform2
 {
    namespace Internal_
    {
+      const S64 NANOSEC_PER_MILLISEC = 1000000;
+      const S64 NANOSEC_PER_SEC = 1000000000;
+     
       PosixWaitObjectImpl::PosixWaitObjectImpl()
       {
+        pthread_mutexattr_init( &mMutexAttr );
+        pthread_mutexattr_settype( &mMutexAttr, PTHREAD_MUTEX_RECURSIVE );        
+        pthread_mutex_init( &mMutex, &mMutexAttr );
+
         pthread_cond_init( &mCondition, NULL );
         AssertFatal(&mCondition != NULL, "Failed to initialize condition variable");
       }
@@ -28,10 +35,13 @@ namespace Platform2
         pthread_cond_destroy( &mCondition );
       }
 
-      Threading::Status PosixWaitObjectImpl::wait(Mutex *mutex, S32 timeout /*= -1*/)
+      Threading::Status PosixWaitObjectImpl::wait(S32 timeout /*= -1*/)
       {
+
+         if(pthread_mutex_lock(&mMutex) != 0)
+            return Threading::Status_PlatformError;
+
         S32 result = 0;
-        pthread_mutex_t *nativeMutex = (pthread_mutex_t*)mutex->getNative();
         if(timeout > 0)
         {
           struct timespec ts;
@@ -43,17 +53,24 @@ namespace Platform2
 #else
           clock_gettime(CLOCK_REALTIME, &ts);
 #endif
-          ts.tv_nsec += timeout * 1000000; // convert milliseconds to nanoseconds
-          result = pthread_cond_timedwait(&mCondition, nativeMutex, &ts);
+          S32 milliSeconds = timeout % 1000;
+          S32 seconds = (timeout - milliSeconds) / 1000;
+          ts.tv_nsec += milliSeconds * NANOSEC_PER_MILLISEC;
+          ts.tv_sec += seconds;
+          result = pthread_cond_timedwait(&mCondition, &mMutex, &ts);
         }
         else
         {
-          result = pthread_cond_wait(&mCondition,nativeMutex);
+          result = pthread_cond_wait(&mCondition, &mMutex);
         }
+
+        pthread_mutex_unlock(&mMutex);
+
         if(result == ETIMEDOUT)
           return Threading::Status_WaitTimeout;
         else if(result == EINVAL)
           return Threading::Status_ObjectInvalid;
+
         return Threading::Status_WaitSignaled;
       }
     

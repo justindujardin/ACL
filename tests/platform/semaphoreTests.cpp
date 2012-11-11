@@ -27,7 +27,6 @@ namespace ThreadSemaphoreBlock
 {
    static AutoPtr<Semaphore> semaphore;
    static WaitObject wait;
-   static Mutex mutex;
 
    S32 work(Thread::MessageQueue& messageQueue)
    {
@@ -44,7 +43,7 @@ namespace ThreadSemaphoreBlock
       Thread t(MakeDelegate(&work));
       semaphore->acquire(true);
       t.start();
-      wait.wait(&mutex);
+      wait.wait();
       GetPlatform()->sleep(100);
       semaphore->release();
       t.finish();

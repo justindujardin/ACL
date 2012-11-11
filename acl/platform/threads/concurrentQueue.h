@@ -29,11 +29,10 @@ namespace Platform2
       }
       void pop(T& msg)
       {
-         mMutex.lock();
-         mWaitObject.wait(&mMutex);
+         mWaitObject.wait();
+         Mutex::ScopedLock lock(mMutex);
          msg = mQueue.front();
          mQueue.pop_front();
-         mMutex.unlock();
       }
       bool pop_if_present(T& msg)
       {

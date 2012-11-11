@@ -19,10 +19,18 @@ namespace Platform2
       public:
          PosixWaitObjectImpl();
          virtual ~PosixWaitObjectImpl();
-         virtual Threading::Status wait(Mutex *mutex, S32 timeout = -1);
+         virtual Threading::Status wait(S32 timeout = -1);
          virtual void signalOne();
          virtual void signalAll();
       private:
+         /// The mutex attribute that is used to make the Mutex recursively lockable.
+         pthread_mutexattr_t mMutexAttr;
+
+         /// The posix condition variables implementation requires a Mutex to function, and it must
+         /// obey strict locking rules during invocation, so this class manages the mutex itself.
+         pthread_mutex_t mMutex;         
+
+         /// The condition object to wait on.
          pthread_cond_t mCondition;
       };
    }

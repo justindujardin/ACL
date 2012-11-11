@@ -24,18 +24,18 @@ namespace MutexBlock
    static WaitObject wait;
    S32 lock(Thread::MessageQueue& messageQueue)
    {
+      GetPlatform()->sleep(500);
       wait.signalOne();
       EXPECT_TRUE(m.lock(true) == Threading::Status_NoError);//, "Failed a blocking lock");
       return 0;
    }
    TEST(Mutex, Blocking)
    {
-      Thread t(MakeDelegate(&lock));
       EXPECT_TRUE(m.lock(true) == Threading::Status_NoError);//, "Failed to lock unlocked mutex");
+      Thread t(MakeDelegate(&lock));
       t.start();
-      wait.wait(&m);
-      GetPlatform()->sleep(100);
-      m.unlock();
+      EXPECT_TRUE(wait.wait(1500) == Threading::Status_WaitSignaled);
+      EXPECT_TRUE(m.unlock() == Threading::Status_NoError);
       t.finish();
       EXPECT_TRUE(t.getReturnCode() == 0);
    }

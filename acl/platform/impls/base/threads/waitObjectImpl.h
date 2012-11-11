@@ -22,7 +22,7 @@ namespace Platform2
       public:
          virtual ~WaitObjectImpl() {}
 
-         virtual Threading::Status wait(Mutex *mutex, S32 timeout=-1) = 0;
+         virtual Threading::Status wait(S32 timeout = -1) = 0;
         
          virtual void signalOne() = 0;
          virtual void signalAll() = 0;

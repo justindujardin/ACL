@@ -142,6 +142,8 @@ namespace Platform2
    {
       if(mImpl->running)
       {
+         // The running thread holds on to the gateway, such that by blocking here
+         // until we can acquire the gateway, we know the thread has exited.
          mImpl->impl->gateway.acquire();
          mImpl->impl->gateway.release();
          mImpl->running = false;
