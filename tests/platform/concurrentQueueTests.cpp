@@ -34,8 +34,8 @@ namespace ConcurrentQueueRace
    // Wait on the signal from the main thread, and return 0 if it is properly received.
    S32 work(Thread::MessageQueue& messageQueue)
    {
-      S32 sleepMS = rand() % 5;
-      S32 iterations = rand() % 25;
+      S32 sleepMS = rand() % 2;
+      S32 iterations = rand() % 100;
       Threading::Status ret = _wait.wait(1500);
       if (ret == Threading::Status_WaitTimeout)
          return -1;
