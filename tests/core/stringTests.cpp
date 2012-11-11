@@ -85,10 +85,11 @@ TEST(StringTest,SubStr)
   String a("Boo Ya Ya!");
 
   // bad input cases: asserts in debug, empty string in release
+#ifndef ACL_DEBUG
   EXPECT_FALSE(a.substr(0,a.length()+1).equal(""));
   EXPECT_FALSE(a.substr(5,a.length()).equal(""));
   EXPECT_FALSE(a.substr(a.length(),1).equal(""));
-
+#endif
   EXPECT_TRUE(a.substr(0,a.length()).equal(a));
   EXPECT_TRUE(a.substr(a.length()-1,0).equal(""));
   EXPECT_TRUE(a.substr(a.length(), 0).equal("")); // index out of range but len is 0, ok

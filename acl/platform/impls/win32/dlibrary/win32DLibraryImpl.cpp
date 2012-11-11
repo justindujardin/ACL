@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 #include "platform/impls/win32/dlibrary/win32DLibraryImpl.h"
-#include "core/util/str.h"
+#include "core/strings/str.h"
 
 namespace Platform2
 {

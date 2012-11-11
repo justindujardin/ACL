@@ -19,7 +19,7 @@ namespace Platform2
       public:
          Win32SemaphoreImpl();
          virtual ~Win32SemaphoreImpl();
-         virtual bool init(U32 initialCount, U32 maxCount);
+         virtual bool init(S32 initialCount, S32 maxCount);
          virtual Threading::Status acquire(bool block);
          virtual Threading::Status release();
 

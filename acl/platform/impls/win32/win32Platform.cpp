@@ -11,6 +11,7 @@
 #include "platform/impls/win32/threads/win32MutexImpl.h"
 #include "platform/impls/win32/threads/win32ThreadLocalImpl.h"
 #include "platform/impls/win32/threads/win32SemaphoreImpl.h"
+#include "platform/impls/win32/threads/win32WaitObjectImpl.h"
 
 #include "platform/impls/win32/dlibrary/win32DLibraryImpl.h"
 
@@ -54,6 +55,7 @@ namespace Platform2
 
          ACLib::TypeRebind& factory = getProtectedFactory();
          factory.bind<ThreadImpl>().to<Win32ThreadImpl>();
+         factory.bind<WaitObjectImpl>().to<Win32WaitObjectImpl>();
          factory.bind<MutexImpl>().to<Win32MutexImpl>();
          factory.bind<ThreadLocalImpl>().to<Win32ThreadLocalImpl>();
          factory.bind<SemaphoreImpl>().to<Win32SemaphoreImpl>();

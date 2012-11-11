@@ -16,7 +16,7 @@
 // Test to be sure the memory allocations for this platform are aligned.
 TEST(MemoryAllocation,Aligned) {
 
-   S32 loops = 100;
+   const S32 loops = 100;
    void *allocArray[loops];
    for(S32 i = 0; i < loops; i++)
    {
@@ -30,7 +30,7 @@ TEST(MemoryAllocation,Aligned) {
 // 
 TEST(MemoryReallocation,Aligned) {
 
-   S32 loops = 100;
+   const S32 loops = 100;
    void *allocArray[loops];
    for(S32 i = 0; i < loops; i++)
    {

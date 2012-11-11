@@ -23,7 +23,6 @@ namespace Platform2
          virtual bool init();
          virtual Threading::Status lock(bool block);
          virtual Threading::Status unlock();
-         virtual void *getNative() { return (void*)&mMutex; }
 
       private:
          pthread_mutex_t mMutex;

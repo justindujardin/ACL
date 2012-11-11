@@ -6,7 +6,7 @@
 
 #include <Windows.h>
 #include "platform/impls/win32/volume/win32FileSystemChangeNotifierImpl.h"
-#include "core/util/path.h"
+#include "core/strings/path.h"
 
 using namespace ACLib;
 using namespace ACLib::FS;

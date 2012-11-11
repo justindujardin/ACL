@@ -450,7 +450,7 @@ namespace Platform2
 
    bool PlatformFileSystemChangeNotifier::internalAddNotification(const Path& dir)
    {
-      for(U32 i = 0; i < mImpl->paths.size(); i++)
+      for(S32 i = 0; i < mImpl->paths.size(); i++)
          if(mImpl->paths[i] == dir)
             return false;
 
@@ -460,7 +460,7 @@ namespace Platform2
 
    bool PlatformFileSystemChangeNotifier::internalRemoveNotification(const Path& dir)
    {
-      for(U32 i = 0; i < mImpl->paths.size(); i++)
+      for(S32 i = 0; i < mImpl->paths.size(); i++)
       {
          if(mImpl->paths[i] == dir)
          {

@@ -20,7 +20,7 @@ namespace Platform2
             CloseHandle(mSemaphore);
       }
 
-      bool Win32SemaphoreImpl::init(U32 initialCount, U32 maxCount)
+      bool Win32SemaphoreImpl::init(S32 initialCount, S32 maxCount)
       {
          mSemaphore = CreateSemaphore(NULL, initialCount, maxCount, NULL);
          return mSemaphore != 0;

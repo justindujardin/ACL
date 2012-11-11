@@ -57,9 +57,6 @@ namespace Platform2
       /// This error is probably non-recoverable.
       Threading::Status unlock();
 
-      /// @brief Returns the platform specific mutex instance.
-      void * getNative();
-
       /// @brief Locks the mutex when constructed and unlocks when destructed.  
       /// @details Useful for locking a mutex for a block of code without 
       /// worrying about possible exit points.
