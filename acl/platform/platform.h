@@ -12,9 +12,10 @@
 #include "core/util/typeRebind.h"
 
 class String;
-class BehaviorTestFixture;
 
 namespace ACLib { class Path; }
+
+namespace TestPlatform { class PlatformFixture; }
 
 namespace Platform2
 {
@@ -90,7 +91,7 @@ namespace Platform2
 
    protected:
       friend class MathStateKnown;
-      friend class ::BehaviorTestFixture;
+      friend class TestPlatform::PlatformFixture;
       virtual U32 getMathControlState() = 0;
       virtual void setMathControlState(U32 state) = 0;
       virtual void setMathControlStateKnown() = 0;

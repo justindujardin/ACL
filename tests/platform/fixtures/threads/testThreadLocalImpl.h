@@ -9,30 +9,30 @@
 
 #include "platform/impls/base/threads/threadLocalImpl.h"
 
-namespace Platform2
+using namespace Platform2;
+using namespace Platform2::Internal_;
+
+namespace TestPlatform
 {
-   namespace Internal_
+   class TestThreadLocalImpl : public ThreadLocalImpl
    {
-      class TestThreadLocalImpl : public ThreadLocalImpl
+   public:
+      void* data;
+
+      TestThreadLocalImpl() : data(0)
       {
-      public:
-         void* data;
+      }
 
-         TestThreadLocalImpl() : data(0)
-         {
-         }
+      virtual void* get()
+      {
+         return data;
+      }
 
-         virtual void* get()
-         {
-            return data;
-         }
-
-         virtual void set(void* value)
-         {
-            data = value;
-         }
-      };
-   }
+      virtual void set(void* value)
+      {
+         data = value;
+      }
+   };
 }
 
 #endif

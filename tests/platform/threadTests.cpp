@@ -17,10 +17,17 @@
 #include "platform/platform.h"
 #include "core/util/autoPtr.h"
 
+#include "./fixtures/platformFixture.h"
+
 #include <gtest/gtest.h>
 
 using fastdelegate::MakeDelegate;
 using namespace Platform2;
+using namespace TestPlatform;
+
+//-----------------------------------------------------------------------------
+// Functional Tests
+//-----------------------------------------------------------------------------
 
 /// Basic validation of thread functionality.  Verifies that impl properly reports running state
 /// that impl calls the given method, and that impl passes in userData and dataSize, and that imple
@@ -146,3 +153,171 @@ namespace ThreadIsRunning
       worker = NULL;
    }
 }
+
+//-----------------------------------------------------------------------------
+// Behavioral Tests
+//-----------------------------------------------------------------------------
+// These are commented out, because they have been ported, but are still failing.
+#if 0
+namespace ThreadBehaviorStartCallsImplStart
+{
+   AutoPtr<PlatformFixture> fixture;   
+
+   S32 dummy(Thread::MessageQueue&)
+   {
+      return 0;
+   }
+
+   TEST(ThreadBehavior, StartCallsImplStart)
+   {
+      fixture = new PlatformFixture;
+      Thread t(MakeDelegate(&dummy));
+
+      // Expect that thread constructor won't call ThreadImpl::start
+      EXPECT_TRUE(fixture->threadImpl->startCt == 0);
+      t.start();
+      // Expect that Thread::start() will call ThreadImpl::start()
+      EXPECT_TRUE(fixture->threadImpl->startCt == 1);
+   }
+};
+
+namespace ThreadBehaviorStartParrotsImplStart
+{
+   AutoPtr<PlatformFixture> fixture;
+
+   S32 dummy(Thread::MessageQueue&)
+   {
+      return 0;
+   }
+
+   TEST(ThreadBehavior, StartParrotsImplStart)
+   {
+      fixture = new PlatformFixture;
+      Thread::StartDelegate d(MakeDelegate(&dummy));
+      Thread t(d);
+
+      fixture->threadImpl->startSuccess = Threading::Status_PlatformError;
+      //"Expected that Thread::start() would fail if ThreadImpl::start() fails");
+      EXPECT_TRUE(t.start() == Threading::Status_PlatformError);
+      fixture->threadImpl->startSuccess = Threading::Status_NoError;
+      //, "Expected that Thread::start() would succeed if ThreadImpl::start() succeeds");
+      EXPECT_TRUE(t.start() == Threading::Status_NoError);
+   }
+};
+
+namespace ThreadBehaviorIsRunningParrotsImplStart
+{
+   AutoPtr<PlatformFixture> fixture;   
+
+   S32 dummy(Thread::MessageQueue&)
+   {
+      return 0;
+   }
+
+   TEST(ThreadBehavior, IsRunningParrotsImplStart)
+   {
+      fixture = new PlatformFixture;
+      Thread::StartDelegate d(MakeDelegate(&dummy));
+      Thread t(d);
+
+      fixture->threadImpl->startSuccess = Threading::Status_PlatformError;
+      t.start();
+      //, "Expected that Thread::isRunning() would be false if ThreadImpl::start fails"
+      EXPECT_TRUE(t.isRunning() == false);
+
+      fixture->threadImpl->startSuccess = Threading::Status_NoError;
+      t.start();
+      // Pretend that we've acquired the gateway semaphore
+      fixture->semaphoreImpl->acquireSuccess = Threading::Status_Busy;
+      //, "Expected that Thread::isRunning() would be true if ThreadImpl::start succeeds"
+      EXPECT_TRUE(t.isRunning() == true);
+   }                 
+};
+
+namespace ThreadBehaviorStartOnce
+{
+   AutoPtr<PlatformFixture> fixture;   
+
+   S32 dummy(Thread::MessageQueue&)
+   {
+      return 0;
+   }
+
+   TEST(ThreadBehavior, StartOnce)
+   { 
+      fixture = new PlatformFixture;
+      Thread::StartDelegate d(MakeDelegate(&dummy));
+      Thread t(d);
+
+      fixture->threadImpl->startSuccess = Threading::Status_NoError;
+      //, "Expected that Thread::start() would succeed if ThreadImpl::start succeds"
+      EXPECT_TRUE(t.start() == Threading::Status_NoError);
+      //, "Expected that Thread::start() would fail if called a second time"
+      EXPECT_TRUE(t.start() == Threading::Status_Again);
+   }
+};
+
+namespace ThreadBehaviorStartDelegate
+{
+   AutoPtr<PlatformFixture> fixture;   
+
+   S32 someFunc(Thread::MessageQueue&)
+   {
+      return 0;
+   }
+
+   TEST(ThreadBehavior, StartDelegate)
+   {
+      fixture = new PlatformFixture;
+      Thread::StartDelegate d(MakeDelegate(&someFunc));
+      Thread t(d);
+
+      fixture->threadImpl->startSuccess = Threading::Status_NoError;
+      t.start();
+
+      // "Expected that delegate passed to ThreadImpl::start would be same as delegate passed to Thread::Thread()"
+      EXPECT_TRUE(fixture->threadImpl->param->d == MakeDelegate(&someFunc));
+   }
+};
+
+TEST(ThreadBehavior, InvalidStartDelegate)
+{
+   AutoPtr<PlatformFixture> fixture;
+   fixture = new PlatformFixture;
+   Thread::StartDelegate d;
+   Thread t(d);
+
+   fixture->threadImpl->startSuccess = Threading::Status_NoError;
+   //, "Expected that thread with empty startdelegate would return DelegateInvalid on start()"
+   EXPECT_TRUE(t.start() == Threading::Status_DelegateInvalid);
+   //, "Expected that thread with invalid startdelegate would not call ThreadImpl::start()"
+   EXPECT_TRUE(fixture->threadImpl->startCt == 0);
+}
+
+namespace ThreadBehaviorReturnCode
+{
+   AutoPtr<PlatformFixture> fixture;   
+
+   static const S32 MAGIC_NUMBER = 42;
+   S32 someFunc(Thread::MessageQueue&)
+   {
+      return MAGIC_NUMBER;
+   }
+
+   TEST(ThreadBehavior, ReturnCode)
+   {
+      fixture = new PlatformFixture;
+      Thread::StartDelegate d(MakeDelegate(&someFunc));
+      Thread t(d);
+
+      fixture->threadImpl->startSuccess = Threading::Status_NoError;
+      t.start();
+      fixture->threadImpl->run();
+      //, "Expected Thread::getReturnCode() would return the same value returned by the delegate"
+      EXPECT_TRUE(t.getReturnCode() == MAGIC_NUMBER);
+   }
+};
+
+#endif
+
+

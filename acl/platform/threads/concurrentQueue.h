@@ -17,26 +17,34 @@ namespace Platform2
 
    /// @ingroup p2thread
    /// ConcurrentQueue implements a thread-safe queue.
-   template<typename T> class ConcurrentQueue
+   template<typename T> class ConcurrentQueue : private Noncopyable
    {
    public:
+      ConcurrentQueue() : mMutex(new Mutex), mWaitObject(new WaitObject) {}
+      ~ConcurrentQueue()
+      {
+         mMutex->lock();
+         delete mMutex;
+         delete mWaitObject;
+      }
       void push(T const& data)
       {
-         mMutex.lock();
+         mMutex->lock();
          mQueue.push_back(data);
-         mMutex.unlock();
-         mWaitObject.signalOne();
+         mMutex->unlock();
+         mWaitObject->signalOne();
       }
       void pop(T& msg)
       {
-         mWaitObject.wait();
-         Mutex::ScopedLock lock(mMutex);
+         if(empty())
+            mWaitObject->wait();        
+         Mutex::ScopedLock lock(*mMutex);
          msg = mQueue.front();
          mQueue.pop_front();
       }
       bool pop_if_present(T& msg)
       {
-         Mutex::ScopedLock lock(mMutex);
+         Mutex::ScopedLock lock(*mMutex);
          if(mQueue.empty())
             return false;
          msg = mQueue.front();
@@ -45,13 +53,13 @@ namespace Platform2
       }
       bool empty() const
       {
-         Mutex::ScopedLock lock(mMutex);
+         Mutex::ScopedLock lock(*mMutex);
          return mQueue.empty();
       }
    private:
       Vector<T> mQueue;
-      Mutex mMutex;
-      WaitObject mWaitObject;
+      Mutex *mMutex;
+      WaitObject *mWaitObject;
    };
 }
 
