@@ -25,7 +25,6 @@ PlatformFixture::PlatformFixture()
    mutexImpl = NULL;
    semaphoreImpl = NULL;
    waitObjectImpl = NULL;
-   assertImpl = NULL;
    threadLocalImpl[0] = NULL;
    threadLocalImpl[1] = NULL;
    fileSystemImpl = NULL;
@@ -35,7 +34,6 @@ PlatformFixture::PlatformFixture()
    mutexValid = true;
    semaphoreValid = true;
    GetPlatform()->pushFactory();
-   assertImpl = new TestAssertImpl();
    TypeRebind& factory = GetPlatform()->getProtectedFactory();
    factory.bind<ThreadImpl>().to(MakeDelegate(this, &PlatformFixture::createThread));
    factory.bind<MutexImpl>().to(MakeDelegate(this, &PlatformFixture::createMutex));
@@ -47,14 +45,12 @@ PlatformFixture::PlatformFixture()
    factory.bind<DLibraryImpl>().to(MakeDelegate(this, &PlatformFixture::createDLibrary));
    factory.bind<WaitObjectImpl>().to(MakeDelegate(this, &PlatformFixture::createWaitObject));
    factory.bind<FileSystemChangeNotifierImpl>().to(MakeDelegate(&TestFileSystemChangeNotifierImpl::create));
-
-   Assert::Get().pushImpl(assertImpl);
+   Assert::Get().pushImpl(new TestAssertImpl);
 
 }
 
 PlatformFixture::~PlatformFixture()
 {
-   delete assertImpl;
    GetPlatform()->popFactory();
    Assert::Get().popImpl();
 }

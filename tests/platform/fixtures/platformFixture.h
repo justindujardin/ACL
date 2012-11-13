@@ -63,8 +63,6 @@ namespace TestPlatform
       TestFileImpl* fileImpl;
       TestDirectoryImpl* directoryImpl;
 
-      TestAssertImpl *assertImpl;
-
       U32 threadImplCt;
       U32 mutexImplCt;
       U32 semaphoreImplCt;

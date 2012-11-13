@@ -19,7 +19,7 @@ solution "ApplicationCoreLibrary"
       flags       { "No64BitChecks", "StaticRuntime" } 
       links       { "acl", "gtest" }
       includedirs { "acl", "lib/gtest/include" }
-      files       { "tests/testMain.cpp", "tests/**Tests.cpp" }
+      files       { "tests/testMain.cpp", "tests/**Tests.cpp", "tests/platform/fixtures/**.cpp" }
  
       configuration "Debug"
          defines  { "ACL_DEBUG" }        
