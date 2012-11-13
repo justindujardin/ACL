@@ -17,7 +17,7 @@
 #include "platform/platform.h"
 #include "core/util/autoPtr.h"
 
-#include "./fixtures/platformFixture.h"
+#include "../fixtures/platformFixture.h"
 
 #include <gtest/gtest.h>
 

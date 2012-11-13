@@ -13,7 +13,7 @@
 
 #include <gtest/gtest.h>
 
-#include "./fixtures/platformFixture.h"
+#include "../fixtures/platformFixture.h"
 
 using fastdelegate::MakeDelegate;
 using namespace Platform2;
