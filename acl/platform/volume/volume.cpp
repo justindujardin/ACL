@@ -363,9 +363,7 @@ namespace ACLib
    //-----------------------------------------------------------------------------
    void MountSystem::_log(const String& msg)
    {
-      String newMsg = "MountSystem: " + msg;
-      // TODO: Logging
-      //Con::warnf("%s", newMsg.c_str());
+      dPrintf("MountSystem: %s", msg.c_str());
    }
 
    FileSystemRef MountSystem::_removeMountFromList(String root)
