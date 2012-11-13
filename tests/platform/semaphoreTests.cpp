@@ -286,4 +286,18 @@ TEST(SemaphoreBehavior,Invalid)
 };
 
 
+TEST(SemaphoreBehavior,ScopedAcquire)
+{
+   ScopedPtr<PlatformFixture> fixture(new PlatformFixture());
+   Semaphore s(1);
+
+   TestSemaphoreImpl *testImpl = fixture->semaphoreImpl;
+   testImpl->acquireSuccess = Threading::Status_NoError;
+   // Specify that Semaphore::ScopedLock construction locks the mutex, and destruction unlocks the mutex
+   {
+      Semaphore::ScopedAcquire l(s);
+      EXPECT_TRUE(testImpl->acquireCt == 1);//, "Expected that Semaphore::ScopedAcquire constructor would acquire semaphore");
+   }
+   EXPECT_TRUE(testImpl->releaseCt == 1);//, "Expected that Semaphore::ScopedAcquire destructor would release semaphore");
+};
 

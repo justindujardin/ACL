@@ -24,21 +24,17 @@ namespace TestPlatform
       bool initSuccess;
       void* voidRet;
 
-     testing::Test* currentTest;
-
       TestDLibraryImpl()
       {
          initCt = bindCt = closeCt = 0;
          initSuccess = true;
          voidRet = NULL;
-         currentTest = NULL;
       }
 
       ~TestDLibraryImpl()
       {
-         if(currentTest)
-           //"expected DLibrary destructor to call close"
-            EXPECT_TRUE(initCt == closeCt);
+        //"expected DLibrary destructor to call close"
+        EXPECT_TRUE(initCt == closeCt);
       }
 
       virtual bool init(const String& file)
