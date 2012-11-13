@@ -45,7 +45,8 @@ PlatformFixture::PlatformFixture()
    factory.bind<DLibraryImpl>().to(MakeDelegate(this, &PlatformFixture::createDLibrary));
    factory.bind<WaitObjectImpl>().to(MakeDelegate(this, &PlatformFixture::createWaitObject));
    factory.bind<FileSystemChangeNotifierImpl>().to(MakeDelegate(&TestFileSystemChangeNotifierImpl::create));
-   Assert::Get().pushImpl(new TestAssertImpl);
+   assert = new TestAssertImpl;
+   Assert::Get().pushImpl(assert);
 
 }
 
@@ -53,6 +54,7 @@ PlatformFixture::~PlatformFixture()
 {
    GetPlatform()->popFactory();
    Assert::Get().popImpl();
+   assert = NULL;
 }
 
 WaitObjectImpl* PlatformFixture::createWaitObject() 

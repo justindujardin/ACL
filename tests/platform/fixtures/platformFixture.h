@@ -58,6 +58,8 @@ namespace TestPlatform
       TestThreadLocalImpl* threadLocalImpl[2];
       TestWaitObjectImpl* waitObjectImpl;
 
+      TestAssertImpl* assert;
+
       TestDLibraryImpl* dlibraryImpl;
       TestFileSystemImpl* fileSystemImpl;
       TestFileImpl* fileImpl;
