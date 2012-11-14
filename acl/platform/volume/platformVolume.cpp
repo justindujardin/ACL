@@ -13,7 +13,7 @@
 #include "platform/platform.h"
 
 #include "core/frameAllocator.h"
-#include "core/crc.h"
+#include "core/util/crc.h"
 #include "core/stream/stream.h"
 
 using namespace ACLib;

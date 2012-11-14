@@ -4,7 +4,7 @@
 // Portions Copyright (c) 2009 GarageGames, Inc.
 //-----------------------------------------------------------------------------
 
-#include "core/crc.h"
+#include "core/util/crc.h"
 #include "core/stream/stream.h"
 #include "core/assert.h"
 

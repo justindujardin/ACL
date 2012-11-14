@@ -4,7 +4,7 @@
 // Portions Copyright (c) 2009 GarageGames, Inc.
 //-----------------------------------------------------------------------------
 
-#include "core/idGenerator.h"
+#include "core/util/idGenerator.h"
 
 void IdGenerator::reclaim()
 {

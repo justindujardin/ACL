@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 #include "platform/volume/memVolume.h"
-#include "core/crc.h"
+#include "core/util/crc.h"
 #include "core/frameAllocator.h"
 #include "core/strings/str.h"
 #include "core/strings/stringFunctions.h"

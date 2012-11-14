@@ -8,10 +8,6 @@
 #include "core/strings/str.h"
 #include "core/strings/stringFunctions.h"
 
-#ifdef WIN32
-#include <Windows.h>
-#endif
-
 namespace ACLib
 {
    bool AssertImpl::shouldDebugBreak(Assert::Type type, const String&)
@@ -23,14 +19,8 @@ namespace ACLib
    {
       printToConsole(type, title, message);
       if(type != Assert::Warning)
-      {
-#ifdef WIN32
-         ::MessageBox( NULL, (LPCWSTR)message.utf16(), (LPCWSTR)title.utf16(), MB_ICONERROR | MB_RETRYCANCEL );
-#endif
          return true;
-      }
-
-      return true;
+      return false;
    }
 
    void AssertImpl::forceShutdown(U32 code)
@@ -43,13 +33,5 @@ namespace ACLib
    void AssertImpl::printToConsole(Assert::Type type, const String& title, const String& message)
    {
       dPrintf("\nASSERTION FAILED: %s: %s\x00", title.c_str(), message.c_str());
-      // Default behavior is to error unless we're dealing with a warning
-      //if (Con::isActive())
-      //{
-      //   if (type == Assert::Warning)
-      //      Con::warnf(ConsoleLogEntry::Assert, "%s: %s", title.c_str(), message.c_str());
-      //   else
-      //      Con::errorf(ConsoleLogEntry::Assert, "%s: %s", title.c_str(), message.c_str());
-      //}
    }
 }
