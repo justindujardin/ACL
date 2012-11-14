@@ -48,10 +48,10 @@ namespace ThreadSemaphoreBlock
       semaphore->acquire(true);
       t.start();
       wait->wait();
-      GetPlatform()->sleep(100);
+      GetPlatform()->sleep(210);
       semaphore->release();
       t.finish();
-      EXPECT_TRUE(t.getReturnCode() >= 100);//, "Semaphore wasn't blocking");
+      EXPECT_TRUE(t.getReturnCode() >= 200);//, "Semaphore wasn't blocking");
    }
 };
 

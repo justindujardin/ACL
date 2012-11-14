@@ -59,20 +59,20 @@ PlatformFixture::~PlatformFixture()
 
 WaitObjectImpl* PlatformFixture::createWaitObject() 
 { 
-   waitObjectImplCt++; if(!waitObjectImpl) waitObjectImpl = new TestWaitObjectImpl; return waitObjectImpl; 
+   waitObjectImplCt++; waitObjectImpl = new TestWaitObjectImpl; return waitObjectImpl; 
 }
 
 ThreadImpl* PlatformFixture::createThread() 
 { 
-   threadImplCt++; if(!threadImpl) threadImpl = new TestThreadImpl; return threadImpl; 
+   threadImplCt++; threadImpl = new TestThreadImpl; return threadImpl; 
 }
 MutexImpl* PlatformFixture::createMutex() 
 { 
-   mutexImplCt++; if(!mutexImpl) mutexImpl = new TestMutexImpl(mutexValid); return mutexImpl; 
+   mutexImplCt++; mutexImpl = new TestMutexImpl(mutexValid); return mutexImpl; 
 }
 SemaphoreImpl* PlatformFixture::createSemaphore() 
 { 
-   semaphoreImplCt++; if(!semaphoreImpl) semaphoreImpl = new TestSemaphoreImpl(semaphoreValid); return semaphoreImpl; 
+   semaphoreImplCt++; semaphoreImpl = new TestSemaphoreImpl(semaphoreValid); return semaphoreImpl; 
 }
 ThreadLocalImpl* PlatformFixture::createThreadLocal() 
 { 
@@ -91,7 +91,7 @@ ThreadLocalImpl* PlatformFixture::createThreadLocal()
 }
 FileSystemImpl* PlatformFixture::createFileSystem() 
 { 
-   fileSystemImplCt++; if(!fileSystemImpl) fileSystemImpl = new TestFileSystemImpl; return fileSystemImpl; 
+   fileSystemImplCt++; fileSystemImpl = new TestFileSystemImpl; return fileSystemImpl; 
 }
 FileImpl* PlatformFixture::createFile() 
 { 

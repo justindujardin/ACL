@@ -17,11 +17,13 @@ namespace TestPlatform
    class TestWaitObjectImpl : public WaitObjectImpl
    {
    public:
-      TestWaitObjectImpl()
+      bool timeout;
+      TestWaitObjectImpl(): timeout(false)
       {
       }
-      virtual Threading::Status wait(S32 timeout = -1) 
+      virtual Threading::Status wait(S32 timeout) 
       {
+         return timeout ? Threading::Status_WaitTimeout : Threading::Status_WaitSignaled;
       }
       virtual void signalOne()
       {
