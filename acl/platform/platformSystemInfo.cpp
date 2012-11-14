@@ -22,19 +22,18 @@ namespace Platform2
 
    void SystemInfo::dumpToConsole() const
    {
-      PlatformObject * plat = Platform2::GetPlatform();
-      plat->outputDebugString("System Information:");
-      plat->outputDebugString(String::ToString("  OS: %s", fullOsName.c_str()));
-      plat->outputDebugString(String::ToString("  Major: %i Minor: %i Bugfix: %i", majorVersion, minorVersion, bugfixVersion));
-      plat->outputDebugString(String::ToString("  Memory: %i MB", memoryInMB));
-      plat->outputDebugString("");
-      plat->outputDebugString("Processor Information:");
-      plat->outputDebugString(String::ToString("  Vendor: %s", Processor.vendor.c_str()));
-      plat->outputDebugString(String::ToString("  Family: %s", Processor.family.c_str()));
-      plat->outputDebugString(String::ToString("  Number of logical processors: %i", Processor.numLogicalProcessors));
-      plat->outputDebugString(String::ToString("  Speed: %i MHz", Processor.speedInMhz));
-      plat->outputDebugString(String::ToString("  SSE: %i", Processor.sseLevel));
-      plat->outputDebugString("");
+      dPrintf("System Information:\n");
+      dPrintf(String::ToString("  OS: %s\n", fullOsName.c_str()));
+      dPrintf(String::ToString("  Major: %i Minor: %i Bugfix: %i\n", majorVersion, minorVersion, bugfixVersion));
+      dPrintf(String::ToString("  Memory: %i MB\n", memoryInMB));
+      dPrintf("\n");
+      dPrintf("Processor Information:\n");
+      dPrintf(String::ToString("  Vendor: %s\n", Processor.vendor.c_str()));
+      dPrintf(String::ToString("  Family: %s\n", Processor.family.c_str()));
+      dPrintf(String::ToString("  Number of logical processors: %i\n", Processor.numLogicalProcessors));
+      dPrintf(String::ToString("  Speed: %i MHz\n", Processor.speedInMhz));
+      dPrintf(String::ToString("  SSE: %i\n", Processor.sseLevel));
+      dPrintf("");
    }
 }
 
