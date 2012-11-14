@@ -23,7 +23,6 @@ namespace Platform2
       ConcurrentQueue() : mMutex(new Mutex), mWaitObject(new WaitObject) {}
       ~ConcurrentQueue()
       {
-         mMutex->lock();
          delete mMutex;
          delete mWaitObject;
       }
