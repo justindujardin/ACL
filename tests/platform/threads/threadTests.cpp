@@ -157,12 +157,9 @@ namespace ThreadIsRunning
 //-----------------------------------------------------------------------------
 // Behavioral Tests
 //-----------------------------------------------------------------------------
-// These are commented out, because they have been ported, but are still failing.
-#if 0
+
 namespace ThreadBehaviorStartCallsImplStart
 {
-   AutoPtr<PlatformFixture> fixture;   
-
    S32 dummy(Thread::MessageQueue&)
    {
       return 0;
@@ -170,7 +167,7 @@ namespace ThreadBehaviorStartCallsImplStart
 
    TEST(ThreadBehavior, StartCallsImplStart)
    {
-      fixture = new PlatformFixture;
+      AutoPtr<PlatformFixture> fixture(new PlatformFixture);
       Thread t(MakeDelegate(&dummy));
 
       // Expect that thread constructor won't call ThreadImpl::start
@@ -183,8 +180,6 @@ namespace ThreadBehaviorStartCallsImplStart
 
 namespace ThreadBehaviorStartParrotsImplStart
 {
-   AutoPtr<PlatformFixture> fixture;
-
    S32 dummy(Thread::MessageQueue&)
    {
       return 0;
@@ -192,7 +187,7 @@ namespace ThreadBehaviorStartParrotsImplStart
 
    TEST(ThreadBehavior, StartParrotsImplStart)
    {
-      fixture = new PlatformFixture;
+      AutoPtr<PlatformFixture> fixture(new PlatformFixture);
       Thread::StartDelegate d(MakeDelegate(&dummy));
       Thread t(d);
 
@@ -207,8 +202,6 @@ namespace ThreadBehaviorStartParrotsImplStart
 
 namespace ThreadBehaviorIsRunningParrotsImplStart
 {
-   AutoPtr<PlatformFixture> fixture;   
-
    S32 dummy(Thread::MessageQueue&)
    {
       return 0;
@@ -216,7 +209,7 @@ namespace ThreadBehaviorIsRunningParrotsImplStart
 
    TEST(ThreadBehavior, IsRunningParrotsImplStart)
    {
-      fixture = new PlatformFixture;
+      AutoPtr<PlatformFixture> fixture(new PlatformFixture);
       Thread::StartDelegate d(MakeDelegate(&dummy));
       Thread t(d);
 
@@ -236,8 +229,6 @@ namespace ThreadBehaviorIsRunningParrotsImplStart
 
 namespace ThreadBehaviorStartOnce
 {
-   AutoPtr<PlatformFixture> fixture;   
-
    S32 dummy(Thread::MessageQueue&)
    {
       return 0;
@@ -245,7 +236,7 @@ namespace ThreadBehaviorStartOnce
 
    TEST(ThreadBehavior, StartOnce)
    { 
-      fixture = new PlatformFixture;
+      AutoPtr<PlatformFixture> fixture(new PlatformFixture);
       Thread::StartDelegate d(MakeDelegate(&dummy));
       Thread t(d);
 
@@ -259,8 +250,6 @@ namespace ThreadBehaviorStartOnce
 
 namespace ThreadBehaviorStartDelegate
 {
-   AutoPtr<PlatformFixture> fixture;   
-
    S32 someFunc(Thread::MessageQueue&)
    {
       return 0;
@@ -268,7 +257,7 @@ namespace ThreadBehaviorStartDelegate
 
    TEST(ThreadBehavior, StartDelegate)
    {
-      fixture = new PlatformFixture;
+      AutoPtr<PlatformFixture> fixture(new PlatformFixture);
       Thread::StartDelegate d(MakeDelegate(&someFunc));
       Thread t(d);
 
@@ -282,8 +271,7 @@ namespace ThreadBehaviorStartDelegate
 
 TEST(ThreadBehavior, InvalidStartDelegate)
 {
-   AutoPtr<PlatformFixture> fixture;
-   fixture = new PlatformFixture;
+   AutoPtr<PlatformFixture> fixture(new PlatformFixture);
    Thread::StartDelegate d;
    Thread t(d);
 
@@ -296,8 +284,6 @@ TEST(ThreadBehavior, InvalidStartDelegate)
 
 namespace ThreadBehaviorReturnCode
 {
-   AutoPtr<PlatformFixture> fixture;   
-
    static const S32 MAGIC_NUMBER = 42;
    S32 someFunc(Thread::MessageQueue&)
    {
@@ -306,7 +292,7 @@ namespace ThreadBehaviorReturnCode
 
    TEST(ThreadBehavior, ReturnCode)
    {
-      fixture = new PlatformFixture;
+      AutoPtr<PlatformFixture> fixture(new PlatformFixture);
       Thread::StartDelegate d(MakeDelegate(&someFunc));
       Thread t(d);
 
@@ -317,7 +303,5 @@ namespace ThreadBehaviorReturnCode
       EXPECT_TRUE(t.getReturnCode() == MAGIC_NUMBER);
    }
 };
-
-#endif
 
 
