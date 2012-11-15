@@ -9,37 +9,39 @@
 
 #include "platform/impls/base/threads/threadImpl.h"
 
-using namespace Platform2;
-using namespace Platform2::Internal_;
+using namespace ACLib::Platform;
+using namespace ACLib::Platform::Internal_;
 
-namespace TestPlatform
+namespace ACLib
 {
-   class TestThreadImpl : public ThreadImpl
+   namespace TestPlatform
    {
-   public:
-      U32 startCt;
-      Param* param;
-      Threading::Status startSuccess;
-
-      TestThreadImpl()
+      class TestThreadImpl : public ThreadImpl
       {
-         startCt = 0;
-         startSuccess = Threading::Status_PlatformError;
-      }
+      public:
+         U32 startCt;
+         Param* param;
+         Threading::Status startSuccess;
 
-      virtual Threading::Status start(Param* p)
-      {
-         param = p;
-         startCt++;
-         return startSuccess;
-      }
+         TestThreadImpl()
+         {
+            startCt = 0;
+            startSuccess = Threading::Status_PlatformError;
+         }
 
-      void run()
-      {
-         // Delegate just returns, so this should immediately post
-         CommonThreadEntry(param);
-      }
-   };
+         virtual Threading::Status start(Param* p)
+         {
+            param = p;
+            startCt++;
+            return startSuccess;
+         }
+
+         void run()
+         {
+            // Delegate just returns, so this should immediately post
+            CommonThreadEntry(param);
+         }
+      };
+   }
 }
-
 #endif

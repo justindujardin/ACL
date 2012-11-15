@@ -19,23 +19,26 @@
 #  error No intrinsics implemented for compiler.
 #endif
 
-//TODO: 64bit safe
-
-template< typename T >
-inline bool dCompareAndSwap( T* volatile& refPtr, T* oldPtr, T* newPtr )
+namespace ACLib
 {
-   return dCompareAndSwap( *reinterpret_cast< volatile U32* >( &refPtr ), ( U32 ) oldPtr, ( U32 ) newPtr );
-}
 
-// Test-And-Set
+  //TODO: 64bit safe
 
-inline bool dTestAndSet( volatile U32& ref )
-{
-   return dCompareAndSwap( ref, 0, 1 );
-}
-inline bool dTestAndSet( volatile U64& ref )
-{
-   return dCompareAndSwap( ref, 0, 1 );
-}
+  template< typename T >
+  inline bool dCompareAndSwap( T* volatile& refPtr, T* oldPtr, T* newPtr )
+  {
+     return dCompareAndSwap( *reinterpret_cast< volatile U32* >( &refPtr ), ( U32 ) oldPtr, ( U32 ) newPtr );
+  }
 
+  // Test-And-Set
+
+  inline bool dTestAndSet( volatile U32& ref )
+  {
+     return dCompareAndSwap( ref, 0, 1 );
+  }
+  inline bool dTestAndSet( volatile U64& ref )
+  {
+     return dCompareAndSwap( ref, 0, 1 );
+  }
+};
 #endif // _PLATFORMINTRINSICS_H_

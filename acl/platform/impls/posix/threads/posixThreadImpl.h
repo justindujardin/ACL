@@ -10,21 +10,23 @@
 #include "platform/impls/base/threads/threadImpl.h"
 #include <pthread.h>
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class PosixThreadImpl : public ThreadImpl
+      namespace Internal_
       {
-      public:      
-         ~PosixThreadImpl();
-         virtual Threading::Status start(Param* p);
+         class PosixThreadImpl : public ThreadImpl
+         {
+         public:      
+            ~PosixThreadImpl();
+            virtual Threading::Status start(Param* p);
 
-      private:
-         pthread_t mThread;
-         S32 mCreationErr;
-      };
+         private:
+            pthread_t mThread;
+            S32 mCreationErr;
+         };
+      }
    }
 }
-
 #endif

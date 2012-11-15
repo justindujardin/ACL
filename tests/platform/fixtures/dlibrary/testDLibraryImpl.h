@@ -10,50 +10,52 @@
 #include "platform/impls/base/dlibrary/dlibraryImpl.h"
 #include <gtest/gtest.h>
 
-using namespace Platform2;
-using namespace Platform2::Internal_;
+using namespace ACLib::Platform;
+using namespace ACLib::Platform::Internal_;
 
-namespace TestPlatform
+namespace ACLib
 {
-   class TestDLibraryImpl : public DLibraryImpl
+   namespace TestPlatform
    {
-   public:
-      U32 initCt;
-      U32 bindCt;
-      U32 closeCt;
-      bool initSuccess;
-      void* voidRet;
-
-      TestDLibraryImpl()
+      class TestDLibraryImpl : public DLibraryImpl
       {
-         initCt = bindCt = closeCt = 0;
-         initSuccess = true;
-         voidRet = NULL;
-      }
+      public:
+         U32 initCt;
+         U32 bindCt;
+         U32 closeCt;
+         bool initSuccess;
+         void* voidRet;
 
-      ~TestDLibraryImpl()
-      {
-        //"expected DLibrary destructor to call close"
-        EXPECT_TRUE(initCt == closeCt);
-      }
+         TestDLibraryImpl()
+         {
+            initCt = bindCt = closeCt = 0;
+            initSuccess = true;
+            voidRet = NULL;
+         }
 
-      virtual bool init(const String& file)
-      {
-         initCt++;
-         return initSuccess;
-      }
+         ~TestDLibraryImpl()
+         {
+           //"expected DLibrary destructor to call close"
+           EXPECT_TRUE(initCt == closeCt);
+         }
 
-      virtual void* bind(const String& name)
-      {  
-         bindCt++;
-         return voidRet;
-      }
+         virtual bool init(const String& file)
+         {
+            initCt++;
+            return initSuccess;
+         }
 
-      virtual void close()
-      {
-         closeCt++;
-      }
-   };
+         virtual void* bind(const String& name)
+         {  
+            bindCt++;
+            return voidRet;
+         }
+
+         virtual void close()
+         {
+            closeCt++;
+         }
+      };
+   }
 }
-
 #endif

@@ -9,20 +9,22 @@
 
 #include "core/assertImpl.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class PlatformAssertImpl : public ACLib::AssertImpl
+      namespace Internal_
       {
-      public:
-         virtual ~PlatformAssertImpl() {}
-         virtual void forceShutdown(U32 code);
-         virtual bool shouldDebugBreak(ACLib::Assert::Type type, const String& message);
-         virtual bool notifyUser(ACLib::Assert::Type type, const String& title, const String& message);
-         static bool askToEnterDebugger(const char* message);
-      };
+         class PlatformAssertImpl : public AssertImpl
+         {
+         public:
+            virtual ~PlatformAssertImpl() {}
+            virtual void forceShutdown(U32 code);
+            virtual bool shouldDebugBreak(Assert::Type type, const String& message);
+            virtual bool notifyUser(Assert::Type type, const String& title, const String& message);
+            static bool askToEnterDebugger(const char* message);
+         };
+      }
    }
 }
-
 #endif

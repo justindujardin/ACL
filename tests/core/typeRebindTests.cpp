@@ -7,6 +7,8 @@
 #include <gtest/gtest.h>
 #include "core/util/typeRebind.h"
 
+using namespace ACLib;
+
 class TypeA
 {
 public:
@@ -41,13 +43,13 @@ TypeA* createThing()
 
 TEST(TypeRebind,Creation) {
   createThingCt = 0;
-  ACLib::TypeRebind r;
+  TypeRebind r;
   r.bind<TypeA>().to<TypeB>();
-  ACLib::ScopedPtr<TypeA> a(r.create<TypeA>());
+  ScopedPtr<TypeA> a(r.create<TypeA>());
   //"Expected that a TypeB would be returned"
   EXPECT_TRUE(dynamic_cast<TypeB*>(a.get()) != NULL);
 
-  r.bind<TypeA>().to<TypeA, ACLib::DelegateCreateBehavior>().assignDelegate(Delegate<TypeA*()>(&createThing));
+  r.bind<TypeA>().to<TypeA, DelegateCreateBehavior>().assignDelegate(Delegate<TypeA*()>(&createThing));
   a.reset(r.create<TypeA>());
   //"Expected that a TypeB would be returned"
   EXPECT_TRUE(dynamic_cast<TypeB*>(a.get()) != NULL);
@@ -56,12 +58,12 @@ TEST(TypeRebind,Creation) {
 }
 
 TEST(TypeRebind,Copy) {
-  ACLib::TypeRebind r0;
+  TypeRebind r0;
   r0.bind<TypeA>().to<TypeB>();
-  ACLib::TypeRebind r1(r0);
+  TypeRebind r1(r0);
   r0.bind<TypeA>().to<TypeC>();
 
-  ACLib::ScopedPtr<TypeA> a(r0.create<TypeA>());
+  ScopedPtr<TypeA> a(r0.create<TypeA>());
   //"Expected that r0 would return a TypeC"
   EXPECT_TRUE(dynamic_cast<TypeC*>(a.get()) != NULL);
   a.reset(r1.create<TypeA>());
@@ -70,20 +72,20 @@ TEST(TypeRebind,Copy) {
 }
 
 TEST(TypeRebind,Assign) {
-  ACLib::TypeRebind r0;
+  TypeRebind r0;
   r0.bind<TypeA>().to<TypeB>();
-  ACLib::TypeRebind r1;
+  TypeRebind r1;
   r1.bind<TypeA>().to<TypeC>();
 
   r0 = r1;
 
-  ACLib::ScopedPtr<TypeA> a(r0.create<TypeA>());
+  ScopedPtr<TypeA> a(r0.create<TypeA>());
   // "Expected that r0 would return a TypeC"
   EXPECT_TRUE(dynamic_cast<TypeC*>(a.get()) != NULL);
 }
 
 TEST(TypeRebind,SingletonCreate) {
-  ACLib::SingletonBehavior<TypeB> b;
+  SingletonBehavior<TypeB> b;
   TypeB* ptr0 = b.create();
   TypeB* ptr1 = b.create();
   //"Expected that with the SingletonBehavior the same pointer would be returned for multiple calls to create"
@@ -91,11 +93,11 @@ TEST(TypeRebind,SingletonCreate) {
 }
 
 TEST(TypeRebind,SingletonClone) {
-  ACLib::ScopedPtr<ACLib::SingletonBehavior<TypeB> > b0(new ACLib::SingletonBehavior<TypeB>);
+  ScopedPtr<SingletonBehavior<TypeB> > b0(new SingletonBehavior<TypeB>);
   TypeB* ptr0 = b0->create();
-  ACLib::ScopedPtr<ACLib::Behavior<TypeB> > b1(b0->clone());
+  ScopedPtr<Behavior<TypeB> > b1(b0->clone());
   //"Expected that SingletonBehavior::clone would return SingletonBehavior"
-  EXPECT_TRUE(dynamic_cast<ACLib::SingletonBehavior<TypeB>*>(b1.get()) != NULL);
+  EXPECT_TRUE(dynamic_cast<SingletonBehavior<TypeB>*>(b1.get()) != NULL);
   TypeB* ptr1 = b1->create();
   //"Expected that cloned singleton behavior would create a new instance of TypeB"
   EXPECT_TRUE(ptr0 != ptr1);

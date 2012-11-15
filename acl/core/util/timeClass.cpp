@@ -68,7 +68,7 @@ namespace ACLib
 
    Time Time::getCurrentTime()
    {
-      return ACLib::UnixTimeToTime( (U32)time( NULL ) );
+      return UnixTimeToTime( (U32)time( NULL ) );
    }
 
    bool Time::set(S32 year, S32 month, S32 day, S32 hour, S32 minute, S32 second, S32 microsecond)

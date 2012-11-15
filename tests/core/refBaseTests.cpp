@@ -8,6 +8,7 @@
 
 #include <gtest/gtest.h>
 
+using namespace ACLib;
 // Test WeakRefPtr and StrongRefPtr (WeakRefUnion and StrongRefUnion still to come)
 
 // Simple Class for testing WeakRefBase

@@ -11,23 +11,25 @@
 #include "core/util/noncopyable.h"
 #include "platform/threads/mutex.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_ 
+   namespace Platform
    {
-      /// @ingroup p2threadimpl
-      /// Base class for your platforms WaitObject implementation.
-      class WaitObjectImpl : private Noncopyable
+      namespace Internal_ 
       {
-      public:
-         virtual ~WaitObjectImpl() {}
+         /// @ingroup p2threadimpl
+         /// Base class for your platforms WaitObject implementation.
+         class WaitObjectImpl : private Noncopyable
+         {
+         public:
+            virtual ~WaitObjectImpl() {}
 
-         virtual Threading::Status wait(S32 timeout = -1) = 0;
-        
-         virtual void signalOne() = 0;
-         virtual void signalAll() = 0;
-      };
+            virtual Threading::Status wait(S32 timeout = -1) = 0;
+           
+            virtual void signalOne() = 0;
+            virtual void signalAll() = 0;
+         };
+      }
    }
 }
-
 #endif

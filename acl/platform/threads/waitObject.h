@@ -12,30 +12,32 @@
 #include "core/util/noncopyable.h"
 #include "platform/threads/threadingStatus.h"
 
-namespace Platform2
+namespace ACLib
 {
- 
-   /// @ingroup p2thread
-   /// WaitObject can wait on a threaded condition to be signaled.
-   class WaitObject : private Noncopyable
+   namespace Platform
    {
-   public:
-      WaitObject();
-      ~WaitObject();
+    
+      /// @ingroup p2thread
+      /// WaitObject can wait on a threaded condition to be signaled.
+      class WaitObject : private Noncopyable
+      {
+      public:
+         WaitObject();
+         ~WaitObject();
 
-      Threading::Status wait(S32 timeout=-1);
-     
-      /// Unblock one thread that is waiting on this object.
-      void signalOne();
-     
-      /// Unblock all threads that are waiting on this object.
-      void signalAll();
-   private:
-      /// @cond
-      struct Internal;
-      ACLib::ScopedPtr<Internal> mImpl;
-      /// @endcond
-   };
+         Threading::Status wait(S32 timeout=-1);
+        
+         /// Unblock one thread that is waiting on this object.
+         void signalOne();
+        
+         /// Unblock all threads that are waiting on this object.
+         void signalAll();
+      private:
+         /// @cond
+         struct Internal;
+         ScopedPtr<Internal> mImpl;
+         /// @endcond
+      };
+   }
 }
-
 #endif

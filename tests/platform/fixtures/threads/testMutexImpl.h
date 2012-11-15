@@ -9,44 +9,46 @@
 
 #include "platform/impls/base/threads/mutexImpl.h"
 
-using namespace Platform2;
-using namespace Platform2::Internal_;
+using namespace ACLib::Platform;
+using namespace ACLib::Platform::Internal_;
 
-namespace TestPlatform
+namespace ACLib
 {
-   class TestMutexImpl : public MutexImpl
+   namespace TestPlatform
    {
-   public:
-      Threading::Status lockSuccess;
-      Threading::Status unlockSuccess;
-      U32 lockCt;
-      U32 unlockCt;
-      U32 initCt;
-      bool valid;
-      TestMutexImpl(bool isValid) : lockSuccess(Threading::Status_NoError), 
-         unlockSuccess(Threading::Status_NoError), lockCt(0), unlockCt(0), initCt(0)
-         , valid(isValid)
+      class TestMutexImpl : public MutexImpl
       {
-      }
+      public:
+         Threading::Status lockSuccess;
+         Threading::Status unlockSuccess;
+         U32 lockCt;
+         U32 unlockCt;
+         U32 initCt;
+         bool valid;
+         TestMutexImpl(bool isValid) : lockSuccess(Threading::Status_NoError), 
+            unlockSuccess(Threading::Status_NoError), lockCt(0), unlockCt(0), initCt(0)
+            , valid(isValid)
+         {
+         }
 
-      virtual bool init()
-      {
-         ++initCt;
-         return valid;
-      }
+         virtual bool init()
+         {
+            ++initCt;
+            return valid;
+         }
 
-      virtual Threading::Status lock(bool block)
-      {
-         lockCt++;
-         return lockSuccess;
-      }
+         virtual Threading::Status lock(bool block)
+         {
+            lockCt++;
+            return lockSuccess;
+         }
 
-      virtual Threading::Status unlock()
-      {
-         unlockCt++;
-         return unlockSuccess;
-      }
-   };
+         virtual Threading::Status unlock()
+         {
+            unlockCt++;
+            return unlockSuccess;
+         }
+      };
+   }
 }
-
 #endif

@@ -9,6 +9,8 @@
 
 #include <gtest/gtest.h>
 
+using namespace ACLib;
+
 TEST(BasicTypes, Sizes)
 {
    // Run through all the types and ensure they're the right size.

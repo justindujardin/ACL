@@ -25,12 +25,14 @@
 #include "core/assert.h"
 #endif
 
-//------------------------------------------------------------------------------
-// Misc StdLib functions
-#define QSORT_CALLBACK FN_CDECL
-inline void dQsort(void *base, U32 nelem, U32 width, int (QSORT_CALLBACK *fcmp)(const void *, const void *))
+namespace ACLib
 {
-   qsort(base, nelem, width, fcmp);
-}
-
+  //------------------------------------------------------------------------------
+  // Misc StdLib functions
+  #define QSORT_CALLBACK FN_CDECL
+  inline void dQsort(void *base, U32 nelem, U32 width, int (QSORT_CALLBACK *fcmp)(const void *, const void *))
+  {
+     qsort(base, nelem, width, fcmp);
+  }
+};
 #endif

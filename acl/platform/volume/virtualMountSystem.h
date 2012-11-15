@@ -8,7 +8,7 @@
 #define _CORE_VMS_H_
 
 #include "platform/volume/volume.h"
-#include "core/containers/tDictionary.h"
+#include "core/containers/tMap.h"
 
 namespace ACLib
 {

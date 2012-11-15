@@ -10,24 +10,26 @@
 #include <Windows.h>
 #include "platform/impls/base/dlibrary/dlibraryImpl.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class Win32DLibraryImpl : public DLibraryImpl
+      namespace Internal_
       {
-      public:
-         Win32DLibraryImpl();
-         virtual ~Win32DLibraryImpl();
+         class Win32DLibraryImpl : public DLibraryImpl
+         {
+         public:
+            Win32DLibraryImpl();
+            virtual ~Win32DLibraryImpl();
 
-         virtual bool init(const String& file);
-         virtual void* bind(const String& name);
-         virtual void close();
+            virtual bool init(const String& file);
+            virtual void* bind(const String& name);
+            virtual void close();
 
-      private:
-         HMODULE mHandle;
-      };
+         private:
+            HMODULE mHandle;
+         };
+      }
    }
 }
-
 #endif

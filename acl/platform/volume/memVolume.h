@@ -11,8 +11,8 @@
 #include "platform/volume/volume.h"
 #endif
 
-#ifndef _TDICTIONARY_H_
-#include "core/containers/tDictionary.h"
+#ifndef _ACL_MAP_H_
+#include "core/containers/tMap.h"
 #endif 
 
 namespace ACLib
@@ -25,7 +25,7 @@ namespace ACLib
       class MemDirectory;
 
       //-----------------------------------------------------------------------------
-      class MemFileSystem: public ACLib::FS::FileSystem
+      class MemFileSystem: public FS::FileSystem
       {
       public:
          MemFileSystem(String volume);
@@ -33,24 +33,24 @@ namespace ACLib
 
          String   getTypeStr() const { return "Mem"; }
 
-         ACLib::FS::FileNodeRef resolve(const ACLib::Path& path);
-         ACLib::FS::FileNodeRef create(const ACLib::Path& path,ACLib::FS::FileNode::Mode);
-         bool remove(const ACLib::Path& path);
-         bool rename(const ACLib::Path& from,const ACLib::Path& to);
-         ACLib::Path mapTo(const ACLib::Path& path);
-         ACLib::Path mapFrom(const ACLib::Path& path);
+         FS::FileNodeRef resolve(const Path& path);
+         FS::FileNodeRef create(const Path& path,FS::FileNode::Mode);
+         bool remove(const Path& path);
+         bool rename(const Path& from,const Path& to);
+         Path mapTo(const Path& path);
+         Path mapFrom(const Path& path);
 
       private:
          String mVolume;
          MemDirectoryData* mRootDir;
 
-         MemDirectory* getParentDir(const ACLib::Path& path, ACLib::FS::FileNodeRef& parentRef);
+         MemDirectory* getParentDir(const Path& path, FS::FileNodeRef& parentRef);
       };
 
       //-----------------------------------------------------------------------------
       /// Mem stdio file access.
       /// This class makes use the fopen, fread and fwrite for buffered io.
-      class MemFile: public ACLib::FS::File
+      class MemFile: public FS::File
       {
       public:
          MemFile(MemFileSystem* fs, MemFileData* fileData);
@@ -84,13 +84,13 @@ namespace ACLib
 
       //-----------------------------------------------------------------------------
 
-      class MemDirectory: public ACLib::FS::Directory
+      class MemDirectory: public FS::Directory
       {
       public:
          MemDirectory(MemFileSystem* fs, MemDirectoryData* dir);
          ~MemDirectory();
 
-         ACLib::Path getName() const;
+         Path getName() const;
          Status getStatus() const;
          bool getAttributes(Attributes*);
 

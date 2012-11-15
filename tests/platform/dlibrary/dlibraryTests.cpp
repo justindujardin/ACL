@@ -11,19 +11,17 @@
 
 #include <gtest/gtest.h>
 
+#include "../fixtures/testAssertImpl.h"
 #include "../fixtures/platformFixture.h"
 
-using namespace Platform2;
-using namespace TestPlatform;
-
+using namespace ACLib;
+using namespace ACLib::Platform;
+using namespace ACLib::TestPlatform;
 
 TEST(DLibraryBehavior,Valid)
 {
-
    PlatformFixture fixture;
-
    TestAssertImpl* assertImpl = fixture.assert;
-
    DLibrary d;
 
    // Specify that creating a DLibrary will create a DLibraryImpl
@@ -74,7 +72,6 @@ TEST(DLibraryBehavior,Valid)
 TEST(DLibraryBehavior,NoInit)
 {
    PlatformFixture fixture;
-
    // Specify that a DLibrary which was never loaded shouldn't assert when it is destroyed.
    DLibrary d;
 };

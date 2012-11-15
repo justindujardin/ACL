@@ -21,8 +21,9 @@
 #include <gtest/gtest.h>
 
 using fastdelegate::MakeDelegate;
-using namespace Platform2;
-using namespace TestPlatform;
+using namespace ACLib;
+using namespace ACLib::Platform;
+using namespace ACLib::TestPlatform;
 
 /// Verifies that when a semaphore of count 0 is acquired the calling thread is blocked
 /// until the semaphores count is > 0.

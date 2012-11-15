@@ -9,28 +9,30 @@
 
 #include "platform/impls/base/volume/fileSystemChangeNotifierImpl.h"
 
-using namespace Platform2;
-using namespace Platform2::Internal_;
+using namespace ACLib::Platform;
+using namespace ACLib::Platform::Internal_;
 
-namespace TestPlatform
+namespace ACLib
 {
-   class TestFileSystemChangeNotifierImpl : public FileSystemChangeNotifierImpl
+   namespace TestPlatform
    {
-   public:
-      static FileSystemChangeNotifierImpl* create() { return new TestFileSystemChangeNotifierImpl; }
-
-      virtual bool addNotification(const ACLib::Path& dir)
+      class TestFileSystemChangeNotifierImpl : public FileSystemChangeNotifierImpl
       {
-         return false;
-      }
+      public:
+         static FileSystemChangeNotifierImpl* create() { return new TestFileSystemChangeNotifierImpl; }
 
-      virtual bool removeNotification(const ACLib::Path& dir)
-      {
-         return false;
-      }
+         virtual bool addNotification(const Path& dir)
+         {
+            return false;
+         }
 
-      virtual void process() {}
-   };
+         virtual bool removeNotification(const Path& dir)
+         {
+            return false;
+         }
+
+         virtual void process() {}
+      };
+   }
 }
-
 #endif

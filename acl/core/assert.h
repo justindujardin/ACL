@@ -15,19 +15,21 @@
 #define ACL_ENABLE_ASSERTS
 #endif
 
+namespace ACLib
+{
 #ifdef ACL_ENABLE_ASSERTS
 
 #define AssertWarn(x, y) \
 do {\
    if(((bool)(x)) == (bool)0) \
-      if(ACLib::Assert::Get().processAssert(ACLib::Assert::Warning, __FILE__, __LINE__, ACL_PRETTY_FUNCTION, y))\
+      if(Assert::Get().processAssert(Assert::Warning, __FILE__, __LINE__, ACL_PRETTY_FUNCTION, y))\
          ACL_DEBUG_BREAK\
 } while(0)
 
 #define AssertFatal(x, y)\
 do {\
    if(((bool)(x)) == (bool)0) \
-      if(ACLib::Assert::Get().processAssert(ACLib::Assert::Fatal, __FILE__, __LINE__, ACL_PRETTY_FUNCTION, y))\
+      if(Assert::Get().processAssert(Assert::Fatal, __FILE__, __LINE__, ACL_PRETTY_FUNCTION, y))\
          ACL_DEBUG_BREAK\
 } while(0)
 
@@ -39,12 +41,10 @@ do {\
 #define AssertISV(x, y)\
 do {\
    if(((bool)(x)) == (bool)0) \
-      if(ACLib::Assert::Get().processAssert(ACLib::Assert::Fatal_ISV, __FILE__, __LINE__, ACL_PRETTY_FUNCTION, y))\
+      if(Assert::Get().processAssert(Assert::Fatal_ISV, __FILE__, __LINE__, ACL_PRETTY_FUNCTION, y))\
          ACL_DEBUG_BREAK\
 } while(0)
 
-namespace ACLib
-{
    class AssertImpl;
    class Assert
    {
@@ -104,16 +104,14 @@ namespace ACLib
 ///@endcode
 /// @hideinitializer
 #define AssertStatic(expr, msg) \
-   do { ACLib::Private::CompileTimeError<((expr) != 0)> \
+   do { Private::CompileTimeError<((expr) != 0)> \
    ASSERT_##msg; (void)ASSERT_##msg; } while(false)
    
 /// Compile time assert at class or namespace scope.
 /// See AssertStatic for more information.
 #define AssertStaticNamespace(expr, msg) \
-   template<int test> struct ASSERT_##msg { ACLib::Private::CompileTimeError<test> FAILED; }; \
+   template<int test> struct ASSERT_##msg { Private::CompileTimeError<test> FAILED; }; \
    enum { Bogus_##msg = sizeof(ASSERT_##msg<((expr) != 0)>) };
-
-}
 
 /*!
    sprintf style string formating into a fixed temporary buffer.
@@ -132,5 +130,6 @@ namespace ACLib
    and use it immediately.  Other functions my use avar too and clobber the buffer.
  */
 const char* avar(const char *in_msg, ...);
+}
 
 #endif

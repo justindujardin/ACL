@@ -19,112 +19,114 @@
 #define CPUFAMILY_INTEL_6_26 0x6b5a4cd2  /* Nehalem */
 #endif
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
-   {   
-      U32 getSSELevel_()
-      {
-         size_t theSize = sizeof( int );
-         int extension = 0;
-
-         sysctlbyname( "hw.optional.sse3", &extension, &theSize, NULL, 0 );
-         if(extension)
-            return 3;
-
-         sysctlbyname( "hw.optional.sse2", &extension, &theSize, NULL, 0 );
-         if(extension)
-            return 2;
-
-         sysctlbyname( "hw.optional.sse", &extension, &theSize, NULL, 0 );
-         if(extension)
-            return 1;
-
-         return 0;
-      }
-
-      String getCPUFamilyString_(int familyId)
-      {
-         switch(familyId)
+   namespace Platform
+   {
+      namespace Internal_
+      {   
+         U32 getSSELevel_()
          {
-         case CPUFAMILY_POWERPC_G3:
-            return "PowerPC G3";
-         case CPUFAMILY_POWERPC_G4:
-            return "PowerPC G4";
-         case CPUFAMILY_POWERPC_G5:
-            return "PowerPC G5";
-         case CPUFAMILY_INTEL_6_14:
-            return "Intel Core";
-         case CPUFAMILY_INTEL_6_15:
-            return "Intel Core 2";
-         case CPUFAMILY_INTEL_6_23:
-            return "Intel Penryn";
-         case CPUFAMILY_INTEL_6_26:
-            return "Intel Nehalem";
-         case CPUFAMILY_UNKNOWN:
-         default:
-            return "Unknown";
-         }
-      }
+            size_t theSize = sizeof( int );
+            int extension = 0;
 
-      void MacPlatformObject::initSystemInfo_(SystemInfo& systemInfo)
-      {
-         OSErr err = noErr;
+            sysctlbyname( "hw.optional.sse3", &extension, &theSize, NULL, 0 );
+            if(extension)
+               return 3;
 
-         long  major;
-         long  minor;
-         long  bugFix;
+            sysctlbyname( "hw.optional.sse2", &extension, &theSize, NULL, 0 );
+            if(extension)
+               return 2;
 
-         err = Gestalt(gestaltSystemVersionMajor, &major);
-         err |= Gestalt(gestaltSystemVersionMinor, &minor);
-         err |= Gestalt(gestaltSystemVersionBugFix, &bugFix);
+            sysctlbyname( "hw.optional.sse", &extension, &theSize, NULL, 0 );
+            if(extension)
+               return 1;
 
-         if(err == noErr)
-         {
-            systemInfo.majorVersion = major;
-            systemInfo.minorVersion = minor;
-            systemInfo.bugfixVersion = bugFix;
-            systemInfo.fullOsName = String::ToString("Mac OS X %i.%i.%i", systemInfo.majorVersion, systemInfo.minorVersion, systemInfo.bugfixVersion);
-         }
-         else
-         {
-            systemInfo.majorVersion = systemInfo.minorVersion = systemInfo.bugfixVersion = -1;
-            systemInfo.fullOsName = String("MacOS X ERROR.ERROR.ERROR");
+            return 0;
          }
 
+         String getCPUFamilyString_(int familyId)
+         {
+            switch(familyId)
+            {
+            case CPUFAMILY_POWERPC_G3:
+               return "PowerPC G3";
+            case CPUFAMILY_POWERPC_G4:
+               return "PowerPC G4";
+            case CPUFAMILY_POWERPC_G5:
+               return "PowerPC G5";
+            case CPUFAMILY_INTEL_6_14:
+               return "Intel Core";
+            case CPUFAMILY_INTEL_6_15:
+               return "Intel Core 2";
+            case CPUFAMILY_INTEL_6_23:
+               return "Intel Penryn";
+            case CPUFAMILY_INTEL_6_26:
+               return "Intel Nehalem";
+            case CPUFAMILY_UNKNOWN:
+            default:
+               return "Unknown";
+            }
+         }
 
-         U64 physicalRAM = 0;
-         size_t theSize = sizeof(U64);
+         void MacPlatformObject::initSystemInfo_(SystemInfo& systemInfo)
+         {
+            OSErr err = noErr;
 
-         sysctlbyname( "hw.physmem", &physicalRAM, &theSize, NULL, 0 );
-         systemInfo.memoryInMB = physicalRAM / (1024 * 1024);
+            long  major;
+            long  minor;
+            long  bugFix;
 
-         U64 procSpeed;
-         theSize = sizeof(U64);
-         sysctlbyname( "hw.cpufrequency", &procSpeed, &theSize, NULL, 0 );
-         procSpeed = procSpeed / 1000000.0f;
+            err = Gestalt(gestaltSystemVersionMajor, &major);
+            err |= Gestalt(gestaltSystemVersionMinor, &minor);
+            err |= Gestalt(gestaltSystemVersionBugFix, &bugFix);
 
-         systemInfo.Processor.speedInMhz = procSpeed;
+            if(err == noErr)
+            {
+               systemInfo.majorVersion = major;
+               systemInfo.minorVersion = minor;
+               systemInfo.bugfixVersion = bugFix;
+               systemInfo.fullOsName = String::ToString("Mac OS X %i.%i.%i", systemInfo.majorVersion, systemInfo.minorVersion, systemInfo.bugfixVersion);
+            }
+            else
+            {
+               systemInfo.majorVersion = systemInfo.minorVersion = systemInfo.bugfixVersion = -1;
+               systemInfo.fullOsName = String("MacOS X ERROR.ERROR.ERROR");
+            }
 
-         systemInfo.Processor.sseLevel = getSSELevel_();
 
-         theSize = sizeof(systemInfo.Processor.numLogicalProcessors);
-         sysctlbyname("hw.ncpu", &systemInfo.Processor.numLogicalProcessors, &theSize, NULL, 0);
+            U64 physicalRAM = 0;
+            size_t theSize = sizeof(U64);
 
-         char vendor[256] = { '\0' };
-         theSize = sizeof(vendor);
-         err = sysctlbyname("machdep.cpu.vendor", vendor, &theSize, NULL, 0);
-         if(err == noErr)
-            systemInfo.Processor.vendor = String(vendor);
-         else
-            systemInfo.Processor.vendor = String("Unknown");
+            sysctlbyname( "hw.physmem", &physicalRAM, &theSize, NULL, 0 );
+            systemInfo.memoryInMB = physicalRAM / (1024 * 1024);
 
-         int cpufamily;
-         theSize = sizeof(int);
-         sysctlbyname("hw.cpufamily", &cpufamily, &theSize, NULL, 0);
+            U64 procSpeed;
+            theSize = sizeof(U64);
+            sysctlbyname( "hw.cpufrequency", &procSpeed, &theSize, NULL, 0 );
+            procSpeed = procSpeed / 1000000.0f;
 
-         systemInfo.Processor.family = getCPUFamilyString_(cpufamily);
+            systemInfo.Processor.speedInMhz = procSpeed;
+
+            systemInfo.Processor.sseLevel = getSSELevel_();
+
+            theSize = sizeof(systemInfo.Processor.numLogicalProcessors);
+            sysctlbyname("hw.ncpu", &systemInfo.Processor.numLogicalProcessors, &theSize, NULL, 0);
+
+            char vendor[256] = { '\0' };
+            theSize = sizeof(vendor);
+            err = sysctlbyname("machdep.cpu.vendor", vendor, &theSize, NULL, 0);
+            if(err == noErr)
+               systemInfo.Processor.vendor = String(vendor);
+            else
+               systemInfo.Processor.vendor = String("Unknown");
+
+            int cpufamily;
+            theSize = sizeof(int);
+            sysctlbyname("hw.cpufamily", &cpufamily, &theSize, NULL, 0);
+
+            systemInfo.Processor.family = getCPUFamilyString_(cpufamily);
+         }
       }
    }
 }
-

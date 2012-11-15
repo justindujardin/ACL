@@ -22,8 +22,9 @@
 #include <gtest/gtest.h>
 
 using fastdelegate::MakeDelegate;
-using namespace Platform2;
-using namespace TestPlatform;
+using namespace ACLib;
+using namespace ACLib::Platform;
+using namespace ACLib::TestPlatform;
 
 //-----------------------------------------------------------------------------
 // Functional Tests
@@ -81,10 +82,10 @@ namespace DeleteTermination
    {
       AutoPtr<Thread> t(new Thread(MakeDelegate(&work)));
 
-      U32 time = Platform2::GetPlatform()->getRealMilliseconds();
+      U32 time = GetPlatform()->getRealMilliseconds();
       t->start();
       t = NULL;
-      time = Platform2::GetPlatform()->getRealMilliseconds() - time;
+      time = GetPlatform()->getRealMilliseconds() - time;
       //, "Thread deletion did not immediately terminate the thread");
       EXPECT_TRUE(time < 1000);
    }

@@ -10,20 +10,22 @@
 #import <Cocoa/Cocoa.h>
 #include "core/strings/str.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace CocoaUtils
+   namespace Platform
    {
-      static inline NSString* StringToNSString(const String& str)
+      namespace CocoaUtils
       {
-         return [NSString stringWithCharacters:str.utf16() length:str.length()];
-      }
+         static inline NSString* StringToNSString(const String& str)
+         {
+            return [NSString stringWithCharacters:str.utf16() length:str.length()];
+         }
 
-      static inline String NSStringToString(NSString* str)
-      {
-         return (UTF16*)[str cStringUsingEncoding:NSUTF16StringEncoding];
+         static inline String NSStringToString(NSString* str)
+         {
+            return (UTF16*)[str cStringUsingEncoding:NSUTF16StringEncoding];
+         }
       }
    }
 }
-
 #endif

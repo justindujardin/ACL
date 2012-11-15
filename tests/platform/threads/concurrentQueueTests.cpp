@@ -19,7 +19,7 @@
 #include <stdlib.h>
 
 using fastdelegate::MakeDelegate;
-using namespace Platform2;
+using namespace ACLib::Platform;
 
 
 /// ConcurrentQueue sanity test.  Create a bunch of threads, and have them randomly

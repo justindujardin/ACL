@@ -10,30 +10,32 @@
 #include "platform/impls/base/threads/waitObjectImpl.h"
 #include <pthread.h>
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class PosixWaitObjectImpl : public WaitObjectImpl
+      namespace Internal_
       {
-      public:
-         PosixWaitObjectImpl();
-         virtual ~PosixWaitObjectImpl();
-         virtual Threading::Status wait(S32 timeout = -1);
-         virtual void signalOne();
-         virtual void signalAll();
-      private:
-         /// The mutex attribute that is used to make the Mutex recursively lockable.
-         pthread_mutexattr_t mMutexAttr;
+         class PosixWaitObjectImpl : public WaitObjectImpl
+         {
+         public:
+            PosixWaitObjectImpl();
+            virtual ~PosixWaitObjectImpl();
+            virtual Threading::Status wait(S32 timeout = -1);
+            virtual void signalOne();
+            virtual void signalAll();
+         private:
+            /// The mutex attribute that is used to make the Mutex recursively lockable.
+            pthread_mutexattr_t mMutexAttr;
 
-         /// The posix condition variables implementation requires a Mutex to function, and it must
-         /// obey strict locking rules during invocation, so this class manages the mutex itself.
-         pthread_mutex_t mMutex;         
+            /// The posix condition variables implementation requires a Mutex to function, and it must
+            /// obey strict locking rules during invocation, so this class manages the mutex itself.
+            pthread_mutex_t mMutex;         
 
-         /// The condition object to wait on.
-         pthread_cond_t mCondition;
-      };
+            /// The condition object to wait on.
+            pthread_cond_t mCondition;
+         };
+      }
    }
 }
-
 #endif

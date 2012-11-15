@@ -11,6 +11,8 @@
 
 #include <gtest/gtest.h>
 
+using namespace ACLib;
+
 // Unicode Strings
 #ifdef ACL_OS_WIN32
 #include <windows.h>

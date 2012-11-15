@@ -16,8 +16,9 @@
 #include "../fixtures/platformFixture.h"
 
 using fastdelegate::MakeDelegate;
-using namespace Platform2;
-using namespace TestPlatform;
+using namespace ACLib;
+using namespace ACLib::Platform;
+using namespace ACLib::TestPlatform;
 
 /// Verifies that locking a mutex twice results in the second lock blocking the calling
 /// thread until the first thread unlocks the mutex.

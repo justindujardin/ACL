@@ -10,6 +10,8 @@
 #include <iostream>
 #include <gtest/gtest.h>
 
+using namespace ACLib;
+
 // Determine if a block of memory is aligned
 #define IS_ALIGNED(ptr) EXPECT_TRUE(((((unsigned long)ptr) & 15) == 0))
 

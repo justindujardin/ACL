@@ -30,7 +30,7 @@ namespace ACLib
             mMountMap[root] = rootDict;
          }
 
-         U32 start = Platform2::GetPlatform()->getRealMilliseconds();
+         U32 start = Platform::GetPlatform()->getRealMilliseconds();
 
          // get the paths from the fs and add them to the rootDict
          Vector<String> paths;
@@ -39,7 +39,7 @@ namespace ACLib
          // but, we want to override its default behavior so that it searches only the desired fs.
          _setFindByPatternOverrideFS(fs);
 
-         ACLib::Path basePath;
+         Path basePath;
          // we use an empty root so that the resulting filenames don't have the root filename in them.  
          // we don't want to include the root in the dict has entries.  we can omit the root because we have 
          // specified an override FS; the search would fail otherwise.
@@ -82,7 +82,7 @@ namespace ACLib
          }
 
          if (gVMSVerboseLog)
-            _log(String::ToString("Indexed virtual file system in %ums", Platform2::GetPlatform()->getRealMilliseconds() - start));
+            _log(String::ToString("Indexed virtual file system in %ums", Platform::GetPlatform()->getRealMilliseconds() - start));
 
          return true;
       }
@@ -120,7 +120,7 @@ namespace ACLib
          // to remove references to the fs.
          // contant time operation can be achieved be using the unmount(string) version, which unmounts all 
          // filesystems for a given root and so doesn't need to do any searching.
-         U32 start = Platform2::GetPlatform()->getRealMilliseconds();
+         U32 start = Platform::GetPlatform()->getRealMilliseconds();
          for (RootToPathFSMap::Iterator riter = mMountMap.begin();
             riter != mMountMap.end();
             ++riter)
@@ -142,7 +142,7 @@ namespace ACLib
          }
 
          if (gVMSVerboseLog)
-            _log(String::ToString("Unmounted virtual file system in %ums", Platform2::GetPlatform()->getRealMilliseconds() - start));
+            _log(String::ToString("Unmounted virtual file system in %ums", Platform::GetPlatform()->getRealMilliseconds() - start));
 
          return true;
       }
@@ -199,7 +199,7 @@ namespace ACLib
                   dir.appendPath(sub);
 
                   Vector<FileSystemRef>& fsList = (*rootDict)[String::ToLower(dir.getPath())];
-                  Vector<FileSystemRef>::iterator iter = ACLib::Find(fsList.begin(), fsList.end(), fsRef);
+                  Vector<FileSystemRef>::iterator iter = Find(fsList.begin(), fsList.end(), fsRef);
 
                   if (iter == fsList.end())
                      fsList.push_back(fsRef);
@@ -207,7 +207,7 @@ namespace ACLib
 
                // add full file path
                Vector<FileSystemRef>& fsList = (*rootDict)[String::ToLower(path.getFullPath(false))];
-               Vector<FileSystemRef>::iterator iter = ACLib::Find(fsList.begin(), fsList.end(), fsRef);
+               Vector<FileSystemRef>::iterator iter = Find(fsList.begin(), fsList.end(), fsRef);
 
                if (iter == fsList.end())
                   fsList.push_back(fsRef);

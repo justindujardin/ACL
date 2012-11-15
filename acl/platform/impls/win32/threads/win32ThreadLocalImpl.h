@@ -10,22 +10,24 @@
 #include <Windows.h>
 #include "platform/impls/base/threads/threadLocalImpl.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class Win32ThreadLocalImpl : public ThreadLocalImpl
+      namespace Internal_
       {
-      public:
-         Win32ThreadLocalImpl();
-         virtual ~Win32ThreadLocalImpl();
-         virtual void* get();
-         virtual void set(void* value);
+         class Win32ThreadLocalImpl : public ThreadLocalImpl
+         {
+         public:
+            Win32ThreadLocalImpl();
+            virtual ~Win32ThreadLocalImpl();
+            virtual void* get();
+            virtual void set(void* value);
 
-      private:
-         DWORD mTLSIndex;
-      };
+         private:
+            DWORD mTLSIndex;
+         };
+      }
    }
 }
-
 #endif

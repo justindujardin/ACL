@@ -10,22 +10,24 @@
 #include "platform/impls/base/volume/fileSystemChangeNotifierImpl.h"
 #include "core/containers/tVector.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class Win32FileSystemChangeNotifierImpl : public FileSystemChangeNotifierImpl
+      namespace Internal_
       {
-      public:
-         virtual bool addNotification(const ACLib::Path& dir);
-         virtual bool removeNotification(const ACLib::Path& dir);
-         virtual void process();
+         class Win32FileSystemChangeNotifierImpl : public FileSystemChangeNotifierImpl
+         {
+         public:
+            virtual bool addNotification(const ACLib::Path& dir);
+            virtual bool removeNotification(const ACLib::Path& dir);
+            virtual void process();
 
-      private:
-         Vector<ACLib::Path> mPaths;
-         Vector<HANDLE> mHandles;
-      };
+         private:
+            Vector<ACLib::Path> mPaths;
+            Vector<HANDLE> mHandles;
+         };
+      }
    }
 }
-
 #endif

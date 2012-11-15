@@ -247,11 +247,11 @@ namespace ACLib
 
    U32 FileNode::getChecksum()
    {
-      bool  calculateCRC = (mLastChecksum == ACLib::Time());
+      bool  calculateCRC = (mLastChecksum == Time());
 
       if ( !calculateCRC )
       {
-         ACLib::Time   modTime = getModifiedTime();
+         Time   modTime = getModifiedTime();
 
          calculateCRC = (modTime > mLastChecksum);
       }

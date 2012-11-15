@@ -9,23 +9,25 @@
 
 #include "platform/impls/base/threads/mutexImpl.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class MacMutexImpl : public MutexImpl
+      namespace Internal_
       {
-      public:      
-         MacMutexImpl();
-         virtual ~MacMutexImpl();
-         virtual bool init();
-         virtual Threading::Status lock(bool block);
-         virtual Threading::Status unlock();
+         class MacMutexImpl : public MutexImpl
+         {
+         public:      
+            MacMutexImpl();
+            virtual ~MacMutexImpl();
+            virtual bool init();
+            virtual Threading::Status lock(bool block);
+            virtual Threading::Status unlock();
 
-      private:
-         MPSemaphoreID mSemaphore;
-      };
+         private:
+            MPSemaphoreID mSemaphore;
+         };
+      }
    }
 }
-
 #endif

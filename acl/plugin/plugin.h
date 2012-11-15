@@ -15,7 +15,8 @@ extern "C" {
 
    // Plugin Calling Convention
 #define PLUGINAPI __stdcall
-
+namespace ACLib
+{
    //-----------------------------------------------------------------------------
    // Forward declare, must be implemented by specific plugin API
    //-----------------------------------------------------------------------------
@@ -66,6 +67,7 @@ extern "C" {
 
    } PluginExports;
 
+}
 #ifdef __cplusplus
 } // end - extern "C" {
 #endif

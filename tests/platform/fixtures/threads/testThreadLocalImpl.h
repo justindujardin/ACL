@@ -9,30 +9,32 @@
 
 #include "platform/impls/base/threads/threadLocalImpl.h"
 
-using namespace Platform2;
-using namespace Platform2::Internal_;
+using namespace ACLib::Platform;
+using namespace ACLib::Platform::Internal_;
 
-namespace TestPlatform
+namespace ACLib
 {
-   class TestThreadLocalImpl : public ThreadLocalImpl
+   namespace TestPlatform
    {
-   public:
-      void* data;
-
-      TestThreadLocalImpl() : data(0)
+      class TestThreadLocalImpl : public ThreadLocalImpl
       {
-      }
+      public:
+         void* data;
 
-      virtual void* get()
-      {
-         return data;
-      }
+         TestThreadLocalImpl() : data(0)
+         {
+         }
 
-      virtual void set(void* value)
-      {
-         data = value;
-      }
-   };
+         virtual void* get()
+         {
+            return data;
+         }
+
+         virtual void set(void* value)
+         {
+            data = value;
+         }
+      };
+   }
 }
-
 #endif

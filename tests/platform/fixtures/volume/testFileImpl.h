@@ -9,48 +9,50 @@
 
 #include "platform/impls/base/volume/fileImpl.h"
 
-using namespace Platform2;
-using namespace Platform2::Internal_;
+using namespace ACLib::Platform;
+using namespace ACLib::Platform::Internal_;
 
-namespace TestPlatform
+namespace ACLib
 {
-   class TestFileImpl : public FileImpl
+   namespace TestPlatform
    {
-   public:
-
-      virtual void updateStatus()
+      class TestFileImpl : public FileImpl
       {
-      }
+      public:
 
-      virtual U32 getPosition()
-      {
-         return 0;
-      }
+         virtual void updateStatus()
+         {
+         }
 
-      virtual U32 setPosition(U32 pos, ACLib::FS::File::SeekMode mode)
-      {
-         return 0;
-      }
+         virtual U32 getPosition()
+         {
+            return 0;
+         }
 
-      virtual bool open(const ACLib::Path& path, ACLib::FS::File::AccessMode mode)
-      {
-         return false;
-      }
+         virtual U32 setPosition(U32 pos, FS::File::SeekMode mode)
+         {
+            return 0;
+         }
 
-      virtual void close()
-      {
-      }
+         virtual bool open(const Path& path, FS::File::AccessMode mode)
+         {
+            return false;
+         }
 
-      virtual U32 read(void* dst, U32 size)
-      {
-         return 0;
-      }
+         virtual void close()
+         {
+         }
 
-      virtual U32 write(const void* src, U32 size)
-      {
-         return 0;
-      }
-   };
+         virtual U32 read(void* dst, U32 size)
+         {
+            return 0;
+         }
+
+         virtual U32 write(const void* src, U32 size)
+         {
+            return 0;
+         }
+      };
+   }
 }
-
 #endif

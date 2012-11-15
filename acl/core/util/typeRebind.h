@@ -12,7 +12,7 @@
 #include "core/util/scopedPtr.h"
 #include "core/util/delegate.h"
 #include "core/util/tReflection.h"
-#include "core/containers/tDictionary.h"
+#include "core/containers/tMap.h"
 
 namespace ACLib
 {
@@ -33,7 +33,7 @@ namespace ACLib
    class AlwaysCreateBehavior : public Behavior<CreatedType>
    {
       /// Class contraints
-      AssertStaticNamespace(ACLib::IsAbstract<CreatedType>::False, 
+      AssertStaticNamespace(IsAbstract<CreatedType>::False, 
          CreatedType_must_be_concrete);
    public:
       /// Returns a new instance of CreatedType.
@@ -68,7 +68,7 @@ namespace ACLib
    class SingletonBehavior : public Behavior<CreatedType>
    {
       /// Class contraints
-      AssertStaticNamespace(ACLib::IsAbstract<CreatedType>::False, 
+      AssertStaticNamespace(IsAbstract<CreatedType>::False, 
          CreatedType_must_be_concrete);
    public:
       SingletonBehavior();
@@ -106,7 +106,7 @@ namespace ACLib
    class Creator : public AbstractCreator<BaseType>
    {
       /// Class contraints
-      AssertStaticNamespace((ACLib::IsConvertible<DerivedType*, BaseType*>::True),
+      AssertStaticNamespace((IsConvertible<DerivedType*, BaseType*>::True),
          DerivedTypePtr_must_be_convertible_to_BaseTypePtr);
    public:
       /// Defaults to the RequiredBehavior for RebindConstraint<BaseType, DerivedType>,
@@ -138,15 +138,15 @@ namespace ACLib
 
    private:
       template<typename BehaviorType>
-      void checkConstraint_(ACLib::IntToType<true> hasConstraint);
+      void checkConstraint_(IntToType<true> hasConstraint);
 
       template<typename BehaviorType>
-      void checkConstraint_(ACLib::IntToType<false> noConstraint);
+      void checkConstraint_(IntToType<false> noConstraint);
 
       // Does not enforce constraints
       Creator(Behavior<DerivedType>* b);
 
-      ACLib::ScopedPtr<Behavior<DerivedType> > mBehavior;
+      ScopedPtr<Behavior<DerivedType> > mBehavior;
    };
 
    //--------------------------------------------------------------------------
@@ -189,7 +189,7 @@ namespace ACLib
       virtual AbstractBinding* clone() const;
 
    private:
-      ACLib::ScopedPtr<AbstractCreator<BaseType> > mCreator;
+      ScopedPtr<AbstractCreator<BaseType> > mCreator;
    };
 
    //--------------------------------------------------------------------------
@@ -341,7 +341,7 @@ namespace ACLib
    //--------------------------------------------------------------------------
    template<typename BaseType, typename DerivedType>
    Creator<BaseType, DerivedType>::Creator() : 
-   mBehavior(new typename ACLib::RebindConstraint<BaseType, DerivedType>::RequiredBehavior())
+   mBehavior(new typename RebindConstraint<BaseType, DerivedType>::RequiredBehavior())
    {
    }
 
@@ -349,7 +349,7 @@ namespace ACLib
    Creator<BaseType, DerivedType>::Creator(BehaviorType<DerivedType>* b) : mBehavior(b)
    {
       checkConstraint_<BehaviorType<DerivedType> >
-         (ACLib::IntToType<ACLib::RebindConstraint<BaseType, DerivedType>::ForceBehavior>());
+         (IntToType<RebindConstraint<BaseType, DerivedType>::ForceBehavior>());
    }
 
    template<typename BaseType, typename DerivedType>
@@ -371,15 +371,15 @@ namespace ACLib
    }
 
    template<typename BaseType, typename DerivedType> template<typename BehaviorType>
-   void Creator<BaseType, DerivedType>::checkConstraint_(ACLib::IntToType<true> hasConstraint)
+   void Creator<BaseType, DerivedType>::checkConstraint_(IntToType<true> hasConstraint)
    {
-      AssertStatic((ACLib::IsSame<BehaviorType, 
-         typename ACLib::RebindConstraint<BaseType, DerivedType>::RequiredBehavior>::True),
+      AssertStatic((IsSame<BehaviorType, 
+         typename RebindConstraint<BaseType, DerivedType>::RequiredBehavior>::True),
          rebind_constraint_failed_incorrect_behavior);
    }
 
    template<typename BaseType, typename DerivedType> template<typename BehaviorType>
-   void Creator<BaseType, DerivedType>::checkConstraint_(ACLib::IntToType<false> noConstraint)
+   void Creator<BaseType, DerivedType>::checkConstraint_(IntToType<false> noConstraint)
    {
    }
 
@@ -387,7 +387,7 @@ namespace ACLib
    BehaviorType<DerivedType>& Creator<BaseType, DerivedType>::withBehavior()
    {
       checkConstraint_<BehaviorType<DerivedType> >(
-         ACLib::IntToType<ACLib::RebindConstraint<BaseType, DerivedType>::ForceBehavior>());
+         IntToType<RebindConstraint<BaseType, DerivedType>::ForceBehavior>());
 
       BehaviorType<DerivedType>* b = new BehaviorType<DerivedType>();
       mBehavior.reset(b);
@@ -398,7 +398,7 @@ namespace ACLib
    void Creator<BaseType, DerivedType>::withBehavior(BehaviorType* b)
    {
       checkConstraint_<BehaviorType>(
-         ACLib::IntToType<ACLib::RebindConstraint<BaseType, DerivedType>::ForceBehavior>());
+         IntToType<RebindConstraint<BaseType, DerivedType>::ForceBehavior>());
 
       AssertFatal(b, "Cannot assign NULL behavior");
       if(!b)
@@ -422,7 +422,7 @@ namespace ACLib
    {
       // bind<TypeA>().to<TypeB>() is only valid if TypeB inherits from TypeA
       // or if TypeB* is otherwise convertible to TypeA*.
-      AssertStatic((ACLib::IsConvertible<DerivedType*, BaseType*>::True),
+      AssertStatic((IsConvertible<DerivedType*, BaseType*>::True),
          Must_be_able_to_convert_DerivedTypePtr_to_BaseTypePtr);
 
       Creator<BaseType, DerivedType>* c = new Creator<BaseType, DerivedType>();
@@ -452,7 +452,7 @@ namespace ACLib
 
       // bind<TypeA>().to<TypeB>() is only valid if TypeB inherits from TypeA
       // or if TypeB* is otherwise convertible to TypeA*.
-      AssertStatic((ACLib::IsConvertible<DerivedType*, BaseType*>::True),
+      AssertStatic((IsConvertible<DerivedType*, BaseType*>::True),
          Must_be_able_to_convert_DerivedTypePtr_to_BaseTypePtr);
       if(!b)
          b = new BehaviorType<DerivedType>();

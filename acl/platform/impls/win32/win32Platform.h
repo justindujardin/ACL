@@ -10,52 +10,54 @@
 #include <Windows.h>
 #include "platform/platform.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class Win32PlatformObject : public PlatformObject
+      namespace Internal_
       {
-      public:
-         Win32PlatformObject();
-         ~Win32PlatformObject();
+         class Win32PlatformObject : public PlatformObject
+         {
+         public:
+            Win32PlatformObject();
+            ~Win32PlatformObject();
 
-         virtual void init();
-         virtual void shutdown();
-         virtual void abort(U32 code);
-         virtual void debugBreak();
+            virtual void init();
+            virtual void shutdown();
+            virtual void abort(U32 code);
+            virtual void debugBreak();
 
-         virtual U32 getRealMilliseconds();
-         virtual void sleep(U32 ms);
+            virtual U32 getRealMilliseconds();
+            virtual void sleep(U32 ms);
 
-         virtual ACLib::Path getExecutablePath();
-         virtual String getExecutableName();
+            virtual Path getExecutablePath();
+            virtual String getExecutableName();
 
-         virtual String getUserDataDirectory();
-         virtual String getUserHomeDirectory();
+            virtual String getUserDataDirectory();
+            virtual String getUserHomeDirectory();
 
-         virtual String getClipboard();
-         virtual bool setClipboard(const String& text);
+            virtual String getClipboard();
+            virtual bool setClipboard(const String& text);
 
-         virtual void restartInstance();
-         virtual void postQuitMessage(U32 code);
-         virtual void outputDebugString(const String& str);
+            virtual void restartInstance();
+            virtual void postQuitMessage(U32 code);
+            virtual void outputDebugString(const String& str);
 
-         virtual bool touchFile(const ACLib::Path& path);
+            virtual bool touchFile(const Path& path);
 
-      protected:
-         virtual U32 getMathControlState();
-         virtual void setMathControlState(U32 state);
-         virtual void setMathControlStateKnown();
+         protected:
+            virtual U32 getMathControlState();
+            virtual void setMathControlState(U32 state);
+            virtual void setMathControlStateKnown();
 
-      private:
-         void _processEvents();
-         virtual void initSystemInfo_(SystemInfo& info);
+         private:
+            void _processEvents();
+            virtual void initSystemInfo_(SystemInfo& info);
 
-         bool mUseQPC;
-         U64 mQPCFrequency;
-      };
+            bool mUseQPC;
+            U64 mQPCFrequency;
+         };
+      }
    }
 }
-
 #endif

@@ -19,7 +19,8 @@
 #include <gtest/gtest.h>
 
 using fastdelegate::MakeDelegate;
-using namespace Platform2;
+using namespace ACLib;
+using namespace ACLib::Platform;
 
 /// WaitObject signalAll test.
 namespace WaitObjectSignalAll

@@ -10,22 +10,24 @@
 #include "platform/volume/volume.h"
 #include "core/util/noncopyable.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class DirectoryImpl : private Noncopyable
+      namespace Internal_
       {
-      public:
-         virtual ~DirectoryImpl() {}
-         virtual void updateStatus() = 0;
-         virtual bool open(const ACLib::Path& path) = 0;
-         virtual void close() = 0;
-         virtual bool read(const ACLib::Path& path, ACLib::FS::FileNode::Attributes& attributes) = 0;
+         class DirectoryImpl : private Noncopyable
+         {
+         public:
+            virtual ~DirectoryImpl() {}
+            virtual void updateStatus() = 0;
+            virtual bool open(const Path& path) = 0;
+            virtual void close() = 0;
+            virtual bool read(const Path& path, FS::FileNode::Attributes& attributes) = 0;
 
-         ACLib::FS::FileNode::Status mStatus;
-      };
+            FS::FileNode::Status mStatus;
+         };
+      }
    }
 }
-
 #endif

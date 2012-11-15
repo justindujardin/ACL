@@ -10,23 +10,25 @@
 #include <Windows.h>
 #include "platform/impls/base/threads/mutexImpl.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class Win32MutexImpl : public MutexImpl
+      namespace Internal_
       {
-      public:
-         Win32MutexImpl();
-         virtual ~Win32MutexImpl();
-         virtual bool init();
-         virtual Threading::Status lock(bool block);
-         virtual Threading::Status unlock();
+         class Win32MutexImpl : public MutexImpl
+         {
+         public:
+            Win32MutexImpl();
+            virtual ~Win32MutexImpl();
+            virtual bool init();
+            virtual Threading::Status lock(bool block);
+            virtual Threading::Status unlock();
 
-      private:
-         HANDLE mMutex;
-      };
+         private:
+            HANDLE mMutex;
+         };
+      }
    }
 }
-
 #endif

@@ -9,54 +9,56 @@
 
 #include "platform/impls/base/threads/semaphoreImpl.h"
 
-using namespace Platform2;
-using namespace Platform2::Internal_;
+using namespace ACLib::Platform;
+using namespace ACLib::Platform::Internal_;
 
-namespace TestPlatform
+namespace ACLib
 {
-   class TestSemaphoreImpl : public SemaphoreImpl
+   namespace TestPlatform
    {
-   public:
-      U32 initCt;
-      U32 acquireCt;
-      U32 releaseCt;
-
-      S32 initialCount;
-      S32 maxCount;
-
-      bool initSuccess;
-      Threading::Status acquireSuccess;
-      Threading::Status releaseSuccess;
-
-      TestSemaphoreImpl(bool semaphoreValid)
+      class TestSemaphoreImpl : public SemaphoreImpl
       {
-         maxCount = initialCount = 0;
-         initCt = acquireCt = releaseCt = 0;
-         acquireSuccess = Threading::Status_PlatformError;
-         releaseSuccess = Threading::Status_NoError;
-         initSuccess = semaphoreValid;
-      }
+      public:
+         U32 initCt;
+         U32 acquireCt;
+         U32 releaseCt;
 
-      virtual bool init(S32 _initCount, S32 _maxCount)
-      {
-         initialCount = _initCount;
-         maxCount = _maxCount;
-         initCt++;
-         return initSuccess;
-      }
+         S32 initialCount;
+         S32 maxCount;
 
-      virtual Threading::Status acquire(bool block)
-      {
-         acquireCt++;
-         return acquireSuccess;
-      }
+         bool initSuccess;
+         Threading::Status acquireSuccess;
+         Threading::Status releaseSuccess;
 
-      virtual Threading::Status release()
-      {
-         releaseCt++;
-         return releaseSuccess;
-      }
-   };
+         TestSemaphoreImpl(bool semaphoreValid)
+         {
+            maxCount = initialCount = 0;
+            initCt = acquireCt = releaseCt = 0;
+            acquireSuccess = Threading::Status_PlatformError;
+            releaseSuccess = Threading::Status_NoError;
+            initSuccess = semaphoreValid;
+         }
+
+         virtual bool init(S32 _initCount, S32 _maxCount)
+         {
+            initialCount = _initCount;
+            maxCount = _maxCount;
+            initCt++;
+            return initSuccess;
+         }
+
+         virtual Threading::Status acquire(bool block)
+         {
+            acquireCt++;
+            return acquireSuccess;
+         }
+
+         virtual Threading::Status release()
+         {
+            releaseCt++;
+            return releaseSuccess;
+         }
+      };
+   }
 }
-
 #endif

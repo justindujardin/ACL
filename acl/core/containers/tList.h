@@ -434,7 +434,7 @@ namespace ACLib
    {
       // Can't use static_cast because of const / non-const versions of Iterator.
       // Could use reflection functions, but C-style cast is easier in this case.
-      return &((typename ACLib::Select<ACLib::IsConst<E>::True, const Node*, 
+      return &((typename Select<IsConst<E>::True, const Node*, 
          Node*>::ValueType)_link)->value;
    }
 
@@ -443,7 +443,7 @@ namespace ACLib
    {
       // Can't use static_cast because of const / non-const versions of Iterator.
       // Could use reflection functions, but C-style cast is easier in this case.
-      return ((typename ACLib::Select<ACLib::IsConst<E>::True, const Node*, 
+      return ((typename Select<IsConst<E>::True, const Node*, 
          Node*>::ValueType)_link)->value;;
    }
 

@@ -11,6 +11,7 @@
 #include <iostream>
 #include <gtest/gtest.h>
 
+using namespace ACLib;
 
 //-----------------------------------------------------------------------------
 // Delegate Example

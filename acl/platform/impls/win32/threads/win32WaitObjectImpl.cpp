@@ -9,46 +9,49 @@
 #include "platform/impls/win32/threads/win32WaitObjectImpl.h"
 #include "platform/threads/threadingStatus.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
-   {
-      Win32WaitObjectImpl::Win32WaitObjectImpl() :mWaitQueue(0)
-      {
-         mSemaphore = CreateSemaphore(NULL,0,S32_MAX,NULL);
-      }
-
-      Win32WaitObjectImpl::~Win32WaitObjectImpl()
-      {
-         CloseHandle(mSemaphore);
-      }
-
-      Threading::Status Win32WaitObjectImpl::wait(S32 timeout /*= -1*/)
-      {
-         DWORD milli = timeout > 0 ? timeout : INFINITE;
-         dFetchAndAdd(mWaitQueue,1);
-         DWORD ret = ::WaitForSingleObject(mSemaphore,milli);
-         dFetchAndAdd(mWaitQueue,-1);
-         switch(ret)
-         {
-         case WAIT_OBJECT_0:
-            return Threading::Status_WaitSignaled;
-         case WAIT_TIMEOUT:
-            return Threading::Status_WaitTimeout;
-         }
-         return Threading::Status_PlatformError;
-      }
-    
-     void Win32WaitObjectImpl::signalAll()
+  namespace Platform
+  {
+     namespace Internal_
      {
-        S32 all = mWaitQueue;
-        dFetchAndAdd(mWaitQueue,-all);
-        ReleaseSemaphore(mSemaphore,all,NULL);
+        Win32WaitObjectImpl::Win32WaitObjectImpl() :mWaitQueue(0)
+        {
+           mSemaphore = CreateSemaphore(NULL,0,S32_MAX,NULL);
+        }
+
+        Win32WaitObjectImpl::~Win32WaitObjectImpl()
+        {
+           CloseHandle(mSemaphore);
+        }
+
+        Threading::Status Win32WaitObjectImpl::wait(S32 timeout /*= -1*/)
+        {
+           DWORD milli = timeout > 0 ? timeout : INFINITE;
+           dFetchAndAdd(mWaitQueue,1);
+           DWORD ret = ::WaitForSingleObject(mSemaphore,milli);
+           dFetchAndAdd(mWaitQueue,-1);
+           switch(ret)
+           {
+           case WAIT_OBJECT_0:
+              return Threading::Status_WaitSignaled;
+           case WAIT_TIMEOUT:
+              return Threading::Status_WaitTimeout;
+           }
+           return Threading::Status_PlatformError;
+        }
+      
+       void Win32WaitObjectImpl::signalAll()
+       {
+          S32 all = mWaitQueue;
+          dFetchAndAdd(mWaitQueue,-all);
+          ReleaseSemaphore(mSemaphore,all,NULL);
+       }
+       
+       void Win32WaitObjectImpl::signalOne()
+       {
+          ReleaseSemaphore(mSemaphore,1,NULL);
+       }
      }
-     
-     void Win32WaitObjectImpl::signalOne()
-     {
-        ReleaseSemaphore(mSemaphore,1,NULL);
-     }
-   }
+  }
 }

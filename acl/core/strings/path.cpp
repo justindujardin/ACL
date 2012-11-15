@@ -9,7 +9,6 @@
 
 namespace ACLib
 {
-
    //-----------------------------------------------------------------------------
    bool Path::HasRoot(String path)
    {
@@ -163,8 +162,8 @@ namespace ACLib
 
    String Path::MakeRelativePath( String makeRelative, String relativeTo )
    {
-      ACLib::Path makeRelPath(makeRelative);
-      ACLib::Path relToPath(relativeTo);
+      Path makeRelPath(makeRelative);
+      Path relToPath(relativeTo);
       S32 maxIterations = getMin(makeRelPath.getDirectoryCount(),relToPath.getDirectoryCount());
 
       // Find common path
@@ -263,7 +262,7 @@ namespace ACLib
       if (!includeRoot)
       {
          // skip the dirty optimization for this case
-         return ACLib::Path::Join(getPath(), '/', getFullFileName());
+         return Path::Join(getPath(), '/', getFullFileName());
       }
       if ( mIsDirtyPath )
       {

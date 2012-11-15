@@ -12,9 +12,9 @@
 #include "platform/platform.h"
 
 /// @ingroup platform
-/// @page platform_creation Setting up Platform2
+/// @page platform_creation Setting up Platform
 ///
-/// 1) When a platform is first requested via a call to GetPlatform(), Platform2
+/// 1) When a platform is first requested via a call to GetPlatform(), Platform
 /// will call Internal_::InitCreator().  You should implement this function in your platform
 /// in the file which contains the implementation of your PlatformObject subclass.
 /// Your InitCreator() implementation should only call Internal_::RegisterPlatform<MyPlatformObject>();
@@ -27,42 +27,44 @@
 /// getFactory() method (non-virtual, can be safely called in your constructor)
 /// and binding the appropriate types (e.g. factory.bind<ThreadImpl>().to<MyThreadImpl>().
 ///
-/// 3) After your PlatformObject subclass has been instantiated Platform2 will
+/// 3) After your PlatformObject subclass has been instantiated Platform will
 /// set the thread which did the instantiation as the "main thread" and ensure that
 /// the InputDeviceManager is initialized on this thread.
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      /// This must be implemented in one, and only one, platform implementation.
-      /// It will be called automatically by Platform2 as part of setting up the
-      /// platform layer for the first time.  Your implementation should consist of
-      /// RegisterPlatform<MyPlatformObjectSubclass>();.
-      void InitCreator();
-
-      /// This is called the first time your platform is created.  It registers the
-      /// calling thread as the "main thread" and ensures that the InputDeviceManager
-      /// is initialized on the main thread.  This will almost certainly be called
-      /// at static-init time.
-      extern void InitializePlatform();
-
-      ACLib::TypeRebind& GetPlatformFactory();
-
-      /// You should call this in your InitCreator function.
-      template<typename T>
-      void RegisterPlatform()
+      namespace Internal_
       {
-         AssertStatic((ACLib::IsConvertible<T*, PlatformObject*>::True),
-            RegisterPlatform_T_must_be_a_subclass_of_PlatformObject);
+         /// This must be implemented in one, and only one, platform implementation.
+         /// It will be called automatically by Platform as part of setting up the
+         /// platform layer for the first time.  Your implementation should consist of
+         /// RegisterPlatform<MyPlatformObjectSubclass>();.
+         void InitCreator();
 
-         // The weird syntax is so GCC doesn't interpret 
-         // "withBehavior<ACLib::SingletonBehavior>" as "withBehavior isLessThan ACLib::SingletonBehavior"
+         /// This is called the first time your platform is created.  It registers the
+         /// calling thread as the "main thread" and ensures that the InputDeviceManager
+         /// is initialized on the main thread.  This will almost certainly be called
+         /// at static-init time.
+         extern void InitializePlatform();
 
-         GetPlatformFactory().bind<PlatformObject>().to<T>().
-            template withBehavior<ACLib::SingletonBehavior>();
+         TypeRebind& GetPlatformFactory();
+
+         /// You should call this in your InitCreator function.
+         template<typename T>
+         void RegisterPlatform()
+         {
+            AssertStatic((IsConvertible<T*, PlatformObject*>::True),
+               RegisterPlatform_T_must_be_a_subclass_of_PlatformObject);
+
+            // The weird syntax is so GCC doesn't interpret 
+            // "withBehavior<SingletonBehavior>" as "withBehavior isLessThan SingletonBehavior"
+
+            GetPlatformFactory().bind<PlatformObject>().to<T>().
+               template withBehavior<SingletonBehavior>();
+         }
       }
    }
 }
-
 #endif

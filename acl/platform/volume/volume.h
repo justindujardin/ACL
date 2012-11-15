@@ -19,8 +19,8 @@
 #include "core/util/refBase.h"
 #endif
 
-#ifndef _TDICTIONARY_H_
-#include "core/containers/tDictionary.h"
+#ifndef _ACL_MAP_H_
+#include "core/containers/tMap.h"
 #endif
 
 #ifndef _ACL_LIST_
@@ -120,7 +120,7 @@ namespace ACLib
 
       private:
          U32            mChecksum;
-         ACLib::Time   mLastChecksum;
+         Time           mLastChecksum;
       };
 
       typedef WeakRefPtr<FileNode> FileNodePtr;

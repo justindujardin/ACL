@@ -11,23 +11,25 @@
 #include "core/types.h"
 #include <pthread.h>
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class PosixMutexImpl : public MutexImpl
+      namespace Internal_
       {
-      public:      
-         PosixMutexImpl();
-         virtual ~PosixMutexImpl();
-         virtual bool init();
-         virtual Threading::Status lock(bool block);
-         virtual Threading::Status unlock();
+         class PosixMutexImpl : public MutexImpl
+         {
+         public:      
+            PosixMutexImpl();
+            virtual ~PosixMutexImpl();
+            virtual bool init();
+            virtual Threading::Status lock(bool block);
+            virtual Threading::Status unlock();
 
-      private:
-         pthread_mutex_t mMutex;
-      };
+         private:
+            pthread_mutex_t mMutex;
+         };
+      }
    }
 }
-
 #endif

@@ -10,8 +10,7 @@
 #include "core/util/journal/process.h"
 #include "core/simObject/simWorld.h"
 
-#include "unit/test.h"
-using namespace UnitTesting;
+using namespace ACLib;
 
 CreateUnitTest(Check_advanceTime, "Platform/Time/advanceTime")
 {
@@ -31,9 +30,9 @@ CreateUnitTest(Check_platformSleep, "disabled_Platform/Time/Sleep")
    const static S32 sleepTimeMs = 500;
    void run()
    {
-      U32 start = Platform2::GetPlatform()->getRealMilliseconds();
-      Platform2::GetPlatform()->sleep(sleepTimeMs);
-      U32 end = Platform2::GetPlatform()->getRealMilliseconds();
+      U32 start = Platform::GetPlatform()->getRealMilliseconds();
+      Platform::GetPlatform()->sleep(sleepTimeMs);
+      U32 end = Platform::GetPlatform()->getRealMilliseconds();
       
       test(end - start >= sleepTimeMs, "We didn't sleep at least as long as we requested!");
    }
@@ -65,19 +64,19 @@ CreateUnitTest(Check_timeManager, "disabled_Platform/Time/Manager")
       time.timeEvent.notify(this, &Check_timeManager::handleTimeEvent);
       
       // Event loop till at least one second has passed.
-      const U32 start = Platform2::GetPlatform()->getRealMilliseconds();
+      const U32 start = Platform::GetPlatform()->getRealMilliseconds();
 
       while(Process::processEvents())
       {
          // If we go too long, kill it off...
-         if(Platform2::GetPlatform()->getRealMilliseconds() - start > 30*1000)
+         if(Platform::GetPlatform()->getRealMilliseconds() - start > 30*1000)
          {
             test(false, "Terminated process loop due to watchdog, not due to time manager event, after 30 seconds.");
             Process::requestShutdown();
          }
       }
       
-      const U32 end = Platform2::GetPlatform()->getRealMilliseconds();
+      const U32 end = Platform::GetPlatform()->getRealMilliseconds();
       
       // Now, confirm we have approximately similar elapsed times.
       S32 elapsedRealTime = end - start;
@@ -86,7 +85,7 @@ CreateUnitTest(Check_timeManager, "disabled_Platform/Time/Manager")
       test(mNumberCalls > 0, "Somehow got no event callbacks from TimeManager?");
       
       Con::printf("   Got %d time events, and elapsed %dms from TimeManager, "
-                  "%dms according to Platform2::GetPlatform()->getRealMilliseconds()",
+                  "%dms according to Platform::GetPlatform()->getRealMilliseconds()",
                   mNumberCalls, mElapsedTime, elapsedRealTime);
    }
 };

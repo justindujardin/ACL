@@ -9,23 +9,25 @@
 
 #include "platform/impls/base/volume/directoryImpl.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class Win32DirectoryImpl : public DirectoryImpl
+      namespace Internal_
       {
-      public:
-         Win32DirectoryImpl();
-         virtual void updateStatus();
-         virtual bool open(const ACLib::Path& path);
-         virtual void close();
-         virtual bool read(const ACLib::Path& path, ACLib::FS::FileNode::Attributes& attributes);
+         class Win32DirectoryImpl : public DirectoryImpl
+         {
+         public:
+            Win32DirectoryImpl();
+            virtual void updateStatus();
+            virtual bool open(const Path& path);
+            virtual void close();
+            virtual bool read(const Path& path, FS::FileNode::Attributes& attributes);
 
-      private:
-         HANDLE mHandle;
-      };
+         private:
+            HANDLE mHandle;
+         };
+      }
    }
 }
-
 #endif

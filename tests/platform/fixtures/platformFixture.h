@@ -29,56 +29,57 @@
 #include "./volume/testDirectoryImpl.h"
 #include "./volume/testFileSystemChangeNotifierImpl.h"
 
-using namespace Platform2;
-using namespace Platform2::Internal_;
-using namespace ACLib;
+using namespace ACLib::Platform;
+using namespace ACLib::Platform::Internal_;
 using namespace ACLib::FS;
 
-namespace TestPlatform 
+namespace ACLib
 {
-   class PlatformFixture
+   namespace TestPlatform 
    {
-   public:
-      PlatformFixture();
-      ~PlatformFixture();
+      class PlatformFixture
+      {
+      public:
+         PlatformFixture();
+         ~PlatformFixture();
 
-      ThreadImpl* createThread();
-      MutexImpl* createMutex();
-      SemaphoreImpl* createSemaphore();
-      ThreadLocalImpl* createThreadLocal(); 
-      FileSystemImpl* createFileSystem();
-      FileImpl* createFile();
-      DirectoryImpl* createDirectory();
-      DLibraryImpl* createDLibrary();
-      WaitObjectImpl* createWaitObject();
+         ThreadImpl* createThread();
+         MutexImpl* createMutex();
+         SemaphoreImpl* createSemaphore();
+         ThreadLocalImpl* createThreadLocal(); 
+         FileSystemImpl* createFileSystem();
+         FileImpl* createFile();
+         DirectoryImpl* createDirectory();
+         DLibraryImpl* createDLibrary();
+         WaitObjectImpl* createWaitObject();
 
-      TestThreadImpl* threadImpl;
-      TestMutexImpl* mutexImpl;
-      TestSemaphoreImpl* semaphoreImpl;
-      TestThreadLocalImpl* threadLocalImpl[2];
-      TestWaitObjectImpl* waitObjectImpl;
+         TestThreadImpl* threadImpl;
+         TestMutexImpl* mutexImpl;
+         TestSemaphoreImpl* semaphoreImpl;
+         TestThreadLocalImpl* threadLocalImpl[2];
+         TestWaitObjectImpl* waitObjectImpl;
 
-      TestAssertImpl* assert;
+         TestAssertImpl* assert;
 
-      TestDLibraryImpl* dlibraryImpl;
-      TestFileSystemImpl* fileSystemImpl;
-      TestFileImpl* fileImpl;
-      TestDirectoryImpl* directoryImpl;
+         TestDLibraryImpl* dlibraryImpl;
+         TestFileSystemImpl* fileSystemImpl;
+         TestFileImpl* fileImpl;
+         TestDirectoryImpl* directoryImpl;
 
-      U32 threadImplCt;
-      U32 mutexImplCt;
-      U32 semaphoreImplCt;
-      U32 threadLocalImplCt;
-      U32 waitObjectImplCt;
-      U32 fileSystemImplCt;
-      U32 fileImplCt;
-      U32 directoryImplCt;
-      U32 dlibraryImplCt;
+         U32 threadImplCt;
+         U32 mutexImplCt;
+         U32 semaphoreImplCt;
+         U32 threadLocalImplCt;
+         U32 waitObjectImplCt;
+         U32 fileSystemImplCt;
+         U32 fileImplCt;
+         U32 directoryImplCt;
+         U32 dlibraryImplCt;
 
-      bool mutexValid;
-      bool semaphoreValid;
-   };
+         bool mutexValid;
+         bool semaphoreValid;
+      };
 
+   }
 }
-
 #endif

@@ -19,10 +19,10 @@
 #include <gtest/gtest.h>
 
 using fastdelegate::MakeDelegate;
-using namespace Platform2;
-using namespace TestPlatform;
+using namespace ACLib::TestPlatform;
 using namespace ACLib;
 using namespace ACLib::FS;
+using namespace ACLib::Platform;
 
 TEST(VolumeBehavior,FileSystem)
 {

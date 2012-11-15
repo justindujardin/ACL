@@ -9,32 +9,35 @@
 
 #include "platform/impls/base/volume/directoryImpl.h"
 
-using namespace Platform2;
-using namespace Platform2::Internal_;
+using namespace ACLib::Platform;
+using namespace ACLib::Platform::Internal_;
 
-namespace TestPlatform
+namespace ACLib
 {
-   class TestDirectoryImpl : public DirectoryImpl
+   namespace TestPlatform
    {
-   public:
-      virtual void updateStatus()
+      class TestDirectoryImpl : public DirectoryImpl
       {
-      }
+      public:
+         virtual void updateStatus()
+         {
+         }
 
-      virtual bool open(const ACLib::Path& path)
-      {
-         return false;
-      }
+         virtual bool open(const Path& path)
+         {
+            return false;
+         }
 
-      virtual void close()
-      {
-      }
+         virtual void close()
+         {
+         }
 
-      virtual bool read(const ACLib::Path& path, ACLib::FS::FileNode::Attributes& attributes)
-      {
-         return false;
-      }
-   };
+         virtual bool read(const Path& path, FS::FileNode::Attributes& attributes)
+         {
+            return false;
+         }
+      };
+   }
 }
 
 #endif

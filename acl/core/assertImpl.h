@@ -11,10 +11,9 @@
 #include "core/assert.h"
 #endif
 
-class String;
-
 namespace ACLib
 {
+   class String;
    class AssertImpl
    {
    public:

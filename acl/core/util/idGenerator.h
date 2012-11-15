@@ -11,63 +11,64 @@
 #include "core/containers/tVector.h"
 #endif
 
-
-class IdGenerator
+namespace ACLib
 {
-private:
-   U32 mIdBlockBase;
-   U32 mIdRangeSize;
-   Vector<U32> mPool;
-   U32 mNextId;
-
-   void reclaim();
-
-public:
-   IdGenerator(U32 base, U32 numIds)
+   class IdGenerator
    {
-      mIdBlockBase = base;
-      mIdRangeSize = numIds;
-      mNextId = mIdBlockBase;
-   }
+   private:
+      U32 mIdBlockBase;
+      U32 mIdRangeSize;
+      Vector<U32> mPool;
+      U32 mNextId;
 
-   void reset()
-   {
-      mPool.clear();
-      mNextId = mIdBlockBase;
-   }
+      void reclaim();
 
-   U32 alloc()
-   {
-      // fist check the pool:
-      if(!mPool.empty())
+   public:
+      IdGenerator(U32 base, U32 numIds)
       {
-         U32 id = mPool.last();
-         mPool.pop_back();
-         reclaim();
-         return id;
+         mIdBlockBase = base;
+         mIdRangeSize = numIds;
+         mNextId = mIdBlockBase;
       }
-      if(mIdRangeSize && mNextId >= mIdBlockBase + mIdRangeSize)
-         return 0;
 
-      return mNextId++;
-   }
-
-   void free(U32 id)
-   {
-      AssertFatal(id >= mIdBlockBase, "IdGenerator::alloc: invalid id, id does not belong to this IdGenerator.");
-      if(id == mNextId - 1)
+      void reset()
       {
-         mNextId--;
-         reclaim();
+         mPool.clear();
+         mNextId = mIdBlockBase;
       }
-      else
-         mPool.push_back(id);
-   }
 
-   U32 numIdsUsed()
-   {
-      return mNextId - mIdBlockBase - mPool.size();
-   }
+      U32 alloc()
+      {
+         // fist check the pool:
+         if(!mPool.empty())
+         {
+            U32 id = mPool.last();
+            mPool.pop_back();
+            reclaim();
+            return id;
+         }
+         if(mIdRangeSize && mNextId >= mIdBlockBase + mIdRangeSize)
+            return 0;
+
+         return mNextId++;
+      }
+
+      void free(U32 id)
+      {
+         AssertFatal(id >= mIdBlockBase, "IdGenerator::alloc: invalid id, id does not belong to this IdGenerator.");
+         if(id == mNextId - 1)
+         {
+            mNextId--;
+            reclaim();
+         }
+         else
+            mPool.push_back(id);
+      }
+
+      U32 numIdsUsed()
+      {
+         return mNextId - mIdBlockBase - mPool.size();
+      }
+   };
 };
-
 #endif

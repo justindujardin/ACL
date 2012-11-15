@@ -13,63 +13,66 @@
 #include "platform/threads/threadLocal.h"
 #endif
 
-namespace Platform2
+namespace ACLib
 {
-   /// @cond
-   struct Semaphore::Internal
+   namespace Platform
    {
-      ACLib::ScopedPtr<Internal_::SemaphoreImpl> impl;
-      S32 maxCount;
-      bool valid;
-
-      Internal() :
-      impl(GetPlatform()->getFactory().create<Internal_::SemaphoreImpl>()),
-         maxCount(-1), valid(false)
+      /// @cond
+      struct Semaphore::Internal
       {
-      }
-   };
-   /// @endcond
+         ScopedPtr<Internal_::SemaphoreImpl> impl;
+         S32 maxCount;
+         bool valid;
 
-   Semaphore::Semaphore(S32 initialCount, S32 maxCount) : mImpl(new Internal)
-   {
-      AssertFatal(maxCount > 0, "Invalid maxCount 0");
-      AssertFatal(initialCount <= maxCount, "Invalid initialCount > maxCount");
-      AssertFatal(initialCount >= 0, "Invalid initialCount < 0");
+         Internal() :
+         impl(GetPlatform()->getFactory().create<Internal_::SemaphoreImpl>()),
+            maxCount(-1), valid(false)
+         {
+         }
+      };
+      /// @endcond
 
-      if(maxCount <= 0)
-         maxCount = S32_MAX;
-
-      if(initialCount > maxCount || initialCount < 0)
-         initialCount = maxCount;
-
-      mImpl->maxCount = maxCount;
-      mImpl->valid = mImpl->impl->init(initialCount, maxCount);
-      AssertFatal(mImpl->valid, "SemaphoreImpl init failed");
-   }
-
-   Semaphore::~Semaphore()
-   {
-   }
-
-   Threading::Status Semaphore::acquire(bool block)
-   {
-      if(!mImpl->valid)
+      Semaphore::Semaphore(S32 initialCount, S32 maxCount) : mImpl(new Internal)
       {
-         AssertFatal(false, "SemaphoreImpl is invalid, cannot acquire");
-         return Threading::Status_ObjectInvalid;
+         AssertFatal(maxCount > 0, "Invalid maxCount 0");
+         AssertFatal(initialCount <= maxCount, "Invalid initialCount > maxCount");
+         AssertFatal(initialCount >= 0, "Invalid initialCount < 0");
+
+         if(maxCount <= 0)
+            maxCount = S32_MAX;
+
+         if(initialCount > maxCount || initialCount < 0)
+            initialCount = maxCount;
+
+         mImpl->maxCount = maxCount;
+         mImpl->valid = mImpl->impl->init(initialCount, maxCount);
+         AssertFatal(mImpl->valid, "SemaphoreImpl init failed");
       }
 
-      return mImpl->impl->acquire(block);
-   }
-
-   Threading::Status Semaphore::release()
-   {
-      if(!mImpl->valid)
+      Semaphore::~Semaphore()
       {
-         AssertFatal(false, "SemaphoreImpl is invalid, cannot release");
-         return Threading::Status_ObjectInvalid;
       }
 
-      return mImpl->impl->release();
+      Threading::Status Semaphore::acquire(bool block)
+      {
+         if(!mImpl->valid)
+         {
+            AssertFatal(false, "SemaphoreImpl is invalid, cannot acquire");
+            return Threading::Status_ObjectInvalid;
+         }
+
+         return mImpl->impl->acquire(block);
+      }
+
+      Threading::Status Semaphore::release()
+      {
+         if(!mImpl->valid)
+         {
+            AssertFatal(false, "SemaphoreImpl is invalid, cannot release");
+            return Threading::Status_ObjectInvalid;
+         }
+
+         return mImpl->impl->release();
+      }
    }
 }

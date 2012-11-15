@@ -9,22 +9,24 @@
 
 #include "platform/impls/base/dlibrary/dlibraryImpl.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class PosixDLibraryImpl : public DLibraryImpl
+      namespace Internal_
       {
-      public:         
-         PosixDLibraryImpl();
-         virtual ~PosixDLibraryImpl();
-         virtual bool init(const String& file);
-         virtual void* bind(const String& name);
-         virtual void close();
-      private:
-         void* mHandle;
-      };
+         class PosixDLibraryImpl : public DLibraryImpl
+         {
+         public:         
+            PosixDLibraryImpl();
+            virtual ~PosixDLibraryImpl();
+            virtual bool init(const String& file);
+            virtual void* bind(const String& name);
+            virtual void close();
+         private:
+            void* mHandle;
+         };
+      }
    }
 }
-
 #endif

@@ -13,10 +13,11 @@
 #include <gtest/gtest.h>
 
 
+
 // Vector insertion and expect values
 TEST(VectorTest,Insertion) {
    // Vector
-   Vector<S32> intVec;
+   ACLib::Vector<S32> intVec;
    intVec.push_back(1337);
    intVec.increment();
    intVec.last() = 12;
@@ -45,7 +46,7 @@ TEST(ListTest,Insertion) {
 
 TEST(PairTest,Creation) {
    // Pair
-   Pair<S32,F32> intFloat = MakePair<S32,F32>(1337,1.337f);
+   ACLib::Pair<S32,F32> intFloat = ACLib::MakePair<S32,F32>(1337,1.337f);
    EXPECT_EQ(intFloat.first,1337);
    EXPECT_FLOAT_EQ(intFloat.second,1.337f);
 }

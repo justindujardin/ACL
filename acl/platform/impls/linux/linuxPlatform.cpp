@@ -27,136 +27,138 @@
 #include <sys/time.h>
 
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      void InitCreator()
+      namespace Internal_
       {
-         RegisterPlatform<LinuxPlatformObject>();
-      }
-
-      LinuxPlatformObject::LinuxPlatformObject()
-      {
-         ACLib::TypeRebind& factory = getProtectedFactory();
-         factory.bind<SemaphoreImpl>().to<PosixSemaphoreImpl>();
-         factory.bind<ThreadImpl>().to<PosixThreadImpl>();
-         factory.bind<MutexImpl>().to<PosixMutexImpl>();
-         factory.bind<WaitObjectImpl>().to<PosixWaitObjectImpl>();
-         factory.bind<ThreadLocalImpl>().to<PosixThreadLocalImpl>();
-
-         factory.bind<DLibraryImpl>().to<PosixDLibraryImpl>();
-
-         factory.bind<FileSystemImpl>().to<PosixFileSystemImpl>();
-         factory.bind<FileImpl>().to<PosixFileImpl>();
-         factory.bind<DirectoryImpl>().to<PosixDirectoryImpl>();
-      }
-
-      LinuxPlatformObject::~LinuxPlatformObject()
-      {
-      }
-
-      void LinuxPlatformObject::init()
-      {
-      }
-
-      void LinuxPlatformObject::shutdown()
-      {
-      }
-
-      void LinuxPlatformObject::abort(U32 code)
-      {
-      }
-
-      void LinuxPlatformObject::debugBreak()
-      {
-      }
-
-      static U32 sgTimeOffset  = 0;
-      static bool sgTimeInitialized = false;
-      U32 LinuxPlatformObject::getRealMilliseconds()
-      {
-         timeval t;
-         if (sgTimeInitialized == false) {
-            sgTimeInitialized = true;
-            gettimeofday(&t, NULL);
-            sgTimeOffset = t.tv_sec;
+         void InitCreator()
+         {
+            RegisterPlatform<LinuxPlatformObject>();
          }
-         gettimeofday(&t, NULL);
-         U32 secs  = t.tv_sec - sgTimeOffset;
-         U32 uSecs = t.tv_usec;
-         // Make granularity 1 ms
-         return (secs * 1000) + (uSecs / 1000);
-      }
 
-      void LinuxPlatformObject::sleep(U32 ms)
-      {
-         usleep( ms * 1000 );
-      }
+         LinuxPlatformObject::LinuxPlatformObject()
+         {
+            TypeRebind& factory = getProtectedFactory();
+            factory.bind<SemaphoreImpl>().to<PosixSemaphoreImpl>();
+            factory.bind<ThreadImpl>().to<PosixThreadImpl>();
+            factory.bind<MutexImpl>().to<PosixMutexImpl>();
+            factory.bind<WaitObjectImpl>().to<PosixWaitObjectImpl>();
+            factory.bind<ThreadLocalImpl>().to<PosixThreadLocalImpl>();
 
-      ACLib::Path LinuxPlatformObject::getExecutablePath()
-      {
-         return ACLib::Path("");
-      }
+            factory.bind<DLibraryImpl>().to<PosixDLibraryImpl>();
 
-      String LinuxPlatformObject::getExecutableName()
-      {
-         return String("");
-      }
+            factory.bind<FileSystemImpl>().to<PosixFileSystemImpl>();
+            factory.bind<FileImpl>().to<PosixFileImpl>();
+            factory.bind<DirectoryImpl>().to<PosixDirectoryImpl>();
+         }
 
-      String LinuxPlatformObject::getUserDataDirectory()
-      {
-         return String("");
-      }
+         LinuxPlatformObject::~LinuxPlatformObject()
+         {
+         }
 
-      String LinuxPlatformObject::getUserHomeDirectory()
-      {
-         return String("");
-      }
+         void LinuxPlatformObject::init()
+         {
+         }
 
-      String LinuxPlatformObject::getClipboard()
-      {
-         return String("");
-      }
+         void LinuxPlatformObject::shutdown()
+         {
+         }
 
-      bool LinuxPlatformObject::setClipboard( const String& text )
-      {
-         return false;
-      }
+         void LinuxPlatformObject::abort(U32 code)
+         {
+         }
 
-      void LinuxPlatformObject::restartInstance()
-      {
-      }
+         void LinuxPlatformObject::debugBreak()
+         {
+         }
 
-      void LinuxPlatformObject::postQuitMessage( U32 code )
-      {
-      }
+         static U32 sgTimeOffset  = 0;
+         static bool sgTimeInitialized = false;
+         U32 LinuxPlatformObject::getRealMilliseconds()
+         {
+            timeval t;
+            if (sgTimeInitialized == false) {
+               sgTimeInitialized = true;
+               gettimeofday(&t, NULL);
+               sgTimeOffset = t.tv_sec;
+            }
+            gettimeofday(&t, NULL);
+            U32 secs  = t.tv_sec - sgTimeOffset;
+            U32 uSecs = t.tv_usec;
+            // Make granularity 1 ms
+            return (secs * 1000) + (uSecs / 1000);
+         }
 
-      void LinuxPlatformObject::outputDebugString( const String& str )
-      {
-      }
+         void LinuxPlatformObject::sleep(U32 ms)
+         {
+            usleep( ms * 1000 );
+         }
 
-      bool LinuxPlatformObject::touchFile(const ACLib::Path& path)
-      {
-         return false;
-      }
+         Path LinuxPlatformObject::getExecutablePath()
+         {
+            return Path("");
+         }
 
-      U32 LinuxPlatformObject::getMathControlState()
-      {
-         return 0;
-      }
+         String LinuxPlatformObject::getExecutableName()
+         {
+            return String("");
+         }
 
-      void LinuxPlatformObject::setMathControlState( U32 state )
-      {
-      }
+         String LinuxPlatformObject::getUserDataDirectory()
+         {
+            return String("");
+         }
 
-      void LinuxPlatformObject::setMathControlStateKnown()
-      {
-      }
+         String LinuxPlatformObject::getUserHomeDirectory()
+         {
+            return String("");
+         }
 
-      void LinuxPlatformObject::initSystemInfo_(SystemInfo& info)
-      {
-      }      
+         String LinuxPlatformObject::getClipboard()
+         {
+            return String("");
+         }
+
+         bool LinuxPlatformObject::setClipboard( const String& text )
+         {
+            return false;
+         }
+
+         void LinuxPlatformObject::restartInstance()
+         {
+         }
+
+         void LinuxPlatformObject::postQuitMessage( U32 code )
+         {
+         }
+
+         void LinuxPlatformObject::outputDebugString( const String& str )
+         {
+         }
+
+         bool LinuxPlatformObject::touchFile(const Path& path)
+         {
+            return false;
+         }
+
+         U32 LinuxPlatformObject::getMathControlState()
+         {
+            return 0;
+         }
+
+         void LinuxPlatformObject::setMathControlState( U32 state )
+         {
+         }
+
+         void LinuxPlatformObject::setMathControlStateKnown()
+         {
+         }
+
+         void LinuxPlatformObject::initSystemInfo_(SystemInfo& info)
+         {
+         }      
+      }
    }
-
 }

@@ -9,30 +9,33 @@
 
 static void* threadEntry(void* p)
 {
-   Platform2::Internal_::ThreadImpl::CommonThreadEntry(p);
+   ACLib::Platform::Internal_::ThreadImpl::CommonThreadEntry(p);
    return 0;
 }
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      PosixThreadImpl::~PosixThreadImpl()
+      namespace Internal_
       {
-         pthread_join(mThread, NULL);
-      }
-
-      Threading::Status PosixThreadImpl::start(Param* p)
-      {
-         mCreationErr = pthread_create(&mThread, NULL, threadEntry, p);
-         switch(mCreationErr)
+         PosixThreadImpl::~PosixThreadImpl()
          {
-         case 0:
-            return Threading::Status_NoError;
-         case EAGAIN:
-            return Threading::Status_Resources;
-         default:
-            return Threading::Status_PlatformError;
+            pthread_join(mThread, NULL);
+         }
+
+         Threading::Status PosixThreadImpl::start(Param* p)
+         {
+            mCreationErr = pthread_create(&mThread, NULL, threadEntry, p);
+            switch(mCreationErr)
+            {
+            case 0:
+               return Threading::Status_NoError;
+            case EAGAIN:
+               return Threading::Status_Resources;
+            default:
+               return Threading::Status_PlatformError;
+            }
          }
       }
    }

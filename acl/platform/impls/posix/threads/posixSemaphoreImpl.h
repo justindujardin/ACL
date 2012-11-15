@@ -10,23 +10,26 @@
 #include <semaphore.h>
 #include "platform/impls/base/threads/semaphoreImpl.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class PosixSemaphoreImpl : public SemaphoreImpl
+      namespace Internal_
       {
-      public:
-         PosixSemaphoreImpl();
-         virtual ~PosixSemaphoreImpl();
-         virtual bool init(S32 initialCount, S32 maxCount);
-         virtual Threading::Status acquire(bool block);
-         virtual Threading::Status release();
+         class PosixSemaphoreImpl : public SemaphoreImpl
+         {
+         public:
+            PosixSemaphoreImpl();
+            virtual ~PosixSemaphoreImpl();
+            virtual bool init(S32 initialCount, S32 maxCount);
+            virtual Threading::Status acquire(bool block);
+            virtual Threading::Status release();
 
-      private:
-         sem_t mSemaphore;
-         S32 mMaxCount;
-      };
+         private:
+            sem_t mSemaphore;
+            S32 mMaxCount;
+         };
+      }
    }
 }
 

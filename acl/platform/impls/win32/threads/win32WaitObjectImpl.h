@@ -10,24 +10,26 @@
 #include "platform/impls/base/threads/waitObjectImpl.h"
 #include <Windows.h>
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class Win32WaitObjectImpl : public WaitObjectImpl
+      namespace Internal_
       {
-      public:
-         Win32WaitObjectImpl();
-         virtual ~Win32WaitObjectImpl();
-         virtual Threading::Status wait(S32 timeout = -1);
-         virtual void signalOne();
-         virtual void signalAll();
-      private:
-         S32 mWaitQueue;
-         /// The semaphore to wait on.
-         HANDLE mSemaphore;
-      };
+         class Win32WaitObjectImpl : public WaitObjectImpl
+         {
+         public:
+            Win32WaitObjectImpl();
+            virtual ~Win32WaitObjectImpl();
+            virtual Threading::Status wait(S32 timeout = -1);
+            virtual void signalOne();
+            virtual void signalAll();
+         private:
+            S32 mWaitQueue;
+            /// The semaphore to wait on.
+            HANDLE mSemaphore;
+         };
+      }
    }
 }
-
 #endif

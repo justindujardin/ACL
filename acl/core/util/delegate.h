@@ -17,30 +17,33 @@
 /// By default ACLib uses a @see FastDelegate implementation
 /// 
 
-#define Delegate fastdelegate::FastDelegate
-typedef fastdelegate::DelegateMemento DelegateMemento;
-
-template<class T>
-class DelegateRemapper : public DelegateMemento
+namespace ACLib
 {
-public:
-   DelegateRemapper() : mOffset(0) {}
 
-   void set(T * t, const DelegateMemento & memento)
+   #define Delegate fastdelegate::FastDelegate
+   typedef fastdelegate::DelegateMemento DelegateMemento;
+
+   template<class T>
+   class DelegateRemapper : public DelegateMemento
    {
-      SetMementoFrom(memento);
-      if (m_pthis)
-         mOffset = ((int)m_pthis) - ((int)t);
-   }
+   public:
+      DelegateRemapper() : mOffset(0) {}
 
-   void rethis(T * t)
-   {
-      if (m_pthis)
-         m_pthis = (fastdelegate::detail::GenericClass *)(mOffset + (int)t);
-   }
+      void set(T * t, const DelegateMemento & memento)
+      {
+         SetMementoFrom(memento);
+         if (m_pthis)
+            mOffset = ((int)m_pthis) - ((int)t);
+      }
 
-protected:
-   int mOffset;
+      void rethis(T * t)
+      {
+         if (m_pthis)
+            m_pthis = (fastdelegate::detail::GenericClass *)(mOffset + (int)t);
+      }
+
+   protected:
+      int mOffset;
+   };
 };
-
 #endif

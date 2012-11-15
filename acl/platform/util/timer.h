@@ -9,19 +9,21 @@
 
 #include "core/types.h"
 
-namespace Platform2
-{   
-   class Timer
-   {
-   public:
-      Timer();
-      ~Timer();
-      U32 getElapsedMs();
-      void reset();
+namespace ACLib
+{
+   namespace Platform
+   {   
+      class Timer
+      {
+      public:
+         Timer();
+         ~Timer();
+         U32 getElapsedMs();
+         void reset();
 
-   private:
-      U32 mStartTime;
-   };
+      private:
+         U32 mStartTime;
+      };
+   }
 }
-
 #endif

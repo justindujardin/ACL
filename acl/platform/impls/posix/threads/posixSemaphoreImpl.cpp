@@ -7,51 +7,54 @@
 #include "platform/impls/posix/threads/posixSemaphoreImpl.h"
 #include <errno.h>
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      PosixSemaphoreImpl::PosixSemaphoreImpl() : mMaxCount(S32_MAX)
+      namespace Internal_
       {
-      }
-
-      PosixSemaphoreImpl::~PosixSemaphoreImpl()
-      {
-         sem_destroy(&mSemaphore);
-      }
-
-      bool PosixSemaphoreImpl::init(S32 initialCount, S32 maxCount)
-      {
-         mMaxCount = maxCount;
-         S32 ret = sem_init(&mSemaphore,0,initialCount);
-         return ret == 0;
-      }
-
-      Threading::Status PosixSemaphoreImpl::acquire(bool block)
-      {
-         S32 ret = block ? sem_wait(&mSemaphore) : sem_trywait(&mSemaphore);
-         if(ret == -1 && errno == EAGAIN)
-            return Threading::Status_Busy;
-         else if (ret == 0)
-            return Threading::Status_NoError;
-         return Threading::Status_PlatformError;
-      }
-
-      Threading::Status PosixSemaphoreImpl::release()
-      {
-         S32 count;
-         if(sem_getvalue(&mSemaphore, &count) == -1)
-            return Threading::Status_PlatformError;
-         if(count == mMaxCount)
-            return Threading::Status_Resources;
-
-         S32 ret = sem_post(&mSemaphore);
-         switch(ret)
+         PosixSemaphoreImpl::PosixSemaphoreImpl() : mMaxCount(S32_MAX)
          {
-         case 0:
-            return Threading::Status_NoError;
-         default:
+         }
+
+         PosixSemaphoreImpl::~PosixSemaphoreImpl()
+         {
+            sem_destroy(&mSemaphore);
+         }
+
+         bool PosixSemaphoreImpl::init(S32 initialCount, S32 maxCount)
+         {
+            mMaxCount = maxCount;
+            S32 ret = sem_init(&mSemaphore,0,initialCount);
+            return ret == 0;
+         }
+
+         Threading::Status PosixSemaphoreImpl::acquire(bool block)
+         {
+            S32 ret = block ? sem_wait(&mSemaphore) : sem_trywait(&mSemaphore);
+            if(ret == -1 && errno == EAGAIN)
+               return Threading::Status_Busy;
+            else if (ret == 0)
+               return Threading::Status_NoError;
             return Threading::Status_PlatformError;
+         }
+
+         Threading::Status PosixSemaphoreImpl::release()
+         {
+            S32 count;
+            if(sem_getvalue(&mSemaphore, &count) == -1)
+               return Threading::Status_PlatformError;
+            if(count == mMaxCount)
+               return Threading::Status_Resources;
+
+            S32 ret = sem_post(&mSemaphore);
+            switch(ret)
+            {
+            case 0:
+               return Threading::Status_NoError;
+            default:
+               return Threading::Status_PlatformError;
+            }
          }
       }
    }

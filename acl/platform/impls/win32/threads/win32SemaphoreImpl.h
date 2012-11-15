@@ -10,23 +10,25 @@
 #include <Windows.h>
 #include "platform/impls/base/threads/semaphoreImpl.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class Win32SemaphoreImpl : public SemaphoreImpl
+      namespace Internal_
       {
-      public:
-         Win32SemaphoreImpl();
-         virtual ~Win32SemaphoreImpl();
-         virtual bool init(S32 initialCount, S32 maxCount);
-         virtual Threading::Status acquire(bool block);
-         virtual Threading::Status release();
+         class Win32SemaphoreImpl : public SemaphoreImpl
+         {
+         public:
+            Win32SemaphoreImpl();
+            virtual ~Win32SemaphoreImpl();
+            virtual bool init(S32 initialCount, S32 maxCount);
+            virtual Threading::Status acquire(bool block);
+            virtual Threading::Status release();
 
-      private:
-         HANDLE mSemaphore;
-      };
+         private:
+            HANDLE mSemaphore;
+         };
+      }
    }
 }
-
 #endif

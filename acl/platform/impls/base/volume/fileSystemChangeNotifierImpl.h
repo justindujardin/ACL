@@ -10,22 +10,24 @@
 #include "platform/volume/volume.h"
 #include "core/util/noncopyable.h"
 
-namespace Platform2
+namespace ACLib
 {
-   namespace Internal_
+   namespace Platform
    {
-      class FileSystemChangeNotifierImpl : private Noncopyable
+      namespace Internal_
       {
-      public:
-         virtual ~FileSystemChangeNotifierImpl() {}
-         virtual bool addNotification(const ACLib::Path& dir) = 0;
-         virtual bool removeNotification(const ACLib::Path& dir) = 0;
-         virtual void process() = 0;
+         class FileSystemChangeNotifierImpl : private Noncopyable
+         {
+         public:
+            virtual ~FileSystemChangeNotifierImpl() {}
+            virtual bool addNotification(const Path& dir) = 0;
+            virtual bool removeNotification(const Path& dir) = 0;
+            virtual void process() = 0;
 
-         Delegate<void(const ACLib::Path& dir)> onDirChanged;
-      };
+            Delegate<void(const Path& dir)> onDirChanged;
+         };
+      }
    }
 }
-
 #endif
 

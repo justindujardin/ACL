@@ -6,29 +6,32 @@
 
 #include "core/containers/tVector.h"
 
-bool VectorResize(U32 *aSize, U32 *aCount, void **arrayPtr, U32 newCount, U32 elemSize)
+namespace ACLib
 {
-   if (newCount > 0)
+   bool VectorResize(U32 *aSize, U32 *aCount, void **arrayPtr, U32 newCount, U32 elemSize)
    {
-      U32 blocks = newCount / VectorBlockSize;
-      if (newCount % VectorBlockSize)
-         blocks++;
-      S32 mem_size = blocks * VectorBlockSize * elemSize;
-      *arrayPtr = *arrayPtr ? dRealloc(*arrayPtr,mem_size) :
-         dMalloc(mem_size);
+      if (newCount > 0)
+      {
+         U32 blocks = newCount / VectorBlockSize;
+         if (newCount % VectorBlockSize)
+            blocks++;
+         S32 mem_size = blocks * VectorBlockSize * elemSize;
+         *arrayPtr = *arrayPtr ? dRealloc(*arrayPtr,mem_size) :
+            dMalloc(mem_size);
 
-      *aCount = newCount;
-      *aSize = blocks * VectorBlockSize;
+         *aCount = newCount;
+         *aSize = blocks * VectorBlockSize;
+         return true;
+      }
+
+      if (*arrayPtr) 
+      {
+         dFree(*arrayPtr);
+         *arrayPtr = 0;
+      }
+
+      *aSize = 0;
+      *aCount = 0;
       return true;
    }
-
-   if (*arrayPtr) 
-   {
-      dFree(*arrayPtr);
-      *arrayPtr = 0;
-   }
-
-   *aSize = 0;
-   *aCount = 0;
-   return true;
-}
+};

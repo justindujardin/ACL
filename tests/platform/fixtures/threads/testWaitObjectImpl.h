@@ -9,29 +9,31 @@
 
 #include "platform/impls/base/threads/waitObjectImpl.h"
 
-using namespace Platform2;
-using namespace Platform2::Internal_;
+using namespace ACLib::Platform;
+using namespace ACLib::Platform::Internal_;
 
-namespace TestPlatform
+namespace ACLib
 {
-   class TestWaitObjectImpl : public WaitObjectImpl
+   namespace TestPlatform
    {
-   public:
-      bool timeout;
-      TestWaitObjectImpl(): timeout(false)
+      class TestWaitObjectImpl : public WaitObjectImpl
       {
-      }
-      virtual Threading::Status wait(S32 timeout) 
-      {
-         return timeout ? Threading::Status_WaitTimeout : Threading::Status_WaitSignaled;
-      }
-      virtual void signalOne()
-      {
-      }
-      virtual void signalAll()
-      {
-      }
-   };
+      public:
+         bool timeout;
+         TestWaitObjectImpl(): timeout(false)
+         {
+         }
+         virtual Threading::Status wait(S32 timeout) 
+         {
+            return timeout ? Threading::Status_WaitTimeout : Threading::Status_WaitSignaled;
+         }
+         virtual void signalOne()
+         {
+         }
+         virtual void signalAll()
+         {
+         }
+      };
+   }
 }
-
 #endif

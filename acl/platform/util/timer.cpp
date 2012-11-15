@@ -7,24 +7,27 @@
 #include "platform/util/timer.h"
 #include "platform/platform.h"
 
-namespace Platform2
+namespace ACLib
 {
-   Timer::Timer() : mStartTime(0)
+   namespace Platform
    {
-      reset();
-   }
+      Timer::Timer() : mStartTime(0)
+      {
+         reset();
+      }
 
-   Timer::~Timer()
-   {
-   }
+      Timer::~Timer()
+      {
+      }
 
-   U32 Timer::getElapsedMs()
-   {
-      return GetPlatform()->getRealMilliseconds() - mStartTime;
-   }
+      U32 Timer::getElapsedMs()
+      {
+         return GetPlatform()->getRealMilliseconds() - mStartTime;
+      }
 
-   void Timer::reset()
-   {
-      mStartTime = GetPlatform()->getRealMilliseconds();
+      void Timer::reset()
+      {
+         mStartTime = GetPlatform()->getRealMilliseconds();
+      }
    }
 }
