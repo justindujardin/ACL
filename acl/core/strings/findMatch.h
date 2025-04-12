@@ -11,39 +11,30 @@
 #include "core/containers/tVector.h"
 #endif
 
-namespace ACLib
-{
-   class   FindMatch
-   {
-      char*  expression;
-      U32 maxMatches;
+namespace ACLib {
+class FindMatch {
+  char *expression;
+  U32 maxMatches;
 
-   public:
-      static bool isMatch( const char *exp, const char *string, bool caseSensitive = false );
-      static bool isMatchMultipleExprs( const char *exps, const char *str, bool caseSensitive );
-      Vector<char *> matchList;
+public:
+  static bool isMatch(const char *exp, const char *string,
+                      bool caseSensitive = false);
+  static bool isMatchMultipleExprs(const char *exps, const char *str,
+                                   bool caseSensitive);
+  Vector<char *> matchList;
 
-      FindMatch( U32 _maxMatches = 256 );
-      FindMatch( char *_expression, U32 _maxMatches = 256 );
-      ~FindMatch();
+  FindMatch(U32 _maxMatches = 256);
+  FindMatch(char *_expression, U32 _maxMatches = 256);
+  ~FindMatch();
 
-      bool findMatch(const char *string, bool caseSensitive = false);
-      void setExpression( const char *_expression );
+  bool findMatch(const char *string, bool caseSensitive = false);
+  void setExpression(const char *_expression);
 
-      S32  numMatches() const   
-      {
-         return(matchList.size());                
-      }
+  S32 numMatches() const { return (matchList.size()); }
 
-      bool isFull() const       
-      {
-         return (matchList.size() >= S32(maxMatches)); 
-      }
+  bool isFull() const { return (matchList.size() >= S32(maxMatches)); }
 
-      void clear()              
-      {
-         matchList.clear();                       
-      }
-   };
+  void clear() { matchList.clear(); }
 };
+};     // namespace ACLib
 #endif // _FINDMATCH_H_

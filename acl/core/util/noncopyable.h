@@ -7,17 +7,15 @@
 #ifndef _CORE_NONCOPYABLE_H_
 #define _CORE_NONCOPYABLE_H_
 
-namespace ACLib
-{
-  class Noncopyable
-  {
-  protected:
-     Noncopyable() {}
-     ~Noncopyable() {}
+namespace ACLib {
+class Noncopyable {
+protected:
+  Noncopyable() {}
+  ~Noncopyable() {}
 
-  private:
-     Noncopyable(const Noncopyable&);
-     const Noncopyable& operator=(const Noncopyable&);
-  };
+private:
+  Noncopyable(const Noncopyable &);
+  const Noncopyable &operator=(const Noncopyable &);
 };
+}; // namespace ACLib
 #endif

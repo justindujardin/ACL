@@ -11,40 +11,37 @@
 #include "core/stream/stream.h"
 #endif
 
-namespace ACLib
-{
+namespace ACLib {
 
-   class MemStream : public Stream
-   {
-      typedef Stream Parent;
+class MemStream : public Stream {
+  typedef Stream Parent;
 
-   protected:
-      U32 const cm_bufferSize;
-      void*  m_pBufferBase;
-      bool mOwnsMemory;
+protected:
+  U32 const cm_bufferSize;
+  void *m_pBufferBase;
+  bool mOwnsMemory;
 
-      U32 m_instCaps;
-      U32 m_currentPosition;
+  U32 m_instCaps;
+  U32 m_currentPosition;
 
-   public:
-      MemStream(const U32  in_bufferSize,
-         void*      io_pBuffer = NULL,
-         const bool in_allowRead  = true,
-         const bool in_allowWrite = true);
-      virtual ~MemStream();
+public:
+  MemStream(const U32 in_bufferSize, void *io_pBuffer = NULL,
+            const bool in_allowRead = true, const bool in_allowWrite = true);
+  virtual ~MemStream();
 
-      // Mandatory overrides from Stream
-   protected:
-      bool _read(const U32 in_numBytes,  void* out_pBuffer);
-      bool _write(const U32 in_numBytes, const void* in_pBuffer);
-   public:
-      bool hasCapability(const Capability) const;
-      U32  getPosition() const;
-      bool setPosition(const U32 in_newPosition);
-      void *getBuffer() { return m_pBufferBase; }
-      // Mandatory overrides from Stream
-   public:
-      U32  getStreamSize();
-   };
+  // Mandatory overrides from Stream
+protected:
+  bool _read(const U32 in_numBytes, void *out_pBuffer);
+  bool _write(const U32 in_numBytes, const void *in_pBuffer);
+
+public:
+  bool hasCapability(const Capability) const;
+  U32 getPosition() const;
+  bool setPosition(const U32 in_newPosition);
+  void *getBuffer() { return m_pBufferBase; }
+  // Mandatory overrides from Stream
+public:
+  U32 getStreamSize();
 };
+};     // namespace ACLib
 #endif //_MEMSTREAM_H_

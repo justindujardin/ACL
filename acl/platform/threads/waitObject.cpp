@@ -8,43 +8,27 @@
 #include "platform/impls/base/threads/waitObjectImpl.h"
 #include "platform/platform.h"
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      /// @cond
-      struct WaitObject::Internal
-      {
-         ScopedPtr<Internal_::WaitObjectImpl> impl;
+namespace ACLib {
+namespace Platform {
+/// @cond
+struct WaitObject::Internal {
+  ScopedPtr<Internal_::WaitObjectImpl> impl;
 
-         Internal() :
-         impl(GetPlatform()->getFactory().create<Internal_::WaitObjectImpl>())
-         {
-         }
-      };
-      /// @endcond
+  Internal()
+      : impl(GetPlatform()->getFactory().create<Internal_::WaitObjectImpl>()) {}
+};
+/// @endcond
 
-      WaitObject::WaitObject() : mImpl(new Internal)
-      {
-      }
+WaitObject::WaitObject() : mImpl(new Internal) {}
 
-      WaitObject::~WaitObject()
-      {
-      }
+WaitObject::~WaitObject() {}
 
-      Threading::Status WaitObject::wait(S32 timeout)
-      {
-         return mImpl->impl->wait(timeout);
-      }
-     
-      void WaitObject::signalAll()
-      {
-         mImpl->impl->signalAll();
-      }
-     
-      void WaitObject::signalOne()
-      {
-         mImpl->impl->signalOne();
-      }    
-   }
+Threading::Status WaitObject::wait(S32 timeout) {
+  return mImpl->impl->wait(timeout);
 }
+
+void WaitObject::signalAll() { mImpl->impl->signalAll(); }
+
+void WaitObject::signalOne() { mImpl->impl->signalOne(); }
+} // namespace Platform
+} // namespace ACLib

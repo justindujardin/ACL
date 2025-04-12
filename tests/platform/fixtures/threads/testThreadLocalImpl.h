@@ -12,29 +12,18 @@
 using namespace ACLib::Platform;
 using namespace ACLib::Platform::Internal_;
 
-namespace ACLib
-{
-   namespace TestPlatform
-   {
-      class TestThreadLocalImpl : public ThreadLocalImpl
-      {
-      public:
-         void* data;
+namespace ACLib {
+namespace TestPlatform {
+class TestThreadLocalImpl : public ThreadLocalImpl {
+public:
+  void *data;
 
-         TestThreadLocalImpl() : data(0)
-         {
-         }
+  TestThreadLocalImpl() : data(0) {}
 
-         virtual void* get()
-         {
-            return data;
-         }
+  virtual void *get() { return data; }
 
-         virtual void set(void* value)
-         {
-            data = value;
-         }
-      };
-   }
-}
+  virtual void set(void *value) { data = value; }
+};
+} // namespace TestPlatform
+} // namespace ACLib
 #endif

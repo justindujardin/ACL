@@ -12,47 +12,26 @@
 using namespace ACLib::Platform;
 using namespace ACLib::Platform::Internal_;
 
-namespace ACLib
-{
-   namespace TestPlatform
-   {
-      class TestFileImpl : public FileImpl
-      {
-      public:
+namespace ACLib {
+namespace TestPlatform {
+class TestFileImpl : public FileImpl {
+public:
+  virtual void updateStatus() {}
 
-         virtual void updateStatus()
-         {
-         }
+  virtual U32 getPosition() { return 0; }
 
-         virtual U32 getPosition()
-         {
-            return 0;
-         }
+  virtual U32 setPosition(U32 pos, FS::File::SeekMode mode) { return 0; }
 
-         virtual U32 setPosition(U32 pos, FS::File::SeekMode mode)
-         {
-            return 0;
-         }
+  virtual bool open(const Path &path, FS::File::AccessMode mode) {
+    return false;
+  }
 
-         virtual bool open(const Path& path, FS::File::AccessMode mode)
-         {
-            return false;
-         }
+  virtual void close() {}
 
-         virtual void close()
-         {
-         }
+  virtual U32 read(void *dst, U32 size) { return 0; }
 
-         virtual U32 read(void* dst, U32 size)
-         {
-            return 0;
-         }
-
-         virtual U32 write(const void* src, U32 size)
-         {
-            return 0;
-         }
-      };
-   }
-}
+  virtual U32 write(const void *src, U32 size) { return 0; }
+};
+} // namespace TestPlatform
+} // namespace ACLib
 #endif

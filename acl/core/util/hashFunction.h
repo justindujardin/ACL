@@ -11,12 +11,11 @@
 #include "core/types.h"
 #endif
 
-namespace ACLib
-{
+namespace ACLib {
 
-   extern U32 hashPointer(register const U8 *k, register U32 length, register U32 initval);
-   extern U64 hashPointer64(register const U8 *k, register U32 length, register U64 initval);
+extern U32 hashPointer(const U8 *k, U32 length, U32 initval);
+extern U64 hashPointer64(const U8 *k, U32 length, U64 initval);
 
-}
+} // namespace ACLib
 
 #endif // _HASHFUNCTION_H_

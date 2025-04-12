@@ -6,41 +6,30 @@
 
 #include <dlfcn.h>
 
-#include "platform/impls/posix/dlibrary/posixDLibraryImpl.h"
-#include "core/types.h"
 #include "core/strings/str.h"
+#include "core/types.h"
+#include "platform/impls/posix/dlibrary/posixDLibraryImpl.h"
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      namespace Internal_
-      {
-         PosixDLibraryImpl::PosixDLibraryImpl() :
-      mHandle(NULL)
-      {
-      }
+namespace ACLib {
+namespace Platform {
+namespace Internal_ {
+PosixDLibraryImpl::PosixDLibraryImpl() : mHandle(NULL) {}
 
-      PosixDLibraryImpl::~PosixDLibraryImpl()
-      {
-      }
+PosixDLibraryImpl::~PosixDLibraryImpl() {}
 
-      bool PosixDLibraryImpl::init(const String& file)
-      {
-         mHandle = dlopen(file.c_str(), RTLD_LAZY | RTLD_LOCAL);
-         return mHandle != NULL;
-      }
-
-      void* PosixDLibraryImpl::bind(const String& name)
-      {
-         return mHandle ? dlsym(mHandle, name.c_str()) : NULL;
-      }
-
-      void PosixDLibraryImpl::close()
-      {
-         dlclose(mHandle);
-         mHandle = NULL;
-      }
-      }
-   }
+bool PosixDLibraryImpl::init(const String &file) {
+  mHandle = dlopen(file.c_str(), RTLD_LAZY | RTLD_LOCAL);
+  return mHandle != NULL;
 }
+
+void *PosixDLibraryImpl::bind(const String &name) {
+  return mHandle ? dlsym(mHandle, name.c_str()) : NULL;
+}
+
+void PosixDLibraryImpl::close() {
+  dlclose(mHandle);
+  mHandle = NULL;
+}
+} // namespace Internal_
+} // namespace Platform
+} // namespace ACLib

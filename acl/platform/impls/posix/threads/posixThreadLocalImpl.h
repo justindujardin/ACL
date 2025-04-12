@@ -10,24 +10,20 @@
 #include "platform/impls/base/threads/threadLocalImpl.h"
 #include <pthread.h>
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      namespace Internal_
-      {
-         class PosixThreadLocalImpl : public ThreadLocalImpl
-         {
-         public:      
-            PosixThreadLocalImpl();
-            virtual ~PosixThreadLocalImpl();
-            virtual void* get();
-            virtual void set(void* value);
+namespace ACLib {
+namespace Platform {
+namespace Internal_ {
+class PosixThreadLocalImpl : public ThreadLocalImpl {
+public:
+  PosixThreadLocalImpl();
+  virtual ~PosixThreadLocalImpl();
+  virtual void *get();
+  virtual void set(void *value);
 
-         private:
-            pthread_key_t mKey;
-         };
-      }
-   }
-}
+private:
+  pthread_key_t mKey;
+};
+} // namespace Internal_
+} // namespace Platform
+} // namespace ACLib
 #endif

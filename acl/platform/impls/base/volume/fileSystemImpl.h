@@ -7,27 +7,24 @@
 #ifndef ACL_PLATFORM_FILESYSTEMIMPL_H_
 #define ACL_PLATFORM_FILESYSTEMIMPL_H_
 
+#include "core/util/noncopyable.h"
 #include "core/util/refBase.h"
 #include "platform/volume/volume.h"
-#include "core/util/noncopyable.h"
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      namespace Internal_
-      {
-         class FileSystemImpl : public StrongRefBase, private Noncopyable
-         {
-         public:
-            virtual ~FileSystemImpl() {}
-            virtual bool getAttributesForPath(FS::FileNode::Attributes& attributes, const Path& path) = 0;
-            virtual bool createDirectory(const Path& path) = 0;
-            virtual bool removeDirectory(const Path& path) = 0;
-            virtual bool removeFile(const Path& path) = 0;
-            virtual bool move(const Path& from, const Path& to) = 0;
-         };
-      }
-   }
-}
+namespace ACLib {
+namespace Platform {
+namespace Internal_ {
+class FileSystemImpl : public StrongRefBase, private Noncopyable {
+public:
+  virtual ~FileSystemImpl() {}
+  virtual bool getAttributesForPath(FS::FileNode::Attributes &attributes,
+                                    const Path &path) = 0;
+  virtual bool createDirectory(const Path &path) = 0;
+  virtual bool removeDirectory(const Path &path) = 0;
+  virtual bool removeFile(const Path &path) = 0;
+  virtual bool move(const Path &from, const Path &to) = 0;
+};
+} // namespace Internal_
+} // namespace Platform
+} // namespace ACLib
 #endif

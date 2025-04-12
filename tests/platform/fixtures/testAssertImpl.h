@@ -9,19 +9,18 @@
 
 #include "core/assertImpl.h"
 
-namespace ACLib
-{
-  class TestAssertImpl : public AssertImpl
-  {
-  public:
-     static bool FailOnAssert;
+namespace ACLib {
+class TestAssertImpl : public AssertImpl {
+public:
+  static bool FailOnAssert;
 
-     U32 assertCt;
+  U32 assertCt;
 
-     TestAssertImpl();
-     bool shouldDebugBreak(Assert::Type type, const String& message);
-     bool notifyUser(Assert::Type type, const String& title, const String& message);
-     bool checkAndReset(U32 expected);
-  };
-}
+  TestAssertImpl();
+  bool shouldDebugBreak(Assert::Type type, const String &message);
+  bool notifyUser(Assert::Type type, const String &title,
+                  const String &message);
+  bool checkAndReset(U32 expected);
+};
+} // namespace ACLib
 #endif

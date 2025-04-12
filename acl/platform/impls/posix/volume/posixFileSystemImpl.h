@@ -9,22 +9,19 @@
 
 #include "platform/impls/base/volume/fileSystemImpl.h"
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      namespace Internal_
-      {
-         class PosixFileSystemImpl : public FileSystemImpl
-         {
-         public:   
-            virtual bool getAttributesForPath(FS::FileNode::Attributes& attributes, const Path& path);
-            virtual bool createDirectory(const Path& path);
-            virtual bool removeDirectory(const Path& path);
-            virtual bool removeFile(const Path& path);
-            virtual bool move(const Path& from, const Path& to);
-         };
-      }
-   }
-}
+namespace ACLib {
+namespace Platform {
+namespace Internal_ {
+class PosixFileSystemImpl : public FileSystemImpl {
+public:
+  virtual bool getAttributesForPath(FS::FileNode::Attributes &attributes,
+                                    const Path &path);
+  virtual bool createDirectory(const Path &path);
+  virtual bool removeDirectory(const Path &path);
+  virtual bool removeFile(const Path &path);
+  virtual bool move(const Path &from, const Path &to);
+};
+} // namespace Internal_
+} // namespace Platform
+} // namespace ACLib
 #endif

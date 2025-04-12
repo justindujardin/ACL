@@ -12,32 +12,21 @@
 using namespace ACLib::Platform;
 using namespace ACLib::Platform::Internal_;
 
-namespace ACLib
-{
-   namespace TestPlatform
-   {
-      class TestDirectoryImpl : public DirectoryImpl
-      {
-      public:
-         virtual void updateStatus()
-         {
-         }
+namespace ACLib {
+namespace TestPlatform {
+class TestDirectoryImpl : public DirectoryImpl {
+public:
+  virtual void updateStatus() {}
 
-         virtual bool open(const Path& path)
-         {
-            return false;
-         }
+  virtual bool open(const Path &path) { return false; }
 
-         virtual void close()
-         {
-         }
+  virtual void close() {}
 
-         virtual bool read(const Path& path, FS::FileNode::Attributes& attributes)
-         {
-            return false;
-         }
-      };
-   }
-}
+  virtual bool read(const Path &path, FS::FileNode::Attributes &attributes) {
+    return false;
+  }
+};
+} // namespace TestPlatform
+} // namespace ACLib
 
 #endif

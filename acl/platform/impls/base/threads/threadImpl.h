@@ -7,121 +7,108 @@
 #ifndef ACL_PLATFORM_THREADIMPL_H_
 #define ACL_PLATFORM_THREADIMPL_H_
 
+#include "core/util/noncopyable.h"
 #include "platform/platform.h"
+#include "platform/threads/semaphore.h"
 #include "platform/threads/thread.h"
 #include "platform/threads/threadLocal.h"
-#include "platform/threads/semaphore.h"
-#include "core/util/noncopyable.h"
 
 /// @ingroup p2thread
 /// @defgroup p2threadimpl Implementation Details
-/// @brief The following are internal classes which you should subclass to implement
-/// threading on your platform.
+/// @brief The following are internal classes which you should subclass to
+/// implement threading on your platform.
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      namespace Internal_
-      {
-         /// @ingroup p2threadimpl
-         /// Base class for your Platform's Thread implementation.
-         /// This base class is the most complex base class in Platform.  Ironically
-         /// this complexity is geared to reduce the complexity of your implementation.
-         /// While you are encouraged to read the rest of the documentation, the important
-         /// thing to remember is that you only need to implement the start() method.
-         class ThreadImpl : private Noncopyable
-         {
-            friend class Platform::Thread;
-         protected:
-            struct Param;
-         public:
-            virtual ~ThreadImpl() {}
+namespace ACLib {
+namespace Platform {
+namespace Internal_ {
+/// @ingroup p2threadimpl
+/// Base class for your Platform's Thread implementation.
+/// This base class is the most complex base class in Platform.  Ironically
+/// this complexity is geared to reduce the complexity of your implementation.
+/// While you are encouraged to read the rest of the documentation, the
+/// important thing to remember is that you only need to implement the start()
+/// method.
+class ThreadImpl : private Noncopyable {
+  friend class Platform::Thread;
 
-            /// @brief This will be called when the platform layer when a request to
-            /// begin a thread is submitted.
-            /// @details You should pass p to CommonThreadEntry on the new platform
-            /// thread which is started.
-            /// @returns Threading::Status_NoError if the new thread was successfully started.
-            /// @returns Threading::Status_Resources if the thread could not be created
-            /// due to a lack of resources or too many active threads.
-            /// @returns Threading::Status_PlatformError if the thread could not be created
-            /// for any other reason.
-            virtual Threading::Status start(Param* p) = 0;
+protected:
+  struct Param;
 
-            /// Call this with the Param given to you in start() as soon as you've
-            /// spawned a new thread.
-            static void CommonThreadEntry(void* pv)
-            {
-               Param* p = static_cast<Param*>(pv);
-               // Work around unittest case, where we will be called on the main thread.
-               if(GetCurrentThread() != GetMainThread())
-                  GetCurrentThreadLocal_().set(p->thread);
-               S32 ret = p->d(p->messageQueue);
-               p->impl->setReturnCode(ret);
-               p->impl->gateway.release();
-               delete p;
-            }
+public:
+  virtual ~ThreadImpl() {}
 
-            /// This is public to support setting the new thread 
-            static void RegisterCurrentThreadAsMain()
-            {
-               GetCurrentThreadLocal_().set(static_cast<void*>(GetMainThread()));
-            }
+  /// @brief This will be called when the platform layer when a request to
+  /// begin a thread is submitted.
+  /// @details You should pass p to CommonThreadEntry on the new platform
+  /// thread which is started.
+  /// @returns Threading::Status_NoError if the new thread was successfully
+  /// started.
+  /// @returns Threading::Status_Resources if the thread could not be created
+  /// due to a lack of resources or too many active threads.
+  /// @returns Threading::Status_PlatformError if the thread could not be
+  /// created for any other reason.
+  virtual Threading::Status start(Param *p) = 0;
 
-         protected:
-            struct Param
-            {
-               Thread::StartDelegate& d;
-               Thread::MessageQueue& messageQueue;
-               ThreadImpl* impl;
-               Thread* thread;
+  /// Call this with the Param given to you in start() as soon as you've
+  /// spawned a new thread.
+  static void CommonThreadEntry(void *pv) {
+    Param *p = static_cast<Param *>(pv);
+    // Work around unittest case, where we will be called on the main thread.
+    if (GetCurrentThread() != GetMainThread())
+      GetCurrentThreadLocal_().set(p->thread);
+    S32 ret = p->d(p->messageQueue);
+    p->impl->setReturnCode(ret);
+    p->impl->gateway.release();
+    delete p;
+  }
 
-               Param(Thread::StartDelegate& d_, Thread::MessageQueue& m, ThreadImpl* i,
-                  Thread* t) : d(d_), messageQueue(m), impl(i), thread(t)
-               {
-               }
-            };
+  /// This is public to support setting the new thread
+  static void RegisterCurrentThreadAsMain() {
+    GetCurrentThreadLocal_().set(static_cast<void *>(GetMainThread()));
+  }
 
-            ThreadImpl() : gateway(1, 1) {}
+protected:
+  struct Param {
+    Thread::StartDelegate &d;
+    Thread::MessageQueue &messageQueue;
+    ThreadImpl *impl;
+    Thread *thread;
 
-         private:
-            S32 getReturnCode() const
-            {
-               return mReturnCode;
-            }
+    Param(Thread::StartDelegate &d_, Thread::MessageQueue &m, ThreadImpl *i,
+          Thread *t)
+        : d(d_), messageQueue(m), impl(i), thread(t) {}
+  };
 
-            void setReturnCode(S32 ret)
-            {
-               mReturnCode = ret;
-            }
+  ThreadImpl() : gateway(1, 1) {}
 
-            static ThreadLocal& GetCurrentThreadLocal_()
-            {
-               static ThreadLocal smCurrentThread;
-               return smCurrentThread;
-            }
+private:
+  S32 getReturnCode() const { return mReturnCode; }
 
-            static Thread* GetCurrentThread()
-            {
-               // Works around some static-init issues.  Uncertain if this is still
-               // necessary.
-               if(!GetPlatform())
-                  return GetMainThread();
-               return static_cast<Thread*>(GetCurrentThreadLocal_().get());
-            }
+  void setReturnCode(S32 ret) { mReturnCode = ret; }
 
-            static Thread* GetMainThread()
-            {
-               static Thread::StartDelegate d;
-               static Thread mainThread(d);
-               return &mainThread;
-            }
+  static ThreadLocal &GetCurrentThreadLocal_() {
+    static ThreadLocal smCurrentThread;
+    return smCurrentThread;
+  }
 
-            Semaphore gateway;
-            S32 mReturnCode;
-         };
-      }
-   }
-}
+  static Thread *GetCurrentThread() {
+    // Works around some static-init issues.  Uncertain if this is still
+    // necessary.
+    if (!GetPlatform())
+      return GetMainThread();
+    return static_cast<Thread *>(GetCurrentThreadLocal_().get());
+  }
+
+  static Thread *GetMainThread() {
+    static Thread::StartDelegate d;
+    static Thread mainThread(d);
+    return &mainThread;
+  }
+
+  Semaphore gateway;
+  S32 mReturnCode;
+};
+} // namespace Internal_
+} // namespace Platform
+} // namespace ACLib
 #endif

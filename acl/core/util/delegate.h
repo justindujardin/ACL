@@ -12,38 +12,33 @@
 /// Define a Delegate
 ///
 /// This macro allows translation of Delegate definitions into a target
-/// delegate implementation.  
+/// delegate implementation.
 ///
 /// By default ACLib uses a @see FastDelegate implementation
-/// 
+///
 
-namespace ACLib
-{
+namespace ACLib {
 
-   #define Delegate fastdelegate::FastDelegate
-   typedef fastdelegate::DelegateMemento DelegateMemento;
+#define Delegate fastdelegate::FastDelegate
+typedef fastdelegate::DelegateMemento DelegateMemento;
 
-   template<class T>
-   class DelegateRemapper : public DelegateMemento
-   {
-   public:
-      DelegateRemapper() : mOffset(0) {}
+template <class T> class DelegateRemapper : public DelegateMemento {
+public:
+  DelegateRemapper() : mOffset(0) {}
 
-      void set(T * t, const DelegateMemento & memento)
-      {
-         SetMementoFrom(memento);
-         if (m_pthis)
-            mOffset = ((int)m_pthis) - ((int)t);
-      }
+  void set(T *t, const DelegateMemento &memento) {
+    SetMementoFrom(memento);
+    if (m_pthis)
+      mOffset = ((int)m_pthis) - ((int)t);
+  }
 
-      void rethis(T * t)
-      {
-         if (m_pthis)
-            m_pthis = (fastdelegate::detail::GenericClass *)(mOffset + (int)t);
-      }
+  void rethis(T *t) {
+    if (m_pthis)
+      m_pthis = (fastdelegate::detail::GenericClass *)(mOffset + (int)t);
+  }
 
-   protected:
-      int mOffset;
-   };
+protected:
+  int mOffset;
 };
+}; // namespace ACLib
 #endif

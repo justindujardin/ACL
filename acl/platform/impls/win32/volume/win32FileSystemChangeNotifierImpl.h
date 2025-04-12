@@ -7,27 +7,23 @@
 #ifndef ACL_PLATFORM_WIN32_FILESYSTEMCHANGENOTIFIERIMPL_H_
 #define ACL_PLATFORM_WIN32_FILESYSTEMCHANGENOTIFIERIMPL_H_
 
-#include "platform/impls/base/volume/fileSystemChangeNotifierImpl.h"
 #include "core/containers/tVector.h"
+#include "platform/impls/base/volume/fileSystemChangeNotifierImpl.h"
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      namespace Internal_
-      {
-         class Win32FileSystemChangeNotifierImpl : public FileSystemChangeNotifierImpl
-         {
-         public:
-            virtual bool addNotification(const ACLib::Path& dir);
-            virtual bool removeNotification(const ACLib::Path& dir);
-            virtual void process();
+namespace ACLib {
+namespace Platform {
+namespace Internal_ {
+class Win32FileSystemChangeNotifierImpl : public FileSystemChangeNotifierImpl {
+public:
+  virtual bool addNotification(const ACLib::Path &dir);
+  virtual bool removeNotification(const ACLib::Path &dir);
+  virtual void process();
 
-         private:
-            Vector<ACLib::Path> mPaths;
-            Vector<HANDLE> mHandles;
-         };
-      }
-   }
-}
+private:
+  Vector<ACLib::Path> mPaths;
+  Vector<HANDLE> mHandles;
+};
+} // namespace Internal_
+} // namespace Platform
+} // namespace ACLib
 #endif
