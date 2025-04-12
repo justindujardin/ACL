@@ -9,26 +9,23 @@
 
 #include "platform/impls/base/threads/threadImpl.h"
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      namespace Internal_
-      {
-         class MacThreadImpl : public ThreadImpl
-         {
-         public:
-            static const U32 cStackSize = 512 * 1024;
-            static const U32 cMagic = 0xdecafbad;
+namespace ACLib {
+namespace Platform {
+namespace Internal_ {
+class MacThreadImpl : public ThreadImpl {
+public:
+  static const U32 cStackSize = 512 * 1024;
+  static const U32 cMagic = 0xdecafbad;
 
-            MacThreadImpl();
-            virtual ~MacThreadImpl();
-            virtual Threading::Status start(Param* p);
-         private:
-            MPTaskID mTask;
-            MPQueueID mQueue;
-         };
-      }
-   }
-}
+  MacThreadImpl();
+  virtual ~MacThreadImpl();
+  virtual Threading::Status start(Param *p);
+
+private:
+  MPTaskID mTask;
+  MPQueueID mQueue;
+};
+} // namespace Internal_
+} // namespace Platform
+} // namespace ACLib
 #endif

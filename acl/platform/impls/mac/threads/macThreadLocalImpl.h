@@ -9,24 +9,20 @@
 
 #include "platform/impls/base/threads/threadLocalImpl.h"
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      namespace Internal_
-      {
-         class MacThreadLocalImpl : public ThreadLocalImpl
-         {
-         public:      
-            MacThreadLocalImpl();
-            virtual ~MacThreadLocalImpl();
-            virtual void* get();
-            virtual void set(void* value);
+namespace ACLib {
+namespace Platform {
+namespace Internal_ {
+class MacThreadLocalImpl : public ThreadLocalImpl {
+public:
+  MacThreadLocalImpl();
+  virtual ~MacThreadLocalImpl();
+  virtual void *get();
+  virtual void set(void *value);
 
-         private:
-            TaskStorageIndex mTaskIndex;
-         };
-      }
-   }
-}
+private:
+  TaskStorageIndex mTaskIndex;
+};
+} // namespace Internal_
+} // namespace Platform
+} // namespace ACLib
 #endif

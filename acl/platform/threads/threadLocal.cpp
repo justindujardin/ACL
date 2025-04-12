@@ -8,38 +8,24 @@
 #include "platform/impls/base/threads/threadLocalImpl.h"
 #include "platform/platform.h"
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      /// @cond
-      struct ThreadLocal::Internal
-      {
-         ScopedPtr<Internal_::ThreadLocalImpl> impl;
+namespace ACLib {
+namespace Platform {
+/// @cond
+struct ThreadLocal::Internal {
+  ScopedPtr<Internal_::ThreadLocalImpl> impl;
 
-         Internal() :
-         impl(GetPlatform()->getFactory().create<Internal_::ThreadLocalImpl>())
-         {
-         }
-      };
-      /// @endcond
+  Internal()
+      : impl(GetPlatform()->getFactory().create<Internal_::ThreadLocalImpl>()) {
+  }
+};
+/// @endcond
 
-      ThreadLocal::ThreadLocal() : mImpl(new Internal)
-      {
-      }
+ThreadLocal::ThreadLocal() : mImpl(new Internal) {}
 
-      ThreadLocal::~ThreadLocal()
-      {
-      }
+ThreadLocal::~ThreadLocal() {}
 
-      void* ThreadLocal::get()
-      {
-         return mImpl->impl->get();
-      }
+void *ThreadLocal::get() { return mImpl->impl->get(); }
 
-      void ThreadLocal::set(void* value)
-      {
-         mImpl->impl->set(value);
-      }
-   }
-}
+void ThreadLocal::set(void *value) { mImpl->impl->set(value); }
+} // namespace Platform
+} // namespace ACLib

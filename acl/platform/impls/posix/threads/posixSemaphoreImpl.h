@@ -7,30 +7,26 @@
 #ifndef ACL_PLATFORM_POSIX_SEMAPHOREIMPL_H_
 #define ACL_PLATFORM_POSIX_SEMAPHOREIMPL_H_
 
-#include <semaphore.h>
 #include "platform/impls/base/threads/semaphoreImpl.h"
+#include <semaphore.h>
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      namespace Internal_
-      {
-         class PosixSemaphoreImpl : public SemaphoreImpl
-         {
-         public:
-            PosixSemaphoreImpl();
-            virtual ~PosixSemaphoreImpl();
-            virtual bool init(S32 initialCount, S32 maxCount);
-            virtual Threading::Status acquire(bool block);
-            virtual Threading::Status release();
+namespace ACLib {
+namespace Platform {
+namespace Internal_ {
+class PosixSemaphoreImpl : public SemaphoreImpl {
+public:
+  PosixSemaphoreImpl();
+  virtual ~PosixSemaphoreImpl();
+  virtual bool init(S32 initialCount, S32 maxCount);
+  virtual Threading::Status acquire(bool block);
+  virtual Threading::Status release();
 
-         private:
-            sem_t mSemaphore;
-            S32 mMaxCount;
-         };
-      }
-   }
-}
+private:
+  sem_t mSemaphore;
+  S32 mMaxCount;
+};
+} // namespace Internal_
+} // namespace Platform
+} // namespace ACLib
 
 #endif

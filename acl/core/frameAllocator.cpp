@@ -6,20 +6,18 @@
 
 #include "core/frameAllocator.h"
 
-namespace ACLib
-{
-  U8*   FrameAllocator::smBuffer = NULL;
-  U32   FrameAllocator::smWaterMark = 0;
-  U32   FrameAllocator::smHighWaterMark = 0;
+namespace ACLib {
+U8 *FrameAllocator::smBuffer = NULL;
+U32 FrameAllocator::smWaterMark = 0;
+U32 FrameAllocator::smHighWaterMark = 0;
 
-  #ifdef ACL_DEBUG
-  U32   FrameAllocator::smMaxFrameAllocation = 0;
-  #endif
+#ifdef ACL_DEBUG
+U32 FrameAllocator::smMaxFrameAllocation = 0;
+#endif
 
-  struct _FrameAllocatorInit
-  {
-     _FrameAllocatorInit() { FrameAllocator::init(ACL_FRAME_SIZE); };
-     ~_FrameAllocatorInit() { FrameAllocator::destroy(); };
-  };
-  static _FrameAllocatorInit sgFrameAlloc;
+struct _FrameAllocatorInit {
+  _FrameAllocatorInit() { FrameAllocator::init(ACL_FRAME_SIZE); };
+  ~_FrameAllocatorInit() { FrameAllocator::destroy(); };
 };
+static _FrameAllocatorInit sgFrameAlloc;
+}; // namespace ACLib

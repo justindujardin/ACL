@@ -7,29 +7,25 @@
 #ifndef ACL_PLATFORM_POSIX_MUTEXIMPL_H_
 #define ACL_PLATFORM_POSIX_MUTEXIMPL_H_
 
-#include "platform/impls/base/threads/mutexImpl.h"
 #include "core/types.h"
+#include "platform/impls/base/threads/mutexImpl.h"
 #include <pthread.h>
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      namespace Internal_
-      {
-         class PosixMutexImpl : public MutexImpl
-         {
-         public:      
-            PosixMutexImpl();
-            virtual ~PosixMutexImpl();
-            virtual bool init();
-            virtual Threading::Status lock(bool block);
-            virtual Threading::Status unlock();
+namespace ACLib {
+namespace Platform {
+namespace Internal_ {
+class PosixMutexImpl : public MutexImpl {
+public:
+  PosixMutexImpl();
+  virtual ~PosixMutexImpl();
+  virtual bool init();
+  virtual Threading::Status lock(bool block);
+  virtual Threading::Status unlock();
 
-         private:
-            pthread_mutex_t mMutex;
-         };
-      }
-   }
-}
+private:
+  pthread_mutex_t mMutex;
+};
+} // namespace Internal_
+} // namespace Platform
+} // namespace ACLib
 #endif

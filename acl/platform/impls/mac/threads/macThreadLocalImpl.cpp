@@ -8,32 +8,23 @@
 
 #include "platform/impls/mac/threads/macThreadLocalImpl.h"
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      namespace Internal_
-      {
-         MacThreadLocalImpl::MacThreadLocalImpl() : mTaskIndex(0)
-         {
-            MPAllocateTaskStorageIndex(&mTaskIndex);
-         }
-
-         MacThreadLocalImpl::~MacThreadLocalImpl()
-         {
-            if(mTaskIndex)
-               MPDeallocateTaskStorageIndex(mTaskIndex);
-         }
-
-         void* MacThreadLocalImpl::get()
-         {
-            return MPGetTaskStorageValue(mTaskIndex);
-         }
-
-         void MacThreadLocalImpl::set(void* value)
-         {
-            MPSetTaskStorageValue(mTaskIndex, value);
-         }
-      }
-   }
+namespace ACLib {
+namespace Platform {
+namespace Internal_ {
+MacThreadLocalImpl::MacThreadLocalImpl() : mTaskIndex(0) {
+  MPAllocateTaskStorageIndex(&mTaskIndex);
 }
+
+MacThreadLocalImpl::~MacThreadLocalImpl() {
+  if (mTaskIndex)
+    MPDeallocateTaskStorageIndex(mTaskIndex);
+}
+
+void *MacThreadLocalImpl::get() { return MPGetTaskStorageValue(mTaskIndex); }
+
+void MacThreadLocalImpl::set(void *value) {
+  MPSetTaskStorageValue(mTaskIndex, value);
+}
+} // namespace Internal_
+} // namespace Platform
+} // namespace ACLib

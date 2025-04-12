@@ -9,20 +9,16 @@
 
 #include "core/types.h"
 
-namespace ACLib
-{
-  namespace Platform
-  {
-     template<typename T>
-     class Promise
-     {
-     public:
-        virtual bool isReady() const = 0;
-        virtual T* resolve() = 0;
+namespace ACLib {
+namespace Platform {
+template <typename T> class Promise {
+public:
+  virtual bool isReady() const = 0;
+  virtual T *resolve() = 0;
 
-     protected:
-        virtual T* get() = 0;
-     };
-  }
-}
+protected:
+  virtual T *get() = 0;
+};
+} // namespace Platform
+} // namespace ACLib
 #endif

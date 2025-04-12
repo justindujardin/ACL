@@ -12,10 +12,9 @@ typedef unsigned long long U64;
 
 typedef unsigned int dsize_t;
 
-struct FileTime
-{
-   U32 v1;
-   U32 v2;
+struct FileTime {
+  U32 v1;
+  U32 v2;
 };
 
 #define ACL_OS_STRING "Lint"
@@ -39,8 +38,7 @@ struct FileTime
 #define OffsetNonConst(x, cls) _Offset_Normal(x, cls)
 #endif
 
-void lint_debugbreak() {
-}
+void lint_debugbreak() {}
 
 #define ACL_PRETTY_FUNCTION ""
 #define ACL_DEBUG_BREAK lint_debugbreak();

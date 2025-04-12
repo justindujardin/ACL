@@ -10,25 +10,21 @@
 #include "platform/impls/base/volume/directoryImpl.h"
 #include <dirent.h>
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      namespace Internal_
-      {
-         class PosixDirectoryImpl : public DirectoryImpl
-         {
-         public:   
-            PosixDirectoryImpl();
-            virtual void updateStatus();
-            virtual bool open(const Path& path);
-            virtual void close();
-            virtual bool read(const Path& path, FS::FileNode::Attributes& attributes);
+namespace ACLib {
+namespace Platform {
+namespace Internal_ {
+class PosixDirectoryImpl : public DirectoryImpl {
+public:
+  PosixDirectoryImpl();
+  virtual void updateStatus();
+  virtual bool open(const Path &path);
+  virtual void close();
+  virtual bool read(const Path &path, FS::FileNode::Attributes &attributes);
 
-         private:
-            DIR* mHandle;
-         };
-      }
-   }
-}
+private:
+  DIR *mHandle;
+};
+} // namespace Internal_
+} // namespace Platform
+} // namespace ACLib
 #endif

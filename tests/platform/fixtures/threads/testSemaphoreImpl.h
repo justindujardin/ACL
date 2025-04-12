@@ -12,53 +12,46 @@
 using namespace ACLib::Platform;
 using namespace ACLib::Platform::Internal_;
 
-namespace ACLib
-{
-   namespace TestPlatform
-   {
-      class TestSemaphoreImpl : public SemaphoreImpl
-      {
-      public:
-         U32 initCt;
-         U32 acquireCt;
-         U32 releaseCt;
+namespace ACLib {
+namespace TestPlatform {
+class TestSemaphoreImpl : public SemaphoreImpl {
+public:
+  U32 initCt;
+  U32 acquireCt;
+  U32 releaseCt;
 
-         S32 initialCount;
-         S32 maxCount;
+  S32 initialCount;
+  S32 maxCount;
 
-         bool initSuccess;
-         Threading::Status acquireSuccess;
-         Threading::Status releaseSuccess;
+  bool initSuccess;
+  Threading::Status acquireSuccess;
+  Threading::Status releaseSuccess;
 
-         TestSemaphoreImpl(bool semaphoreValid)
-         {
-            maxCount = initialCount = 0;
-            initCt = acquireCt = releaseCt = 0;
-            acquireSuccess = Threading::Status_PlatformError;
-            releaseSuccess = Threading::Status_NoError;
-            initSuccess = semaphoreValid;
-         }
+  TestSemaphoreImpl(bool semaphoreValid) {
+    maxCount = initialCount = 0;
+    initCt = acquireCt = releaseCt = 0;
+    acquireSuccess = Threading::Status_PlatformError;
+    releaseSuccess = Threading::Status_NoError;
+    initSuccess = semaphoreValid;
+  }
 
-         virtual bool init(S32 _initCount, S32 _maxCount)
-         {
-            initialCount = _initCount;
-            maxCount = _maxCount;
-            initCt++;
-            return initSuccess;
-         }
+  virtual bool init(S32 _initCount, S32 _maxCount) {
+    initialCount = _initCount;
+    maxCount = _maxCount;
+    initCt++;
+    return initSuccess;
+  }
 
-         virtual Threading::Status acquire(bool block)
-         {
-            acquireCt++;
-            return acquireSuccess;
-         }
+  virtual Threading::Status acquire(bool block) {
+    acquireCt++;
+    return acquireSuccess;
+  }
 
-         virtual Threading::Status release()
-         {
-            releaseCt++;
-            return releaseSuccess;
-         }
-      };
-   }
-}
+  virtual Threading::Status release() {
+    releaseCt++;
+    return releaseSuccess;
+  }
+};
+} // namespace TestPlatform
+} // namespace ACLib
 #endif

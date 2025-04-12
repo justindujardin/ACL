@@ -7,22 +7,15 @@
 #include "platform/impls/base/platformCreator.h"
 #include "platform/impls/base/threads/threadImpl.h"
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      namespace Internal_
-      {
-         void InitializePlatform()
-         {
-            ThreadImpl::RegisterCurrentThreadAsMain();
-         }
+namespace ACLib {
+namespace Platform {
+namespace Internal_ {
+void InitializePlatform() { ThreadImpl::RegisterCurrentThreadAsMain(); }
 
-         TypeRebind& GetPlatformFactory()
-         {
-            static TypeRebind factory;
-            return factory;
-         }
-      }
-   }
+TypeRebind &GetPlatformFactory() {
+  static TypeRebind factory;
+  return factory;
 }
+} // namespace Internal_
+} // namespace Platform
+} // namespace ACLib

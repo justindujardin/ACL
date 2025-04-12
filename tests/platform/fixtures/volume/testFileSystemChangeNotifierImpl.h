@@ -12,27 +12,20 @@
 using namespace ACLib::Platform;
 using namespace ACLib::Platform::Internal_;
 
-namespace ACLib
-{
-   namespace TestPlatform
-   {
-      class TestFileSystemChangeNotifierImpl : public FileSystemChangeNotifierImpl
-      {
-      public:
-         static FileSystemChangeNotifierImpl* create() { return new TestFileSystemChangeNotifierImpl; }
+namespace ACLib {
+namespace TestPlatform {
+class TestFileSystemChangeNotifierImpl : public FileSystemChangeNotifierImpl {
+public:
+  static FileSystemChangeNotifierImpl *create() {
+    return new TestFileSystemChangeNotifierImpl;
+  }
 
-         virtual bool addNotification(const Path& dir)
-         {
-            return false;
-         }
+  virtual bool addNotification(const Path &dir) { return false; }
 
-         virtual bool removeNotification(const Path& dir)
-         {
-            return false;
-         }
+  virtual bool removeNotification(const Path &dir) { return false; }
 
-         virtual void process() {}
-      };
-   }
-}
+  virtual void process() {}
+};
+} // namespace TestPlatform
+} // namespace ACLib
 #endif

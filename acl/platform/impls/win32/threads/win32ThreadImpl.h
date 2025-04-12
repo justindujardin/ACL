@@ -9,23 +9,19 @@
 
 #include "platform/impls/base/threads/threadImpl.h"
 
-namespace ACLib
-{
-   namespace Platform
-   {
-      namespace Internal_
-      {
-         class Win32ThreadImpl : public ThreadImpl
-         {
-         public:
-            Win32ThreadImpl();
-            ~Win32ThreadImpl();
-            virtual Threading::Status start(Param* p);
+namespace ACLib {
+namespace Platform {
+namespace Internal_ {
+class Win32ThreadImpl : public ThreadImpl {
+public:
+  Win32ThreadImpl();
+  ~Win32ThreadImpl();
+  virtual Threading::Status start(Param *p);
 
-         private:
-            HANDLE mThread;
-         };
-      }
-   }
-}
+private:
+  HANDLE mThread;
+};
+} // namespace Internal_
+} // namespace Platform
+} // namespace ACLib
 #endif

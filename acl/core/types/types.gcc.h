@@ -7,94 +7,89 @@
 #ifndef _TYPESGCC_H
 #define _TYPESGCC_H
 
-
 // For additional information on GCC predefined macros
 // http://gcc.gnu.org/onlinedocs/gcc-3.0.2/cpp.html
 
-
 //--------------------------------------
 // Types
-typedef signed long long    S64;
-typedef unsigned long long  U64;
-
+typedef signed long long S64;
+typedef unsigned long long U64;
 
 //--------------------------------------
 // Compiler Version
-#define ACL_COMPILER_GCC (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
-
+#define ACL_COMPILER_GCC                                                       \
+  (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 
 //--------------------------------------
 // Identify the compiler string
 
 #if defined(__MINGW32__)
-#  define ACL_COMPILER_STRING "GCC (MinGW)"
-#  define ACL_COMPILER_MINGW
+#define ACL_COMPILER_STRING "GCC (MinGW)"
+#define ACL_COMPILER_MINGW
 #elif defined(__CYGWIN__)
-#  define ACL_COMPILER_STRING "GCC (Cygwin)"
-#  define ACL_COMPILER_MINGW
+#define ACL_COMPILER_STRING "GCC (Cygwin)"
+#define ACL_COMPILER_MINGW
 #else
-#  define ACL_COMPILER_STRING "GCC "
+#define ACL_COMPILER_STRING "GCC "
 #endif
-
 
 //--------------------------------------
 // Identify the Operating System
 #if defined(__WIN32__) || defined(_WIN32)
-#  define ACL_OS_STRING "Win32"
-#  define ACL_OS_WIN32
-#  define ACL_SUPPORTS_NASM
-#  define ACL_SUPPORTS_GCC_INLINE_X86_ASM
-#  include "./types.win32.h"
+#define ACL_OS_STRING "Win32"
+#define ACL_OS_WIN32
+#define ACL_SUPPORTS_NASM
+#define ACL_SUPPORTS_GCC_INLINE_X86_ASM
+#include "./types.win32.h"
 
 #elif defined(linux)
-#  define ACL_OS_STRING "Linux"
-#  define ACL_OS_LINUX
-#  define ACL_SUPPORTS_NASM
-#  define ACL_SUPPORTS_GCC_INLINE_X86_ASM
-#  include "./types.posix.h"
+#define ACL_OS_STRING "Linux"
+#define ACL_OS_LINUX
+#define ACL_SUPPORTS_NASM
+#define ACL_SUPPORTS_GCC_INLINE_X86_ASM
+#include "./types.posix.h"
 
 #elif defined(__OpenBSD__)
-#  define ACL_OS_STRING "OpenBSD"
-#  define ACL_OS_OPENBSD
-#  define ACL_SUPPORTS_NASM
-#  define ACL_SUPPORTS_GCC_INLINE_X86_ASM
-#  include "./types.posix.h"
+#define ACL_OS_STRING "OpenBSD"
+#define ACL_OS_OPENBSD
+#define ACL_SUPPORTS_NASM
+#define ACL_SUPPORTS_GCC_INLINE_X86_ASM
+#include "./types.posix.h"
 
 #elif defined(__FreeBSD__)
-#  define ACL_OS_STRING "FreeBSD"
-#  define ACL_OS_FREEBSD
-#  define ACL_SUPPORTS_NASM
-#  define ACL_SUPPORTS_GCC_INLINE_X86_ASM
-#  include "./types.posix.h"
+#define ACL_OS_STRING "FreeBSD"
+#define ACL_OS_FREEBSD
+#define ACL_SUPPORTS_NASM
+#define ACL_SUPPORTS_GCC_INLINE_X86_ASM
+#include "./types.posix.h"
 
 #elif defined(__APPLE__)
-#  define ACL_OS_STRING "MacOS X"
-#  define ACL_OS_MAC
-#  include "./types.mac.h"
-#  if defined(i386)
-#     define ACL_SUPPORTS_NASM
-#  endif
-#else 
-#  error "GCC: Unsupported Operating System"
+#define ACL_OS_STRING "MacOS X"
+#define ACL_OS_MAC
+#include "./types.mac.h"
+#if defined(i386)
+#define ACL_SUPPORTS_NASM
 #endif
-
+#else
+#error "GCC: Unsupported Operating System"
+#endif
 
 //--------------------------------------
 // Identify the CPU
 #if defined(i386)
-#  define ACL_CPU_STRING "Intel x86"
-#  define ACL_CPU_X86
-#  define ACL_LITTLE_ENDIAN
-#  define ACL_DEBUG_BREAK asm("int $3");
+#define ACL_CPU_STRING "Intel x86"
+#define ACL_CPU_X86
+#define ACL_LITTLE_ENDIAN
+#define ACL_DEBUG_BREAK asm("int $3");
 
 #elif defined(__ppc__)
-#  define ACL_CPU_STRING "PowerPC"
-#  define ACL_CPU_PPC
-#  define ACL_BIG_ENDIAN
-#  define ACL_DEBUG_BREAK asm{trap}
+#define ACL_CPU_STRING "PowerPC"
+#define ACL_CPU_PPC
+#define ACL_BIG_ENDIAN
+#define ACL_DEBUG_BREAK asm {trap}
 
 #else
-#  error "GCC: Unsupported Target CPU"
+#error "GCC: Unsupported Target CPU"
 #endif
 
 #ifndef Offset
@@ -136,6 +131,4 @@ typedef unsigned long long  U64;
 #define ACL_PRETTY_FUNCTION __PRETTY_FUNCTION__
 #define ACL_NO_INLINE __attribute__((__noinline__))
 
-
 #endif // INCLUDED_TYPES_GCC_H
-

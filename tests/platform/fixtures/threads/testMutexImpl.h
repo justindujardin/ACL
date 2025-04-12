@@ -12,43 +12,36 @@
 using namespace ACLib::Platform;
 using namespace ACLib::Platform::Internal_;
 
-namespace ACLib
-{
-   namespace TestPlatform
-   {
-      class TestMutexImpl : public MutexImpl
-      {
-      public:
-         Threading::Status lockSuccess;
-         Threading::Status unlockSuccess;
-         U32 lockCt;
-         U32 unlockCt;
-         U32 initCt;
-         bool valid;
-         TestMutexImpl(bool isValid) : lockSuccess(Threading::Status_NoError), 
-            unlockSuccess(Threading::Status_NoError), lockCt(0), unlockCt(0), initCt(0)
-            , valid(isValid)
-         {
-         }
+namespace ACLib {
+namespace TestPlatform {
+class TestMutexImpl : public MutexImpl {
+public:
+  Threading::Status lockSuccess;
+  Threading::Status unlockSuccess;
+  U32 lockCt;
+  U32 unlockCt;
+  U32 initCt;
+  bool valid;
+  TestMutexImpl(bool isValid)
+      : lockSuccess(Threading::Status_NoError),
+        unlockSuccess(Threading::Status_NoError), lockCt(0), unlockCt(0),
+        initCt(0), valid(isValid) {}
 
-         virtual bool init()
-         {
-            ++initCt;
-            return valid;
-         }
+  virtual bool init() {
+    ++initCt;
+    return valid;
+  }
 
-         virtual Threading::Status lock(bool block)
-         {
-            lockCt++;
-            return lockSuccess;
-         }
+  virtual Threading::Status lock(bool block) {
+    lockCt++;
+    return lockSuccess;
+  }
 
-         virtual Threading::Status unlock()
-         {
-            unlockCt++;
-            return unlockSuccess;
-         }
-      };
-   }
-}
+  virtual Threading::Status unlock() {
+    unlockCt++;
+    return unlockSuccess;
+  }
+};
+} // namespace TestPlatform
+} // namespace ACLib
 #endif
